@@ -123,3 +123,7 @@ Uses [gulp](http://gulpjs.com/), [Babel](https://babeljs.io/) and [Browserify](h
 npm install
 gulp
 ```
+
+## Credits
+
+This client was conceived at a hackathon initiated by the [Pina Bausch Foundation](www.pinabausch.org) at the [Mediencampus Hochschule Darmstadt](https://mediencampus.h-da.de) in December 2015.
