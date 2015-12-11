@@ -1,0 +1,34 @@
+{
+  "name": "sparql-hollandaise",
+  "version": "0.1.0",
+  "description": "A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.",
+  "main": "./index.js",
+  "repository": "https://github.com/PieceMeta/node-sparql-hollandaise.git",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Anton Koch <piecemeta@gmail.com>",
+  "homepage": "https://github.com/PieceMeta/node-sparql-hollandaise",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "bluebird": "^3.0.6"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.3.13",
+    "babel-polyfill": "^6.3.14",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-runtime": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
+    "event-stream": "^3.3.2",
+    "gulp": "^3.9.0",
+    "gulp-header": "^1.7.1",
+    "gulp-minify": "0.0.5",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "stability": "^1.0.7",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "stability": "experimental"
+}

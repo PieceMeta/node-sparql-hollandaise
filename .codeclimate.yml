@@ -1,0 +1,9 @@
+languages:
+  JavaScript: true
+exclude_paths:
+- "dist/*"
+engines:
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
