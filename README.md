@@ -36,16 +36,36 @@ Browser:
 
 Make sure to check out the basic [Angular example](https://github.com/PieceMeta/ng-sparql-hollandaise-example) as well.
 
-### SELECT
+### Creating Graph Patterns
+
+The ``.where()`` function takes either a single ``SparqlGraphPattern`` object, or a ``SparqlGroupGraphPattern`` that in turn contains multiple ``SparqlGraphPattern`` objects.
+
+```javascript
+var graphPattern = new SPH.SparqlGraphPattern(
+    ['array of triple strings'] ||
+    'single triple string' ||
+    new SPH.SparqlFilter('filter string')
+);
+
+// additional args for the SparqlGraphPattern
+var graphPatternOptional = new SPH.SparqlGraphPattern('my super triple', true, false); // this pattern is OPTIONAL
+var graphPatternAlternative = new SPH.SparqlGraphPattern('my super triple', false, true); // this pattern is an alternative (UNION)
+
+var groupGraphPattern = new SPH.SparqlGraphPattern([graphPattern, graphPatternAlternative] || graphPattern);
+groupGraphPattern.addElement(graphPatternOptional);
 ```
+
+Once you have created your pattern, you can pass it to any of the queries.
+
+### SELECT
+```javascript
 var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
     .prefix(['foo: <http://bar>', 'pre: <http://fix>'] || 'pre: <http://fix>')
     .select('*') // you can add 'DISTINCT' or 'REDUCED' as a modifier in the second parameter
     .from('dataset clause', true) // second param indicates a named dataset (only pass this if named set)
     // you can add items to the where clause in any order
     // and at any time before calling exec()
-    .where(['array of triple strings'] || 'single triple string')
-    .where(new SPH.SparqlFilter('filter string'))
+    .where(graphPattern)
     .order('order string')
     .limit(10)
     .offset(5)
@@ -55,34 +75,33 @@ var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
 ```
 
 ### DESCRIBE
-```
+```javascript
 var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
     .prefix('foo: <http://bar>')
     .describe('?x')
-    .where('?x foo:bar "asdf"')
+    .where(graphPattern)
     .exec().then(function (result) {
        console.log(result);
     });
 ```
     
 ### ASK
-```
+```javascript
 var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
     .prefix('foo: <http://bar>')
     .ask()
-    .where(['array of triple strings'] || 'single triple string')
+    .where(graphPattern)
     .exec().then(function (result) {
        console.log(result);
     });
 ```
     
 ### CONSTRUCT
-```
+```javascript
 var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
     .prefix('foo: <http://bar>')
     .construct(['array of triple strings'] || 'single triple string')
-    .where(['array of triple strings'] || 'single triple string')
-    .where(new SPH.SparqlFilter('filter string'))
+    .where(graphPattern)
     .order('order string')
     .limit(10)
     .offset(5)
@@ -99,27 +118,16 @@ These might be useful to you:
 // get the query's string representation that will be sent to the server
 var queryString = query.toString();
 
-// fetch the current where clause
-var elements = query.getWhereClause();
-
-// reset the entire query
+// reset the entire query to reuse the object
 query.reset();
 
-// clear only the where clause
-query.clearWhereClause();
-
-// count the elements in the where clause
-var count = query.getWhereClauseCount();
-
-// remove 2 elements from the where clause at index 5
-query.removeFromWhereClause(5, 2);
 ```
 
 ## Development
 
 Uses [gulp](http://gulpjs.com/), [Babel](https://babeljs.io/) and [Browserify](http://browserify.org/) to build the browser lib.
 
-```
+```shell
 npm install
 gulp
 ```

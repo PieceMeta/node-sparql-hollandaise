@@ -2,7 +2,8 @@
 
 var SparqlTransport = require('./transport'),
     SparqlPrefix = require('./prefix'),
-    SparqlBlock = require('./block'),
+    SparqlGraphPattern = require('./graph-pattern'),
+    SparqlGroupGraphPattern = require('./group-graph-pattern'),
     SparqlQueryTypes = require('./query-types');
 
 class SparqlQuery {
@@ -86,20 +87,20 @@ class SparqlQuery {
     from(content, named = false) {
         if (content instanceof Array) {
             for (var i = 0; i < content.length; i += 1) {
-                this._config.datasetClauses.push(`FROM${named ? ' NAMED' : ''} ${content[i]}`);
+                this._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${content[i]}`);
             }
         } else {
-            this._config.datasetClauses.push(`FROM${named ? ' NAMED' : ''} ${content[i]}`);
+            this._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${content[i]}`);
         }
         return this;
     }
 
     getDatasetClauses() {
-        return this._config.datasetClauses;
+        return this._config.datasetClause;
     }
 
     clearDatasetClauses() {
-        this._config.datasetClauses = [];
+        this._config.datasetClause = [];
     }
 
     //
@@ -111,30 +112,46 @@ class SparqlQuery {
             for (var i = 0; i < content.length; i += 1) {
                 this.addToWhereClause(content[i]);
             }
+        } else if (content instanceof SparqlGraphPattern ||
+            content instanceof SparqlGroupGraphPattern) {
+            this.setWhereClause(content);
         } else {
             this.addToWhereClause(content);
         }
         return this;
     }
 
+    setWhereClause(graphPattern) {
+        if (graphPattern instanceof SparqlGraphPattern ||
+            graphPattern instanceof SparqlGroupGraphPattern) {
+            this._config.whereClause = graphPattern;
+        } else {
+            throw new Error('TypeError: Where clause must be a graph pattern.');
+        }
+    }
+
     addToWhereClause(content, atIndex = -1) {
-        this._config.whereBlock.addElement(content, atIndex);
+        if (this._config.whereClause === null) {
+            this._config.whereClause = new SparqlGraphPattern(content);
+        } else {
+            this._config.whereClause.addElement(content, atIndex);
+        }
     }
 
     removeFromWhereClause(atIndex = 0, count = 1) {
-        this._config.whereBlock.removeElements(atIndex, count);
+        this._config.whereClause.removeElements(atIndex, count);
     }
 
     clearWhereClause() {
-        this._config.whereBlock.clear();
+        this._config.whereClause.clear();
     }
 
     getWhereClause() {
-        return this._config.whereBlock.getElements();
+        return this._config.whereClause.getElements();
     }
 
     getWhereClauseCount() {
-        return this._config.whereBlock.countElements();
+        return this._config.whereClause.countElements();
     }
 
     //
@@ -199,14 +216,14 @@ class SparqlQuery {
             throw new Error(`TypeError: Query type must be defined.`);
         }
 
-        if (this._config.datasetClauses instanceof Array) {
-            queryString += `${this._config.datasetClauses.join(' ')} `;
+        if (this._config.datasetClause instanceof Array) {
+            queryString += `${this._config.datasetClause.join(' ')} `;
         } else {
-            throw new Error(`TypeError: Dataset clause should be array but is ${typeof this._config.datasetClauses}`);
+            throw new Error(`TypeError: Dataset clause should be array but is ${typeof this._config.datasetClause}`);
         }
 
-        if (this._config.whereBlock) {
-            queryString += `WHERE ${this._config.whereBlock.toString()}`;
+        if (this._config.whereClause) {
+            queryString += `WHERE ${this._config.whereClause.toString()}`;
         } else {
             throw new Error(`TypeError: Where clause is not defined!`);
         }
@@ -225,8 +242,8 @@ class SparqlQuery {
             base: null,
             prefixes: [],
             query: null,
-            datasetClauses: [],
-            whereBlock: new SparqlBlock(),
+            datasetClause: [],
+            whereClause: null,
             solutionModifiers: []
         };
     }

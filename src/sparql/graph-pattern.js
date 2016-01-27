@@ -3,10 +3,12 @@
 var SparqlTriple = require('./triple'),
     SparqlFilter = require('./filter');
 
-class SparqlBlock {
-    constructor(elements, allowedTypes = [SparqlTriple, SparqlFilter]) {
+class SparqlGraphPattern {
+    constructor(elements, optional = false, alternative = false, allowedTypes = [SparqlTriple, SparqlFilter]) {
         this.clear();
         this._allowedTypes = allowedTypes;
+        this._optional = optional;
+        this._alternative = alternative;
         if (elements instanceof Array) {
             for (let i = 0; i < elements; i += 1) {
                 this.addElement(elements[i]);
@@ -31,7 +33,7 @@ class SparqlBlock {
         if (atIndex >= 0 && atIndex + count < this.countElements()) {
             this._elements.splice(atIndex, count);
         } else {
-            throw new Error('OutOfBounds: Cannot remove elements from block, index and/or count out of bounds.')
+            throw new Error('OutOfBounds: Cannot remove elements from block, index and/or count out of bounds.');
         }
     }
 
@@ -48,7 +50,7 @@ class SparqlBlock {
     }
 
     toString() {
-        var result = '{ ';
+        var result = `${this._optional ? 'OPTIONAL ' : ''}${this._alternative ? 'UNION ' : ''}{ `;
         for (let i = 0; i < this._elements.length; i += 1) {
             result += `${this._elements[i].toString()} ${this._elements[i] instanceof SparqlTriple ? '. ' : ''}`;
         }
@@ -57,4 +59,4 @@ class SparqlBlock {
     }
 }
 
-module.exports = SparqlBlock;
+module.exports = SparqlGraphPattern;

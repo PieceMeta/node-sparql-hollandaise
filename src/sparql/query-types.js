@@ -1,6 +1,6 @@
 'use strict';
 
-var SparqlBlock = require('./block'),
+var SparqlBlock = require('./graph-pattern'),
     SparqlTriple = require('./triple');
 
 class SparqlQuerySelect {

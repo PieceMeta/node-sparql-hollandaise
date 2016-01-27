@@ -1,6 +1,6 @@
 {
   "name": "sparql-hollandaise",
-  "main": "dist/sparql-hollandaise.js",
+  "main": "dist/web/sparql-hollandaise.js",
   "version": "0.1.0",
   "authors": [
     "Anton Koch <piecemeta@gmail.com>"

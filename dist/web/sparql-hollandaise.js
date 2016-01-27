@@ -5,703 +5,16 @@
  * @license LGPL-3.0
  */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SPH = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-module.exports.SparqlFilter = require('./lib/sparql/filter');
-
-module.exports.SparqlPrefix = require('./lib/sparql/prefix');
-
-module.exports.SparqlQuery = require('./lib/sparql/query');
-
-module.exports.SparqlTriple = require('./lib/sparql/triple');
-
-},{"./lib/sparql/filter":3,"./lib/sparql/prefix":4,"./lib/sparql/query":6,"./lib/sparql/triple":9}],2:[function(require,module,exports){
-'use strict';
-
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SparqlTriple = require('./triple'),
-    SparqlFilter = require('./filter');
-
-var SparqlBlock = (function () {
-    function SparqlBlock(elements) {
-        var allowedTypes = arguments.length <= 1 || arguments[1] === undefined ? [SparqlTriple, SparqlFilter] : arguments[1];
-        (0, _classCallCheck3.default)(this, SparqlBlock);
-
-        this.clear();
-        this._allowedTypes = allowedTypes;
-        if (elements instanceof Array) {
-            for (var i = 0; i < elements; i += 1) {
-                this.addElement(elements[i]);
-            }
-        } else if (elements) {
-            this.addElement(elements);
-        }
-    }
-
-    (0, _createClass3.default)(SparqlBlock, [{
-        key: 'addElement',
-        value: function addElement(element) {
-            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
-
-            if (typeof element === 'string') {
-                element = new SparqlTriple(element);
-            }
-            if (this._allowedTypes.indexOf(element.constructor) > -1) {
-                this._elements.splice(atIndex < 0 ? this.countElements() : atIndex, 0, element);
-            } else {
-                throw new Error('TypeError: Element of type ' + (element.constructor || (typeof element === 'undefined' ? 'undefined' : (0, _typeof3.default)(element))) + ' is not allowed for this block.');
-            }
-        }
-    }, {
-        key: 'removeElements',
-        value: function removeElements() {
-            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
-
-            if (atIndex >= 0 && atIndex + count < this.countElements()) {
-                this._elements.splice(atIndex, count);
-            } else {
-                throw new Error('OutOfBounds: Cannot remove elements from block, index and/or count out of bounds.');
-            }
-        }
-    }, {
-        key: 'getElements',
-        value: function getElements() {
-            return this._elements;
-        }
-    }, {
-        key: 'countElements',
-        value: function countElements() {
-            return this._elements.length;
-        }
-    }, {
-        key: 'clear',
-        value: function clear() {
-            this._elements = [];
-        }
-    }, {
-        key: 'toString',
-        value: function toString() {
-            var result = '{ ';
-            for (var i = 0; i < this._elements.length; i += 1) {
-                result += this._elements[i].toString() + ' ' + (this._elements[i] instanceof SparqlTriple ? '. ' : '');
-            }
-            result += ' } ';
-            return result;
-        }
-    }]);
-    return SparqlBlock;
-})();
-
-module.exports = SparqlBlock;
-
-},{"./filter":3,"./triple":9,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13,"babel-runtime/helpers/typeof":14}],3:[function(require,module,exports){
-'use strict';
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SparqlFilter = (function () {
-    function SparqlFilter(content) {
-        (0, _classCallCheck3.default)(this, SparqlFilter);
-
-        this.content = content;
-    }
-
-    (0, _createClass3.default)(SparqlFilter, [{
-        key: 'toString',
-        value: function toString() {
-            return 'FILTER (' + this.content + ')';
-        }
-    }]);
-    return SparqlFilter;
-})();
-
-module.exports = SparqlFilter;
-
-},{"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13}],4:[function(require,module,exports){
-'use strict';
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SparqlPrefix = (function () {
-    function SparqlPrefix(value) {
-        (0, _classCallCheck3.default)(this, SparqlPrefix);
-
-        this.value = value.replace(/^PREFIX /, '');
-    }
-
-    (0, _createClass3.default)(SparqlPrefix, [{
-        key: 'toString',
-        value: function toString() {
-            return 'PREFIX ' + this.value;
-        }
-    }]);
-    return SparqlPrefix;
-})();
-
-module.exports = SparqlPrefix;
-
-},{"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13}],5:[function(require,module,exports){
-'use strict';
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SparqlBlock = require('./block'),
-    SparqlTriple = require('./triple');
-
-var SparqlQuerySelect = (function () {
-    function SparqlQuerySelect(content, modifier) {
-        (0, _classCallCheck3.default)(this, SparqlQuerySelect);
-
-        this._content = content;
-        this._modifier = modifier;
-    }
-
-    (0, _createClass3.default)(SparqlQuerySelect, [{
-        key: 'toString',
-        value: function toString() {
-            return 'SELECT' + (this._modifier ? ' ' + this._modifier : '') + ' ' + this._content;
-        }
-    }]);
-    return SparqlQuerySelect;
-})();
-
-var SparqlQueryDescribe = (function () {
-    function SparqlQueryDescribe(content) {
-        (0, _classCallCheck3.default)(this, SparqlQueryDescribe);
-
-        this._content = content;
-    }
-
-    (0, _createClass3.default)(SparqlQueryDescribe, [{
-        key: 'toString',
-        value: function toString() {
-            return 'DESCRIBE ' + this._content;
-        }
-    }]);
-    return SparqlQueryDescribe;
-})();
-
-var SparqlQueryAsk = (function () {
-    function SparqlQueryAsk() {
-        (0, _classCallCheck3.default)(this, SparqlQueryAsk);
-    }
-
-    (0, _createClass3.default)(SparqlQueryAsk, [{
-        key: 'toString',
-        value: function toString() {
-            return 'ASK';
-        }
-    }]);
-    return SparqlQueryAsk;
-})();
-
-var SparqlQueryConstruct = (function () {
-    function SparqlQueryConstruct(triples) {
-        (0, _classCallCheck3.default)(this, SparqlQueryConstruct);
-
-        this._constructTemplate = new SparqlBlock(triples, [SparqlTriple]);
-    }
-
-    (0, _createClass3.default)(SparqlQueryConstruct, [{
-        key: 'addTriple',
-        value: function addTriple(triple) {
-            this._constructTemplate.addElement(triple);
-        }
-    }, {
-        key: 'toString',
-        value: function toString() {
-            return 'DESCRIBE ' + this._constructTemplate.toString();
-        }
-    }]);
-    return SparqlQueryConstruct;
-})();
-
-module.exports = {
-    SparqlQuerySelect: SparqlQuerySelect,
-    SparqlQueryDescribe: SparqlQueryDescribe,
-    SparqlQueryAsk: SparqlQueryAsk,
-    SparqlQueryConstruct: SparqlQueryConstruct
-};
-
-},{"./block":2,"./triple":9,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13}],6:[function(require,module,exports){
-'use strict';
-
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SparqlTransport = require('./transport'),
-    SparqlPrefix = require('./prefix'),
-    SparqlBlock = require('./block'),
-    SparqlQueryTypes = require('./query-types');
-
-var SparqlQuery = (function () {
-
-    //
-    //
-    // setup query basics
-
-    function SparqlQuery(endpoint) {
-        (0, _classCallCheck3.default)(this, SparqlQuery);
-
-        this.reset();
-        this._transport = new SparqlTransport(endpoint);
-    }
-
-    //
-    //
-    // base iri
-
-    (0, _createClass3.default)(SparqlQuery, [{
-        key: 'base',
-        value: function base(content) {
-            this._config.base = content;
-        }
-
-        //
-        //
-        // prefix
-
-    }, {
-        key: 'prefix',
-        value: function prefix(content) {
-            if (content instanceof Array) {
-                for (var i = 0; i < content.length; i += 1) {
-                    this.addPrefix(content[i]);
-                }
-            } else {
-                this.addPrefix(content);
-            }
-            return this;
-        }
-    }, {
-        key: 'addPrefix',
-        value: function addPrefix(content) {
-            if (content instanceof SparqlPrefix) {
-                this._config.prefixes.push(content);
-            } else if (typeof content === 'string') {
-                this._config.prefixes.push(new SparqlPrefix(content));
-            }
-        }
-    }, {
-        key: 'getPrefixes',
-        value: function getPrefixes() {
-            return this._config.prefixes;
-        }
-    }, {
-        key: 'clearPrefixes',
-        value: function clearPrefixes() {
-            this._config.prefixes = [];
-        }
-
-        //
-        //
-        // query types
-
-    }, {
-        key: 'select',
-        value: function select(content, modifier) {
-            this._config.query = new SparqlQueryTypes.SparqlQuerySelect(content, modifier);
-            return this;
-        }
-    }, {
-        key: 'describe',
-        value: function describe(content) {
-            this._config.query = new SparqlQueryTypes.SparqlQueryDescribe(content);
-            return this;
-        }
-    }, {
-        key: 'ask',
-        value: function ask() {
-            this._config.query = new SparqlQueryTypes.SparqlQueryAsk();
-            return this;
-        }
-    }, {
-        key: 'construct',
-        value: function construct(triples) {
-            this._config.query = new SparqlQueryTypes.SparqlQueryConstruct(triples);
-            return this;
-        }
-
-        //
-        //
-        // dataset clause
-
-    }, {
-        key: 'from',
-        value: function from(content) {
-            var named = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-
-            if (content instanceof Array) {
-                for (var i = 0; i < content.length; i += 1) {
-                    this._config.datasetClauses.push('FROM' + (named ? ' NAMED' : '') + ' ' + content[i]);
-                }
-            } else {
-                this._config.datasetClauses.push('FROM' + (named ? ' NAMED' : '') + ' ' + content[i]);
-            }
-            return this;
-        }
-    }, {
-        key: 'getDatasetClauses',
-        value: function getDatasetClauses() {
-            return this._config.datasetClauses;
-        }
-    }, {
-        key: 'clearDatasetClauses',
-        value: function clearDatasetClauses() {
-            this._config.datasetClauses = [];
-        }
-
-        //
-        //
-        // where clause
-
-    }, {
-        key: 'where',
-        value: function where(content) {
-            if (content instanceof Array) {
-                for (var i = 0; i < content.length; i += 1) {
-                    this.addToWhereClause(content[i]);
-                }
-            } else {
-                this.addToWhereClause(content);
-            }
-            return this;
-        }
-    }, {
-        key: 'addToWhereClause',
-        value: function addToWhereClause(content) {
-            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
-
-            this._config.whereBlock.addElement(content, atIndex);
-        }
-    }, {
-        key: 'removeFromWhereClause',
-        value: function removeFromWhereClause() {
-            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
-
-            this._config.whereBlock.removeElements(atIndex, count);
-        }
-    }, {
-        key: 'clearWhereClause',
-        value: function clearWhereClause() {
-            this._config.whereBlock.clear();
-        }
-    }, {
-        key: 'getWhereClause',
-        value: function getWhereClause() {
-            return this._config.whereBlock.getElements();
-        }
-    }, {
-        key: 'getWhereClauseCount',
-        value: function getWhereClauseCount() {
-            return this._config.whereBlock.countElements();
-        }
-
-        //
-        //
-        // solution modifiers
-
-    }, {
-        key: 'order',
-        value: function order(content) {
-            if (typeof content === 'string') {
-                this._config.solutionModifiers.push('ORDER BY ' + content);
-            } else {
-                throw new Error('Input for ORDER must be string but is ' + (typeof content === 'undefined' ? 'undefined' : (0, _typeof3.default)(content)) + '.');
-            }
-            return this;
-        }
-    }, {
-        key: 'limit',
-        value: function limit(count) {
-            if (typeof count === 'number') {
-                this._config.solutionModifiers.push('LIMIT ' + count);
-            } else {
-                throw new Error('Input for LIMIT must be number but is ' + (typeof count === 'undefined' ? 'undefined' : (0, _typeof3.default)(count)) + '.');
-            }
-            return this;
-        }
-    }, {
-        key: 'offset',
-        value: function offset(count) {
-            if (typeof count === 'number') {
-                this._config.solutionModifiers.push('OFFSET ' + count);
-            } else {
-                throw new Error('Input for OFFSET must be number but is ' + (typeof count === 'undefined' ? 'undefined' : (0, _typeof3.default)(count)) + '.');
-            }
-            return this;
-        }
-
-        //
-        //
-        // execute query
-
-    }, {
-        key: 'exec',
-        value: function exec() {
-            return this._transport.submit(this.toString());
-        }
-
-        //
-        //
-        // util
-
-    }, {
-        key: 'toString',
-        value: function toString() {
-            var queryString = '';
-
-            if (this._config.base) {
-                queryString += 'BASE ' + this._config.base;
-            }
-
-            if (this._config.prefixes.length > 0) {
-                for (var i = 0; i < this._config.prefixes.length; i += 1) {
-                    queryString += this._config.prefixes[i].toString() + ' ';
-                }
-            }
-
-            if (this._config.query) {
-                queryString += this._config.query.toString();
-            } else {
-                throw new Error('TypeError: Query type must be defined.');
-            }
-
-            if (this._config.datasetClauses instanceof Array) {
-                queryString += this._config.datasetClauses.join(' ') + ' ';
-            } else {
-                throw new Error('TypeError: Dataset clause should be array but is ' + (0, _typeof3.default)(this._config.datasetClauses));
-            }
-
-            if (this._config.whereBlock) {
-                queryString += 'WHERE ' + this._config.whereBlock.toString();
-            } else {
-                throw new Error('TypeError: Where clause is not defined!');
-            }
-
-            if (this._config.solutionModifiers instanceof Array) {
-                for (var i = 0; i < this._config.solutionModifiers.length; i += 1) {
-                    queryString += this._config.solutionModifiers[i].toString() + ' ';
-                }
-            }
-
-            return queryString;
-        }
-    }, {
-        key: 'reset',
-        value: function reset() {
-            this._config = {
-                base: null,
-                prefixes: [],
-                query: null,
-                datasetClauses: [],
-                whereBlock: new SparqlBlock(),
-                solutionModifiers: []
-            };
-        }
-    }]);
-    return SparqlQuery;
-})();
-
-module.exports = SparqlQuery;
-
-},{"./block":2,"./prefix":4,"./query-types":5,"./transport":8,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13,"babel-runtime/helpers/typeof":14}],7:[function(require,module,exports){
-'use strict';
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SparqlResult = function SparqlResult(data) {
-    (0, _classCallCheck3.default)(this, SparqlResult);
-
-    if (data.results) {
-        this.bindings = data.results.bindings;
-        this.vars = data.head.vars;
-        this.link = data.head.link;
-    }
-    if (data.boolean) {
-        this.boolean = data.boolean;
-    }
-};
-
-module.exports = SparqlResult;
-
-},{"babel-runtime/helpers/classCallCheck":12}],8:[function(require,module,exports){
-'use strict';
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var http = require('http'),
-    url = require('url'),
-    Promise = require('bluebird'),
-    SparqlResult = require('./result');
-
-var SparqlTransport = (function () {
-    function SparqlTransport(endpoint) {
-        (0, _classCallCheck3.default)(this, SparqlTransport);
-
-        this._endpoint = endpoint;
-    }
-
-    (0, _createClass3.default)(SparqlTransport, [{
-        key: 'submit',
-        value: function submit(queryString) {
-            var instance = this;
-            return new Promise(function (resolve, reject) {
-                var data = '',
-                    parsedUri = url.parse(instance._endpoint),
-                    encodedQuery = 'query=' + encodeURIComponent(queryString),
-                    request = http.request({
-                    method: 'POST',
-                    hostname: parsedUri.hostname,
-                    port: parsedUri.port,
-                    path: parsedUri.path,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Accept': 'application/sparql-results+json',
-                        'Content-Length': encodedQuery.length
-                    }
-                }, function (response) {
-                    response.setEncoding('utf8');
-                    response.on('data', function (chunk) {
-                        data += chunk;
-                    });
-                    response.on('end', function () {
-                        if (response.statusCode === 200) {
-                            resolve(data);
-                        } else {
-                            reject(new Error(data));
-                        }
-                    });
-                });
-
-                request.on('error', reject);
-
-                request.write(encodedQuery);
-                request.end();
-            }).then(function (data) {
-                var result = new SparqlResult(JSON.parse(data));
-                return result;
-            }).catch(function (err) {
-                throw new Error('QBuilder query failed: ' + err.message);
-            });
-        }
-    }]);
-    return SparqlTransport;
-})();
-
-module.exports = SparqlTransport;
-
-},{"./result":7,"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13,"bluebird":46,"http":74,"url":80}],9:[function(require,module,exports){
-'use strict';
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = require('babel-runtime/helpers/createClass');
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SparqlTriple = (function () {
-    function SparqlTriple() {
-        (0, _classCallCheck3.default)(this, SparqlTriple);
-
-        var splitTriple = [null, null, null];
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        if (args.length === 3) {
-            splitTriple = args;
-        } else if (args.length === 1 && typeof args[0] === 'string') {
-            splitTriple = args[0].split(' ');
-        }
-        this.subject = splitTriple[0];
-        this.predicate = splitTriple[1];
-        this.object = splitTriple[2];
-    }
-
-    (0, _createClass3.default)(SparqlTriple, [{
-        key: 'toString',
-        value: function toString() {
-            return this.subject + ' ' + this.predicate + ' ' + this.object;
-        }
-    }]);
-    return SparqlTriple;
-})();
-
-module.exports = SparqlTriple;
-
-},{"babel-runtime/helpers/classCallCheck":12,"babel-runtime/helpers/createClass":13}],10:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/object/create"), __esModule: true };
+},{"core-js/library/fn/object/create":11}],2:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/define-property"), __esModule: true };
-},{"core-js/library/fn/object/define-property":15}],11:[function(require,module,exports){
+},{"core-js/library/fn/object/define-property":12}],3:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/object/get-prototype-of"), __esModule: true };
+},{"core-js/library/fn/object/get-prototype-of":13}],4:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/object/set-prototype-of"), __esModule: true };
+},{"core-js/library/fn/object/set-prototype-of":14}],5:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/symbol"), __esModule: true };
-},{"core-js/library/fn/symbol":16}],12:[function(require,module,exports){
+},{"core-js/library/fn/symbol":15}],6:[function(require,module,exports){
 "use strict";
 
 exports.default = function (instance, Constructor) {
@@ -711,7 +24,7 @@ exports.default = function (instance, Constructor) {
 };
 
 exports.__esModule = true;
-},{}],13:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 var _defineProperty = require("babel-runtime/core-js/object/define-property");
@@ -739,7 +52,59 @@ exports.default = (function () {
 })();
 
 exports.__esModule = true;
-},{"babel-runtime/core-js/object/define-property":10}],14:[function(require,module,exports){
+},{"babel-runtime/core-js/object/define-property":2}],8:[function(require,module,exports){
+"use strict";
+
+var _setPrototypeOf = require("babel-runtime/core-js/object/set-prototype-of");
+
+var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
+
+var _create = require("babel-runtime/core-js/object/create");
+
+var _create2 = _interopRequireDefault(_create);
+
+var _typeof2 = require("babel-runtime/helpers/typeof");
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : (0, _typeof3.default)(superClass)));
+  }
+
+  subClass.prototype = (0, _create2.default)(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) _setPrototypeOf2.default ? (0, _setPrototypeOf2.default)(subClass, superClass) : subClass.__proto__ = superClass;
+};
+
+exports.__esModule = true;
+},{"babel-runtime/core-js/object/create":1,"babel-runtime/core-js/object/set-prototype-of":4,"babel-runtime/helpers/typeof":10}],9:[function(require,module,exports){
+"use strict";
+
+var _typeof2 = require("babel-runtime/helpers/typeof");
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (self, call) {
+  if (!self) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self;
+};
+
+exports.__esModule = true;
+},{"babel-runtime/helpers/typeof":10}],10:[function(require,module,exports){
 "use strict";
 
 var _typeof2 = require("babel-runtime/helpers/typeof");
@@ -757,36 +122,47 @@ exports.default = function (obj) {
 };
 
 exports.__esModule = true;
-},{"babel-runtime/core-js/symbol":11,"babel-runtime/helpers/typeof":14}],15:[function(require,module,exports){
+},{"babel-runtime/core-js/symbol":5,"babel-runtime/helpers/typeof":10}],11:[function(require,module,exports){
+var $ = require('../../modules/$');
+module.exports = function create(P, D){
+  return $.create(P, D);
+};
+},{"../../modules/$":33}],12:[function(require,module,exports){
 var $ = require('../../modules/$');
 module.exports = function defineProperty(it, key, desc){
   return $.setDesc(it, key, desc);
 };
-},{"../../modules/$":34}],16:[function(require,module,exports){
+},{"../../modules/$":33}],13:[function(require,module,exports){
+require('../../modules/es6.object.get-prototype-of');
+module.exports = require('../../modules/$.core').Object.getPrototypeOf;
+},{"../../modules/$.core":19,"../../modules/es6.object.get-prototype-of":46}],14:[function(require,module,exports){
+require('../../modules/es6.object.set-prototype-of');
+module.exports = require('../../modules/$.core').Object.setPrototypeOf;
+},{"../../modules/$.core":19,"../../modules/es6.object.set-prototype-of":47}],15:[function(require,module,exports){
 require('../../modules/es6.symbol');
 require('../../modules/es6.object.to-string');
 module.exports = require('../../modules/$.core').Symbol;
-},{"../../modules/$.core":20,"../../modules/es6.object.to-string":44,"../../modules/es6.symbol":45}],17:[function(require,module,exports){
+},{"../../modules/$.core":19,"../../modules/es6.object.to-string":48,"../../modules/es6.symbol":49}],16:[function(require,module,exports){
 module.exports = function(it){
   if(typeof it != 'function')throw TypeError(it + ' is not a function!');
   return it;
 };
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var isObject = require('./$.is-object');
 module.exports = function(it){
   if(!isObject(it))throw TypeError(it + ' is not an object!');
   return it;
 };
-},{"./$.is-object":33}],19:[function(require,module,exports){
+},{"./$.is-object":32}],18:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = function(it){
   return toString.call(it).slice(8, -1);
 };
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var core = module.exports = {version: '1.2.6'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
-},{}],21:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 // optional / simple context binding
 var aFunction = require('./$.a-function');
 module.exports = function(fn, that, length){
@@ -807,18 +183,18 @@ module.exports = function(fn, that, length){
     return fn.apply(that, arguments);
   };
 };
-},{"./$.a-function":17}],22:[function(require,module,exports){
+},{"./$.a-function":16}],21:[function(require,module,exports){
 // 7.2.1 RequireObjectCoercible(argument)
 module.exports = function(it){
   if(it == undefined)throw TypeError("Can't call method on  " + it);
   return it;
 };
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 // Thank's IE8 for his funny defineProperty
 module.exports = !require('./$.fails')(function(){
   return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
 });
-},{"./$.fails":26}],24:[function(require,module,exports){
+},{"./$.fails":25}],23:[function(require,module,exports){
 // all enumerable object keys, includes symbols
 var $ = require('./$');
 module.exports = function(it){
@@ -833,7 +209,7 @@ module.exports = function(it){
   }
   return keys;
 };
-},{"./$":34}],25:[function(require,module,exports){
+},{"./$":33}],24:[function(require,module,exports){
 var global    = require('./$.global')
   , core      = require('./$.core')
   , ctx       = require('./$.ctx')
@@ -880,7 +256,7 @@ $export.P = 8;  // proto
 $export.B = 16; // bind
 $export.W = 32; // wrap
 module.exports = $export;
-},{"./$.core":20,"./$.ctx":21,"./$.global":28}],26:[function(require,module,exports){
+},{"./$.core":19,"./$.ctx":20,"./$.global":27}],25:[function(require,module,exports){
 module.exports = function(exec){
   try {
     return !!exec();
@@ -888,7 +264,7 @@ module.exports = function(exec){
     return true;
   }
 };
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = require('./$.to-iobject')
   , getNames  = require('./$').getNames
@@ -909,17 +285,17 @@ module.exports.get = function getOwnPropertyNames(it){
   if(windowNames && toString.call(it) == '[object Window]')return getWindowNames(it);
   return getNames(toIObject(it));
 };
-},{"./$":34,"./$.to-iobject":41}],28:[function(require,module,exports){
+},{"./$":33,"./$.to-iobject":42}],27:[function(require,module,exports){
 // https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
 var global = module.exports = typeof window != 'undefined' && window.Math == Math
   ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
 if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
-},{}],29:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 var hasOwnProperty = {}.hasOwnProperty;
 module.exports = function(it, key){
   return hasOwnProperty.call(it, key);
 };
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 var $          = require('./$')
   , createDesc = require('./$.property-desc');
 module.exports = require('./$.descriptors') ? function(object, key, value){
@@ -928,23 +304,23 @@ module.exports = require('./$.descriptors') ? function(object, key, value){
   object[key] = value;
   return object;
 };
-},{"./$":34,"./$.descriptors":23,"./$.property-desc":37}],31:[function(require,module,exports){
+},{"./$":33,"./$.descriptors":22,"./$.property-desc":37}],30:[function(require,module,exports){
 // fallback for non-array-like ES3 and non-enumerable old V8 strings
 var cof = require('./$.cof');
 module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
   return cof(it) == 'String' ? it.split('') : Object(it);
 };
-},{"./$.cof":19}],32:[function(require,module,exports){
+},{"./$.cof":18}],31:[function(require,module,exports){
 // 7.2.2 IsArray(argument)
 var cof = require('./$.cof');
 module.exports = Array.isArray || function(arg){
   return cof(arg) == 'Array';
 };
-},{"./$.cof":19}],33:[function(require,module,exports){
+},{"./$.cof":18}],32:[function(require,module,exports){
 module.exports = function(it){
   return typeof it === 'object' ? it !== null : typeof it === 'function';
 };
-},{}],34:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 var $Object = Object;
 module.exports = {
   create:     $Object.create,
@@ -958,7 +334,7 @@ module.exports = {
   getSymbols: $Object.getOwnPropertySymbols,
   each:       [].forEach
 };
-},{}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 var $         = require('./$')
   , toIObject = require('./$.to-iobject');
 module.exports = function(object, el){
@@ -969,9 +345,20 @@ module.exports = function(object, el){
     , key;
   while(length > index)if(O[key = keys[index++]] === el)return key;
 };
-},{"./$":34,"./$.to-iobject":41}],36:[function(require,module,exports){
+},{"./$":33,"./$.to-iobject":42}],35:[function(require,module,exports){
 module.exports = true;
-},{}],37:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
+// most Object methods by ES6 should accept primitives
+var $export = require('./$.export')
+  , core    = require('./$.core')
+  , fails   = require('./$.fails');
+module.exports = function(KEY, exec){
+  var fn  = (core.Object || {})[KEY] || Object[KEY]
+    , exp = {};
+  exp[KEY] = exec(fn);
+  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+};
+},{"./$.core":19,"./$.export":24,"./$.fails":25}],37:[function(require,module,exports){
 module.exports = function(bitmap, value){
   return {
     enumerable  : !(bitmap & 1),
@@ -982,7 +369,34 @@ module.exports = function(bitmap, value){
 };
 },{}],38:[function(require,module,exports){
 module.exports = require('./$.hide');
-},{"./$.hide":30}],39:[function(require,module,exports){
+},{"./$.hide":29}],39:[function(require,module,exports){
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+/* eslint-disable no-proto */
+var getDesc  = require('./$').getDesc
+  , isObject = require('./$.is-object')
+  , anObject = require('./$.an-object');
+var check = function(O, proto){
+  anObject(O);
+  if(!isObject(proto) && proto !== null)throw TypeError(proto + ": can't set as prototype!");
+};
+module.exports = {
+  set: Object.setPrototypeOf || ('__proto__' in {} ? // eslint-disable-line
+    function(test, buggy, set){
+      try {
+        set = require('./$.ctx')(Function.call, getDesc(Object.prototype, '__proto__').set, 2);
+        set(test, []);
+        buggy = !(test instanceof Array);
+      } catch(e){ buggy = true; }
+      return function setPrototypeOf(O, proto){
+        check(O, proto);
+        if(buggy)O.__proto__ = proto;
+        else set(O, proto);
+        return O;
+      };
+    }({}, false) : undefined),
+  check: check
+};
+},{"./$":33,"./$.an-object":17,"./$.ctx":20,"./$.is-object":32}],40:[function(require,module,exports){
 var def = require('./$').setDesc
   , has = require('./$.has')
   , TAG = require('./$.wks')('toStringTag');
@@ -990,27 +404,33 @@ var def = require('./$').setDesc
 module.exports = function(it, tag, stat){
   if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
 };
-},{"./$":34,"./$.has":29,"./$.wks":43}],40:[function(require,module,exports){
+},{"./$":33,"./$.has":28,"./$.wks":45}],41:[function(require,module,exports){
 var global = require('./$.global')
   , SHARED = '__core-js_shared__'
   , store  = global[SHARED] || (global[SHARED] = {});
 module.exports = function(key){
   return store[key] || (store[key] = {});
 };
-},{"./$.global":28}],41:[function(require,module,exports){
+},{"./$.global":27}],42:[function(require,module,exports){
 // to indexed object, toObject with fallback for non-array-like ES3 strings
 var IObject = require('./$.iobject')
   , defined = require('./$.defined');
 module.exports = function(it){
   return IObject(defined(it));
 };
-},{"./$.defined":22,"./$.iobject":31}],42:[function(require,module,exports){
+},{"./$.defined":21,"./$.iobject":30}],43:[function(require,module,exports){
+// 7.1.13 ToObject(argument)
+var defined = require('./$.defined');
+module.exports = function(it){
+  return Object(defined(it));
+};
+},{"./$.defined":21}],44:[function(require,module,exports){
 var id = 0
   , px = Math.random();
 module.exports = function(key){
   return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
 };
-},{}],43:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 var store  = require('./$.shared')('wks')
   , uid    = require('./$.uid')
   , Symbol = require('./$.global').Symbol;
@@ -1018,9 +438,22 @@ module.exports = function(name){
   return store[name] || (store[name] =
     Symbol && Symbol[name] || (Symbol || uid)('Symbol.' + name));
 };
-},{"./$.global":28,"./$.shared":40,"./$.uid":42}],44:[function(require,module,exports){
+},{"./$.global":27,"./$.shared":41,"./$.uid":44}],46:[function(require,module,exports){
+// 19.1.2.9 Object.getPrototypeOf(O)
+var toObject = require('./$.to-object');
 
-},{}],45:[function(require,module,exports){
+require('./$.object-sap')('getPrototypeOf', function($getPrototypeOf){
+  return function getPrototypeOf(it){
+    return $getPrototypeOf(toObject(it));
+  };
+});
+},{"./$.object-sap":36,"./$.to-object":43}],47:[function(require,module,exports){
+// 19.1.3.19 Object.setPrototypeOf(O, proto)
+var $export = require('./$.export');
+$export($export.S, 'Object', {setPrototypeOf: require('./$.set-proto').set});
+},{"./$.export":24,"./$.set-proto":39}],48:[function(require,module,exports){
+
+},{}],49:[function(require,module,exports){
 'use strict';
 // ECMAScript 6 symbols shim
 var $              = require('./$')
@@ -1248,7 +681,7 @@ setToStringTag($Symbol, 'Symbol');
 setToStringTag(Math, 'Math', true);
 // 24.3.3 JSON[@@toStringTag]
 setToStringTag(global.JSON, 'JSON', true);
-},{"./$":34,"./$.an-object":18,"./$.descriptors":23,"./$.enum-keys":24,"./$.export":25,"./$.fails":26,"./$.get-names":27,"./$.global":28,"./$.has":29,"./$.is-array":32,"./$.keyof":35,"./$.library":36,"./$.property-desc":37,"./$.redefine":38,"./$.set-to-string-tag":39,"./$.shared":40,"./$.to-iobject":41,"./$.uid":42,"./$.wks":43}],46:[function(require,module,exports){
+},{"./$":33,"./$.an-object":17,"./$.descriptors":22,"./$.enum-keys":23,"./$.export":24,"./$.fails":25,"./$.get-names":26,"./$.global":27,"./$.has":28,"./$.is-array":31,"./$.keyof":34,"./$.library":35,"./$.property-desc":37,"./$.redefine":38,"./$.set-to-string-tag":40,"./$.shared":41,"./$.to-iobject":42,"./$.uid":44,"./$.wks":45}],50:[function(require,module,exports){
 (function (process,global){
 /* @preserve
  * The MIT License (MIT)
@@ -6537,9 +5970,9 @@ module.exports = ret;
 },{"./es5":13}]},{},[4])(4)
 });                    ;if (typeof window !== 'undefined' && window !== null) {                               window.P = window.Promise;                                                     } else if (typeof self !== 'undefined' && self !== null) {                             self.P = self.Promise;                                                         }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":55}],47:[function(require,module,exports){
-arguments[4][44][0].apply(exports,arguments)
-},{"dup":44}],48:[function(require,module,exports){
+},{"_process":59}],51:[function(require,module,exports){
+arguments[4][48][0].apply(exports,arguments)
+},{"dup":48}],52:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -8087,7 +7520,7 @@ function blitBuffer (src, dst, offset, length) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"base64-js":49,"ieee754":50,"isarray":54}],49:[function(require,module,exports){
+},{"base64-js":53,"ieee754":54,"isarray":58}],53:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -8213,7 +7646,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],50:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = nBytes * 8 - mLen - 1
@@ -8299,7 +7732,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],51:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8599,7 +8032,7 @@ function isUndefined(arg) {
   return arg === void 0;
 }
 
-},{}],52:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8624,7 +8057,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],53:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 /**
  * Determine if an object is Buffer
  *
@@ -8643,12 +8076,12 @@ module.exports = function (obj) {
     ))
 }
 
-},{}],54:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],55:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -8741,7 +8174,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],56:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 (function (global){
 /*! https://mths.be/punycode v1.3.2 by @mathias */
 ;(function(root) {
@@ -9275,7 +8708,7 @@ process.umask = function() { return 0; };
 }(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],57:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9361,7 +8794,7 @@ var isArray = Array.isArray || function (xs) {
   return Object.prototype.toString.call(xs) === '[object Array]';
 };
 
-},{}],58:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9448,16 +8881,16 @@ var objectKeys = Object.keys || function (obj) {
   return res;
 };
 
-},{}],59:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict';
 
 exports.decode = exports.parse = require('./decode');
 exports.encode = exports.stringify = require('./encode');
 
-},{"./decode":57,"./encode":58}],60:[function(require,module,exports){
+},{"./decode":61,"./encode":62}],64:[function(require,module,exports){
 module.exports = require("./lib/_stream_duplex.js")
 
-},{"./lib/_stream_duplex.js":61}],61:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":65}],65:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -9541,7 +8974,7 @@ function forEach (xs, f) {
   }
 }
 
-},{"./_stream_readable":63,"./_stream_writable":65,"core-util-is":66,"inherits":52,"process-nextick-args":67}],62:[function(require,module,exports){
+},{"./_stream_readable":67,"./_stream_writable":69,"core-util-is":70,"inherits":56,"process-nextick-args":71}],66:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -9570,7 +9003,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./_stream_transform":64,"core-util-is":66,"inherits":52}],63:[function(require,module,exports){
+},{"./_stream_transform":68,"core-util-is":70,"inherits":56}],67:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10547,7 +9980,7 @@ function indexOf (xs, x) {
 }
 
 }).call(this,require('_process'))
-},{"./_stream_duplex":61,"_process":55,"buffer":48,"core-util-is":66,"events":51,"inherits":52,"isarray":54,"process-nextick-args":67,"string_decoder/":79,"util":47}],64:[function(require,module,exports){
+},{"./_stream_duplex":65,"_process":59,"buffer":52,"core-util-is":70,"events":55,"inherits":56,"isarray":58,"process-nextick-args":71,"string_decoder/":83,"util":51}],68:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -10746,7 +10179,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./_stream_duplex":61,"core-util-is":66,"inherits":52}],65:[function(require,module,exports){
+},{"./_stream_duplex":65,"core-util-is":70,"inherits":56}],69:[function(require,module,exports){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
 // the drain event emission and buffering.
@@ -11275,7 +10708,7 @@ function endWritable(stream, state, cb) {
   state.ended = true;
 }
 
-},{"./_stream_duplex":61,"buffer":48,"core-util-is":66,"events":51,"inherits":52,"process-nextick-args":67,"util-deprecate":68}],66:[function(require,module,exports){
+},{"./_stream_duplex":65,"buffer":52,"core-util-is":70,"events":55,"inherits":56,"process-nextick-args":71,"util-deprecate":72}],70:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -11386,7 +10819,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../../../insert-module-globals/node_modules/is-buffer/index.js")})
-},{"../../../../insert-module-globals/node_modules/is-buffer/index.js":53}],67:[function(require,module,exports){
+},{"../../../../insert-module-globals/node_modules/is-buffer/index.js":57}],71:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -11410,7 +10843,7 @@ function nextTick(fn) {
 }
 
 }).call(this,require('_process'))
-},{"_process":55}],68:[function(require,module,exports){
+},{"_process":59}],72:[function(require,module,exports){
 (function (global){
 
 /**
@@ -11481,10 +10914,10 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],69:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports = require("./lib/_stream_passthrough.js")
 
-},{"./lib/_stream_passthrough.js":62}],70:[function(require,module,exports){
+},{"./lib/_stream_passthrough.js":66}],74:[function(require,module,exports){
 var Stream = (function (){
   try {
     return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
@@ -11498,13 +10931,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":61,"./lib/_stream_passthrough.js":62,"./lib/_stream_readable.js":63,"./lib/_stream_transform.js":64,"./lib/_stream_writable.js":65}],71:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":65,"./lib/_stream_passthrough.js":66,"./lib/_stream_readable.js":67,"./lib/_stream_transform.js":68,"./lib/_stream_writable.js":69}],75:[function(require,module,exports){
 module.exports = require("./lib/_stream_transform.js")
 
-},{"./lib/_stream_transform.js":64}],72:[function(require,module,exports){
+},{"./lib/_stream_transform.js":68}],76:[function(require,module,exports){
 module.exports = require("./lib/_stream_writable.js")
 
-},{"./lib/_stream_writable.js":65}],73:[function(require,module,exports){
+},{"./lib/_stream_writable.js":69}],77:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -11633,7 +11066,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":51,"inherits":52,"readable-stream/duplex.js":60,"readable-stream/passthrough.js":69,"readable-stream/readable.js":70,"readable-stream/transform.js":71,"readable-stream/writable.js":72}],74:[function(require,module,exports){
+},{"events":55,"inherits":56,"readable-stream/duplex.js":64,"readable-stream/passthrough.js":73,"readable-stream/readable.js":74,"readable-stream/transform.js":75,"readable-stream/writable.js":76}],78:[function(require,module,exports){
 var ClientRequest = require('./lib/request')
 var extend = require('xtend')
 var statusCodes = require('builtin-status-codes')
@@ -11708,7 +11141,7 @@ http.METHODS = [
 	'UNLOCK',
 	'UNSUBSCRIBE'
 ]
-},{"./lib/request":76,"builtin-status-codes":78,"url":80,"xtend":82}],75:[function(require,module,exports){
+},{"./lib/request":80,"builtin-status-codes":82,"url":84,"xtend":86}],79:[function(require,module,exports){
 (function (global){
 exports.fetch = isFunction(global.fetch) && isFunction(global.ReadableByteStream)
 
@@ -11752,7 +11185,7 @@ function isFunction (value) {
 xhr = null // Help gc
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],76:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 (function (process,global,Buffer){
 // var Base64 = require('Base64')
 var capability = require('./capability')
@@ -12031,7 +11464,7 @@ var unsafeHeaders = [
 ]
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"./capability":75,"./response":77,"_process":55,"buffer":48,"inherits":52,"stream":73}],77:[function(require,module,exports){
+},{"./capability":79,"./response":81,"_process":59,"buffer":52,"inherits":56,"stream":77}],81:[function(require,module,exports){
 (function (process,global,Buffer){
 var capability = require('./capability')
 var inherits = require('inherits')
@@ -12207,7 +11640,7 @@ IncomingMessage.prototype._onXHRProgress = function () {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
-},{"./capability":75,"_process":55,"buffer":48,"inherits":52,"stream":73}],78:[function(require,module,exports){
+},{"./capability":79,"_process":59,"buffer":52,"inherits":56,"stream":77}],82:[function(require,module,exports){
 module.exports = {
   "100": "Continue",
   "101": "Switching Protocols",
@@ -12268,7 +11701,7 @@ module.exports = {
   "511": "Network Authentication Required"
 }
 
-},{}],79:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12491,7 +11924,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":48}],80:[function(require,module,exports){
+},{"buffer":52}],84:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -13225,7 +12658,7 @@ Url.prototype.parseHost = function() {
   if (host) this.hostname = host;
 };
 
-},{"./util":81,"punycode":56,"querystring":59}],81:[function(require,module,exports){
+},{"./util":85,"punycode":60,"querystring":63}],85:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -13243,7 +12676,7 @@ module.exports = {
   }
 };
 
-},{}],82:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -13264,6 +12697,759 @@ function extend() {
     return target
 }
 
-},{}]},{},[1])(1)
+},{}],87:[function(require,module,exports){
+'use strict';
+
+module.exports.SparqlFilter = require('./sparql/filter');
+
+module.exports.SparqlPrefix = require('./sparql/prefix');
+
+module.exports.SparqlQuery = require('./sparql/query');
+
+module.exports.SparqlTriple = require('./sparql/triple');
+
+module.exports.SparqlGraphPattern = require('./sparql/graph-pattern');
+
+module.exports.SparqlGroupGraphPattern = require('./sparql/group-graph-pattern');
+
+},{"./sparql/filter":88,"./sparql/graph-pattern":89,"./sparql/group-graph-pattern":90,"./sparql/prefix":91,"./sparql/query":93,"./sparql/triple":96}],88:[function(require,module,exports){
+'use strict';
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SparqlFilter = (function () {
+    function SparqlFilter(content) {
+        (0, _classCallCheck3.default)(this, SparqlFilter);
+
+        this.content = content;
+    }
+
+    (0, _createClass3.default)(SparqlFilter, [{
+        key: 'toString',
+        value: function toString() {
+            return 'FILTER (' + this.content + ')';
+        }
+    }]);
+    return SparqlFilter;
+})();
+
+module.exports = SparqlFilter;
+
+},{"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],89:[function(require,module,exports){
+'use strict';
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SparqlTriple = require('./triple'),
+    SparqlFilter = require('./filter');
+
+var SparqlGraphPattern = (function () {
+    function SparqlGraphPattern(elements) {
+        var optional = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+        var alternative = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+        var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? [SparqlTriple, SparqlFilter] : arguments[3];
+        (0, _classCallCheck3.default)(this, SparqlGraphPattern);
+
+        this.clear();
+        this._allowedTypes = allowedTypes;
+        this._optional = optional;
+        this._alternative = alternative;
+        if (elements instanceof Array) {
+            for (var i = 0; i < elements; i += 1) {
+                this.addElement(elements[i]);
+            }
+        } else if (elements) {
+            this.addElement(elements);
+        }
+    }
+
+    (0, _createClass3.default)(SparqlGraphPattern, [{
+        key: 'addElement',
+        value: function addElement(element) {
+            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
+
+            if (typeof element === 'string') {
+                element = new SparqlTriple(element);
+            }
+            if (this._allowedTypes.indexOf(element.constructor) > -1) {
+                this._elements.splice(atIndex < 0 ? this.countElements() : atIndex, 0, element);
+            } else {
+                throw new Error('TypeError: Element of type ' + (element.constructor || (typeof element === 'undefined' ? 'undefined' : (0, _typeof3.default)(element))) + ' is not allowed for this block.');
+            }
+        }
+    }, {
+        key: 'removeElements',
+        value: function removeElements() {
+            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+
+            if (atIndex >= 0 && atIndex + count < this.countElements()) {
+                this._elements.splice(atIndex, count);
+            } else {
+                throw new Error('OutOfBounds: Cannot remove elements from block, index and/or count out of bounds.');
+            }
+        }
+    }, {
+        key: 'getElements',
+        value: function getElements() {
+            return this._elements;
+        }
+    }, {
+        key: 'countElements',
+        value: function countElements() {
+            return this._elements.length;
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {
+            this._elements = [];
+        }
+    }, {
+        key: 'toString',
+        value: function toString() {
+            var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._alternative ? 'UNION ' : '') + '{ ';
+            for (var i = 0; i < this._elements.length; i += 1) {
+                result += this._elements[i].toString() + ' ' + (this._elements[i] instanceof SparqlTriple ? '. ' : '');
+            }
+            result += ' } ';
+            return result;
+        }
+    }]);
+    return SparqlGraphPattern;
+})();
+
+module.exports = SparqlGraphPattern;
+
+},{"./filter":88,"./triple":96,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],90:[function(require,module,exports){
+'use strict';
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SparqlGraphPattern = require('./graph-pattern');
+
+var SparqlGroupGraphPattern = (function (_SparqlGraphPattern) {
+    (0, _inherits3.default)(SparqlGroupGraphPattern, _SparqlGraphPattern);
+
+    function SparqlGroupGraphPattern(elements) {
+        (0, _classCallCheck3.default)(this, SparqlGroupGraphPattern);
+        return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(SparqlGroupGraphPattern).call(this, elements, false, false, [SparqlGraphPattern]));
+    }
+
+    return SparqlGroupGraphPattern;
+})(SparqlGraphPattern);
+
+module.exports = SparqlGroupGraphPattern;
+
+},{"./graph-pattern":89,"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/inherits":8,"babel-runtime/helpers/possibleConstructorReturn":9}],91:[function(require,module,exports){
+'use strict';
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SparqlPrefix = (function () {
+    function SparqlPrefix(value) {
+        (0, _classCallCheck3.default)(this, SparqlPrefix);
+
+        this.value = value.replace(/^PREFIX /, '');
+    }
+
+    (0, _createClass3.default)(SparqlPrefix, [{
+        key: 'toString',
+        value: function toString() {
+            return 'PREFIX ' + this.value;
+        }
+    }]);
+    return SparqlPrefix;
+})();
+
+module.exports = SparqlPrefix;
+
+},{"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],92:[function(require,module,exports){
+'use strict';
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SparqlBlock = require('./graph-pattern'),
+    SparqlTriple = require('./triple');
+
+var SparqlQuerySelect = (function () {
+    function SparqlQuerySelect(content, modifier) {
+        (0, _classCallCheck3.default)(this, SparqlQuerySelect);
+
+        this._content = content;
+        this._modifier = modifier;
+    }
+
+    (0, _createClass3.default)(SparqlQuerySelect, [{
+        key: 'toString',
+        value: function toString() {
+            return 'SELECT' + (this._modifier ? ' ' + this._modifier : '') + ' ' + this._content;
+        }
+    }]);
+    return SparqlQuerySelect;
+})();
+
+var SparqlQueryDescribe = (function () {
+    function SparqlQueryDescribe(content) {
+        (0, _classCallCheck3.default)(this, SparqlQueryDescribe);
+
+        this._content = content;
+    }
+
+    (0, _createClass3.default)(SparqlQueryDescribe, [{
+        key: 'toString',
+        value: function toString() {
+            return 'DESCRIBE ' + this._content;
+        }
+    }]);
+    return SparqlQueryDescribe;
+})();
+
+var SparqlQueryAsk = (function () {
+    function SparqlQueryAsk() {
+        (0, _classCallCheck3.default)(this, SparqlQueryAsk);
+    }
+
+    (0, _createClass3.default)(SparqlQueryAsk, [{
+        key: 'toString',
+        value: function toString() {
+            return 'ASK';
+        }
+    }]);
+    return SparqlQueryAsk;
+})();
+
+var SparqlQueryConstruct = (function () {
+    function SparqlQueryConstruct(triples) {
+        (0, _classCallCheck3.default)(this, SparqlQueryConstruct);
+
+        this._constructTemplate = new SparqlBlock(triples, [SparqlTriple]);
+    }
+
+    (0, _createClass3.default)(SparqlQueryConstruct, [{
+        key: 'addTriple',
+        value: function addTriple(triple) {
+            this._constructTemplate.addElement(triple);
+        }
+    }, {
+        key: 'toString',
+        value: function toString() {
+            return 'DESCRIBE ' + this._constructTemplate.toString();
+        }
+    }]);
+    return SparqlQueryConstruct;
+})();
+
+module.exports = {
+    SparqlQuerySelect: SparqlQuerySelect,
+    SparqlQueryDescribe: SparqlQueryDescribe,
+    SparqlQueryAsk: SparqlQueryAsk,
+    SparqlQueryConstruct: SparqlQueryConstruct
+};
+
+},{"./graph-pattern":89,"./triple":96,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],93:[function(require,module,exports){
+'use strict';
+
+var _typeof2 = require('babel-runtime/helpers/typeof');
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SparqlTransport = require('./transport'),
+    SparqlPrefix = require('./prefix'),
+    SparqlGraphPattern = require('./graph-pattern'),
+    SparqlGroupGraphPattern = require('./group-graph-pattern'),
+    SparqlQueryTypes = require('./query-types');
+
+var SparqlQuery = (function () {
+
+    //
+    //
+    // setup query basics
+
+    function SparqlQuery(endpoint) {
+        (0, _classCallCheck3.default)(this, SparqlQuery);
+
+        this.reset();
+        this._transport = new SparqlTransport(endpoint);
+    }
+
+    //
+    //
+    // base iri
+
+    (0, _createClass3.default)(SparqlQuery, [{
+        key: 'base',
+        value: function base(content) {
+            this._config.base = content;
+        }
+
+        //
+        //
+        // prefix
+
+    }, {
+        key: 'prefix',
+        value: function prefix(content) {
+            if (content instanceof Array) {
+                for (var i = 0; i < content.length; i += 1) {
+                    this.addPrefix(content[i]);
+                }
+            } else {
+                this.addPrefix(content);
+            }
+            return this;
+        }
+    }, {
+        key: 'addPrefix',
+        value: function addPrefix(content) {
+            if (content instanceof SparqlPrefix) {
+                this._config.prefixes.push(content);
+            } else if (typeof content === 'string') {
+                this._config.prefixes.push(new SparqlPrefix(content));
+            }
+        }
+    }, {
+        key: 'getPrefixes',
+        value: function getPrefixes() {
+            return this._config.prefixes;
+        }
+    }, {
+        key: 'clearPrefixes',
+        value: function clearPrefixes() {
+            this._config.prefixes = [];
+        }
+
+        //
+        //
+        // query types
+
+    }, {
+        key: 'select',
+        value: function select(content, modifier) {
+            this._config.query = new SparqlQueryTypes.SparqlQuerySelect(content, modifier);
+            return this;
+        }
+    }, {
+        key: 'describe',
+        value: function describe(content) {
+            this._config.query = new SparqlQueryTypes.SparqlQueryDescribe(content);
+            return this;
+        }
+    }, {
+        key: 'ask',
+        value: function ask() {
+            this._config.query = new SparqlQueryTypes.SparqlQueryAsk();
+            return this;
+        }
+    }, {
+        key: 'construct',
+        value: function construct(triples) {
+            this._config.query = new SparqlQueryTypes.SparqlQueryConstruct(triples);
+            return this;
+        }
+
+        //
+        //
+        // dataset clause
+
+    }, {
+        key: 'from',
+        value: function from(content) {
+            var named = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
+
+            if (content instanceof Array) {
+                for (var i = 0; i < content.length; i += 1) {
+                    this._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + content[i]);
+                }
+            } else {
+                this._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + content[i]);
+            }
+            return this;
+        }
+    }, {
+        key: 'getDatasetClauses',
+        value: function getDatasetClauses() {
+            return this._config.datasetClause;
+        }
+    }, {
+        key: 'clearDatasetClauses',
+        value: function clearDatasetClauses() {
+            this._config.datasetClause = [];
+        }
+
+        //
+        //
+        // where clause
+
+    }, {
+        key: 'where',
+        value: function where(content) {
+            if (content instanceof Array) {
+                for (var i = 0; i < content.length; i += 1) {
+                    this.addToWhereClause(content[i]);
+                }
+            } else if (content instanceof SparqlGraphPattern || content instanceof SparqlGroupGraphPattern) {
+                this.setWhereClause(content);
+            } else {
+                this.addToWhereClause(content);
+            }
+            return this;
+        }
+    }, {
+        key: 'setWhereClause',
+        value: function setWhereClause(graphPattern) {
+            if (graphPattern instanceof SparqlGraphPattern || graphPattern instanceof SparqlGroupGraphPattern) {
+                this._config.whereClause = graphPattern;
+            } else {
+                throw new Error('TypeError: Where clause must be a graph pattern.');
+            }
+        }
+    }, {
+        key: 'addToWhereClause',
+        value: function addToWhereClause(content) {
+            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
+
+            if (this._config.whereClause === null) {
+                this._config.whereClause = new SparqlGraphPattern(content);
+            } else {
+                this._config.whereClause.addElement(content, atIndex);
+            }
+        }
+    }, {
+        key: 'removeFromWhereClause',
+        value: function removeFromWhereClause() {
+            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+
+            this._config.whereClause.removeElements(atIndex, count);
+        }
+    }, {
+        key: 'clearWhereClause',
+        value: function clearWhereClause() {
+            this._config.whereClause.clear();
+        }
+    }, {
+        key: 'getWhereClause',
+        value: function getWhereClause() {
+            return this._config.whereClause.getElements();
+        }
+    }, {
+        key: 'getWhereClauseCount',
+        value: function getWhereClauseCount() {
+            return this._config.whereClause.countElements();
+        }
+
+        //
+        //
+        // solution modifiers
+
+    }, {
+        key: 'order',
+        value: function order(content) {
+            if (typeof content === 'string') {
+                this._config.solutionModifiers.push('ORDER BY ' + content);
+            } else {
+                throw new Error('Input for ORDER must be string but is ' + (typeof content === 'undefined' ? 'undefined' : (0, _typeof3.default)(content)) + '.');
+            }
+            return this;
+        }
+    }, {
+        key: 'limit',
+        value: function limit(count) {
+            if (typeof count === 'number') {
+                this._config.solutionModifiers.push('LIMIT ' + count);
+            } else {
+                throw new Error('Input for LIMIT must be number but is ' + (typeof count === 'undefined' ? 'undefined' : (0, _typeof3.default)(count)) + '.');
+            }
+            return this;
+        }
+    }, {
+        key: 'offset',
+        value: function offset(count) {
+            if (typeof count === 'number') {
+                this._config.solutionModifiers.push('OFFSET ' + count);
+            } else {
+                throw new Error('Input for OFFSET must be number but is ' + (typeof count === 'undefined' ? 'undefined' : (0, _typeof3.default)(count)) + '.');
+            }
+            return this;
+        }
+
+        //
+        //
+        // execute query
+
+    }, {
+        key: 'exec',
+        value: function exec() {
+            return this._transport.submit(this.toString());
+        }
+
+        //
+        //
+        // util
+
+    }, {
+        key: 'toString',
+        value: function toString() {
+            var queryString = '';
+
+            if (this._config.base) {
+                queryString += 'BASE ' + this._config.base;
+            }
+
+            if (this._config.prefixes.length > 0) {
+                for (var i = 0; i < this._config.prefixes.length; i += 1) {
+                    queryString += this._config.prefixes[i].toString() + ' ';
+                }
+            }
+
+            if (this._config.query) {
+                queryString += this._config.query.toString();
+            } else {
+                throw new Error('TypeError: Query type must be defined.');
+            }
+
+            if (this._config.datasetClause instanceof Array) {
+                queryString += this._config.datasetClause.join(' ') + ' ';
+            } else {
+                throw new Error('TypeError: Dataset clause should be array but is ' + (0, _typeof3.default)(this._config.datasetClause));
+            }
+
+            if (this._config.whereClause) {
+                queryString += 'WHERE ' + this._config.whereClause.toString();
+            } else {
+                throw new Error('TypeError: Where clause is not defined!');
+            }
+
+            if (this._config.solutionModifiers instanceof Array) {
+                for (var i = 0; i < this._config.solutionModifiers.length; i += 1) {
+                    queryString += this._config.solutionModifiers[i].toString() + ' ';
+                }
+            }
+
+            return queryString;
+        }
+    }, {
+        key: 'reset',
+        value: function reset() {
+            this._config = {
+                base: null,
+                prefixes: [],
+                query: null,
+                datasetClause: [],
+                whereClause: null,
+                solutionModifiers: []
+            };
+        }
+    }]);
+    return SparqlQuery;
+})();
+
+module.exports = SparqlQuery;
+
+},{"./graph-pattern":89,"./group-graph-pattern":90,"./prefix":91,"./query-types":92,"./transport":95,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],94:[function(require,module,exports){
+'use strict';
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SparqlResult = function SparqlResult(data) {
+    (0, _classCallCheck3.default)(this, SparqlResult);
+
+    if (data.results) {
+        this.bindings = data.results.bindings;
+        this.vars = data.head.vars;
+        this.link = data.head.link;
+    }
+    if (data.boolean) {
+        this.boolean = data.boolean;
+    }
+};
+
+module.exports = SparqlResult;
+
+},{"babel-runtime/helpers/classCallCheck":6}],95:[function(require,module,exports){
+'use strict';
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var http = require('http'),
+    url = require('url'),
+    Promise = require('bluebird'),
+    SparqlResult = require('./result');
+
+var SparqlTransport = (function () {
+    function SparqlTransport(endpoint) {
+        (0, _classCallCheck3.default)(this, SparqlTransport);
+
+        this._endpoint = endpoint;
+    }
+
+    (0, _createClass3.default)(SparqlTransport, [{
+        key: 'submit',
+        value: function submit(queryString) {
+            var instance = this;
+            return new Promise(function (resolve, reject) {
+                var data = '',
+                    parsedUri = url.parse(instance._endpoint),
+                    encodedQuery = 'query=' + encodeURIComponent(queryString),
+                    request = http.request({
+                    method: 'POST',
+                    hostname: parsedUri.hostname,
+                    port: parsedUri.port,
+                    path: parsedUri.path,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Accept': 'application/sparql-results+json',
+                        'Content-Length': encodedQuery.length
+                    }
+                }, function (response) {
+                    response.setEncoding('utf8');
+                    response.on('data', function (chunk) {
+                        data += chunk;
+                    });
+                    response.on('end', function () {
+                        if (response.statusCode === 200) {
+                            resolve(data);
+                        } else {
+                            reject(new Error(data));
+                        }
+                    });
+                });
+
+                request.on('error', reject);
+
+                request.write(encodedQuery);
+                request.end();
+            }).then(function (data) {
+                var result = new SparqlResult(JSON.parse(data));
+                return result;
+            }).catch(function (err) {
+                throw new Error('QBuilder query failed: ' + err.message);
+            });
+        }
+    }]);
+    return SparqlTransport;
+})();
+
+module.exports = SparqlTransport;
+
+},{"./result":94,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"bluebird":50,"http":78,"url":84}],96:[function(require,module,exports){
+'use strict';
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SparqlTriple = (function () {
+    function SparqlTriple() {
+        (0, _classCallCheck3.default)(this, SparqlTriple);
+
+        var splitTriple = [null, null, null];
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        if (args.length === 3) {
+            splitTriple = args;
+        } else if (args.length === 1 && typeof args[0] === 'string') {
+            splitTriple = args[0].split(' ');
+        }
+        this.subject = splitTriple[0];
+        this.predicate = splitTriple[1];
+        this.object = splitTriple[2];
+    }
+
+    (0, _createClass3.default)(SparqlTriple, [{
+        key: 'toString',
+        value: function toString() {
+            return this.subject + ' ' + this.predicate + ' ' + this.object;
+        }
+    }]);
+    return SparqlTriple;
+})();
+
+module.exports = SparqlTriple;
+
+},{"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}]},{},[87])(87)
 });
 //# sourceMappingURL=sparql-hollandaise.js.map
