@@ -1,9 +1,13 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var SparqlResult = function SparqlResult(data) {
-    _classCallCheck(this, SparqlResult);
+var Result = function Result(data) {
+    _classCallCheck(this, Result);
 
     if (data.results) {
         this.bindings = data.results.bindings;
@@ -15,4 +19,4 @@ var SparqlResult = function SparqlResult(data) {
     }
 };
 
-module.exports = SparqlResult;
+exports.default = Result;

@@ -1,6 +1,6 @@
 'use strict';
 
-class SparqlTriple {
+export default class Triple {
     constructor(...args) {
         var splitTriple = [null, null, null];
         if (args.length === 3) {
@@ -17,5 +17,3 @@ class SparqlTriple {
         return `${this.subject} ${this.predicate} ${this.object}`;
     }
 }
-
-module.exports = SparqlTriple;

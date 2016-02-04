@@ -4,18 +4,29 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _filter = require('./filter');
+
+var _filter2 = _interopRequireDefault(_filter);
+
+var _triple = require('./triple');
+
+var _triple2 = _interopRequireDefault(_triple);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var SparqlTriple = require('./triple'),
-    SparqlFilter = require('./filter');
-
-var SparqlGraphPattern = function () {
-    function SparqlGraphPattern(elements) {
+var GraphPattern = function () {
+    function GraphPattern(elements) {
         var optional = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
         var alternative = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-        var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? [SparqlTriple, SparqlFilter] : arguments[3];
+        var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? [_triple2.default, _filter2.default] : arguments[3];
 
-        _classCallCheck(this, SparqlGraphPattern);
+        _classCallCheck(this, GraphPattern);
 
         this.clear();
         this._allowedTypes = allowedTypes;
@@ -30,13 +41,13 @@ var SparqlGraphPattern = function () {
         }
     }
 
-    _createClass(SparqlGraphPattern, [{
+    _createClass(GraphPattern, [{
         key: 'addElement',
         value: function addElement(element) {
             var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
 
             if (typeof element === 'string') {
-                element = new SparqlTriple(element);
+                element = new _triple2.default(element);
             }
             if (this._allowedTypes.indexOf(element.constructor) > -1) {
                 this._elements.splice(atIndex < 0 ? this.countElements() : atIndex, 0, element);
@@ -76,14 +87,14 @@ var SparqlGraphPattern = function () {
         value: function toString() {
             var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._alternative ? 'UNION ' : '') + '{ ';
             for (var i = 0; i < this._elements.length; i += 1) {
-                result += this._elements[i].toString() + ' ' + (this._elements[i] instanceof SparqlTriple ? '. ' : '');
+                result += this._elements[i].toString() + ' ' + (this._elements[i] instanceof _triple2.default ? '. ' : '');
             }
             result += ' } ';
             return result;
         }
     }]);
 
-    return SparqlGraphPattern;
+    return GraphPattern;
 }();
 
-module.exports = SparqlGraphPattern;
+exports.default = GraphPattern;

@@ -4,32 +4,54 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _transport = require('./transport');
+
+var _transport2 = _interopRequireDefault(_transport);
+
+var _prefix = require('./prefix');
+
+var _prefix2 = _interopRequireDefault(_prefix);
+
+var _graphPattern = require('./graph-pattern');
+
+var _graphPattern2 = _interopRequireDefault(_graphPattern);
+
+var _groupGraphPattern = require('./group-graph-pattern');
+
+var _groupGraphPattern2 = _interopRequireDefault(_groupGraphPattern);
+
+var _queryTypes = require('./query-types');
+
+var QueryTypes = _interopRequireWildcard(_queryTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var SparqlTransport = require('./transport'),
-    SparqlPrefix = require('./prefix'),
-    SparqlGraphPattern = require('./graph-pattern'),
-    SparqlGroupGraphPattern = require('./group-graph-pattern'),
-    SparqlQueryTypes = require('./query-types');
-
-var SparqlQuery = function () {
+var Query = function () {
 
     //
     //
     // setup query basics
 
-    function SparqlQuery(endpoint) {
-        _classCallCheck(this, SparqlQuery);
+    function Query(endpoint) {
+        _classCallCheck(this, Query);
 
         this.reset();
-        this._transport = new SparqlTransport(endpoint);
+        this._transport = new _transport2.default(endpoint);
     }
 
     //
     //
     // base iri
 
-    _createClass(SparqlQuery, [{
+    _createClass(Query, [{
         key: 'base',
         value: function base(content) {
             this._config.base = content;
@@ -54,10 +76,10 @@ var SparqlQuery = function () {
     }, {
         key: 'addPrefix',
         value: function addPrefix(content) {
-            if (content instanceof SparqlPrefix) {
+            if (content instanceof _prefix2.default) {
                 this._config.prefixes.push(content);
             } else if (typeof content === 'string') {
-                this._config.prefixes.push(new SparqlPrefix(content));
+                this._config.prefixes.push(new _prefix2.default(content));
             }
         }
     }, {
@@ -78,25 +100,25 @@ var SparqlQuery = function () {
     }, {
         key: 'select',
         value: function select(content, modifier) {
-            this._config.query = new SparqlQueryTypes.SparqlQuerySelect(content, modifier);
+            this._config.query = new QueryTypes.Select(content, modifier);
             return this;
         }
     }, {
         key: 'describe',
         value: function describe(content) {
-            this._config.query = new SparqlQueryTypes.SparqlQueryDescribe(content);
+            this._config.query = new QueryTypes.Describe(content);
             return this;
         }
     }, {
         key: 'ask',
         value: function ask() {
-            this._config.query = new SparqlQueryTypes.SparqlQueryAsk();
+            this._config.query = new QueryTypes.Ask();
             return this;
         }
     }, {
         key: 'construct',
         value: function construct(triples) {
-            this._config.query = new SparqlQueryTypes.SparqlQueryConstruct(triples);
+            this._config.query = new QueryTypes.Construct(triples);
             return this;
         }
 
@@ -140,7 +162,7 @@ var SparqlQuery = function () {
                 for (var i = 0; i < content.length; i += 1) {
                     this.addToWhereClause(content[i]);
                 }
-            } else if (content instanceof SparqlGraphPattern || content instanceof SparqlGroupGraphPattern) {
+            } else if (content instanceof _graphPattern2.default || content instanceof _groupGraphPattern2.default) {
                 this.setWhereClause(content);
             } else {
                 this.addToWhereClause(content);
@@ -150,7 +172,7 @@ var SparqlQuery = function () {
     }, {
         key: 'setWhereClause',
         value: function setWhereClause(graphPattern) {
-            if (graphPattern instanceof SparqlGraphPattern || graphPattern instanceof SparqlGroupGraphPattern) {
+            if (graphPattern instanceof _graphPattern2.default || graphPattern instanceof _groupGraphPattern2.default) {
                 this._config.whereClause = graphPattern;
             } else {
                 throw new Error('TypeError: Where clause must be a graph pattern.');
@@ -162,7 +184,7 @@ var SparqlQuery = function () {
             var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
 
             if (this._config.whereClause === null) {
-                this._config.whereClause = new SparqlGraphPattern(content);
+                this._config.whereClause = new _graphPattern2.default(content);
             } else {
                 this._config.whereClause.addElement(content, atIndex);
             }
@@ -261,7 +283,7 @@ var SparqlQuery = function () {
                 throw new Error('TypeError: Query type must be defined.');
             }
 
-            if (this._config.datasetClause instanceof Array) {
+            if (Array.isArray(this._config.datasetClause)) {
                 queryString += this._config.datasetClause.join(' ') + ' ';
             } else {
                 throw new Error('TypeError: Dataset clause should be array but is ' + _typeof(this._config.datasetClause));
@@ -273,7 +295,7 @@ var SparqlQuery = function () {
                 throw new Error('TypeError: Where clause is not defined!');
             }
 
-            if (this._config.solutionModifiers instanceof Array) {
+            if (Array.isArray(this._config.solutionModifiers)) {
                 for (var i = 0; i < this._config.solutionModifiers.length; i += 1) {
                     queryString += this._config.solutionModifiers[i].toString() + ' ';
                 }
@@ -295,7 +317,7 @@ var SparqlQuery = function () {
         }
     }]);
 
-    return SparqlQuery;
+    return Query;
 }();
 
-module.exports = SparqlQuery;
+exports.default = Query;

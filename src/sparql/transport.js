@@ -2,10 +2,11 @@
 
 var http = require('http'),
     url = require('url'),
-    Promise = require('bluebird'),
-    SparqlResult = require('./result');
+    Promise = require('bluebird');
 
-class SparqlTransport {
+import Result from './result';
+
+export default class Transport {
     constructor(endpoint) {
         this._endpoint = endpoint;
     }
@@ -45,7 +46,7 @@ class SparqlTransport {
                 request.end();
             })
             .then(function (data) {
-                var result = new SparqlResult(JSON.parse(data));
+                var result = new Result(JSON.parse(data));
                 return result;
             })
             .catch(function (err) {
@@ -54,4 +55,4 @@ class SparqlTransport {
     }
 }
 
-module.exports = SparqlTransport;
+module.exports = Transport;

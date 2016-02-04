@@ -12700,20 +12700,45 @@ function extend() {
 },{}],87:[function(require,module,exports){
 'use strict';
 
-module.exports.SparqlFilter = require('./sparql/filter');
+var _filter = require('./sparql/filter');
 
-module.exports.SparqlPrefix = require('./sparql/prefix');
+var _filter2 = _interopRequireDefault(_filter);
 
-module.exports.SparqlQuery = require('./sparql/query');
+var _prefix = require('./sparql/prefix');
 
-module.exports.SparqlTriple = require('./sparql/triple');
+var _prefix2 = _interopRequireDefault(_prefix);
 
-module.exports.SparqlGraphPattern = require('./sparql/graph-pattern');
+var _query = require('./sparql/query');
 
-module.exports.SparqlGroupGraphPattern = require('./sparql/group-graph-pattern');
+var _query2 = _interopRequireDefault(_query);
+
+var _triple = require('./sparql/triple');
+
+var _triple2 = _interopRequireDefault(_triple);
+
+var _graphPattern = require('./sparql/graph-pattern');
+
+var _graphPattern2 = _interopRequireDefault(_graphPattern);
+
+var _groupGraphPattern = require('./sparql/group-graph-pattern');
+
+var _groupGraphPattern2 = _interopRequireDefault(_groupGraphPattern);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports.Filter = _filter2.default;
+module.exports.Prefix = _prefix2.default;
+module.exports.Query = _query2.default;
+module.exports.Triple = _triple2.default;
+module.exports.GraphPattern = _graphPattern2.default;
+module.exports.GroupGraphPattern = _groupGraphPattern2.default;
 
 },{"./sparql/filter":88,"./sparql/graph-pattern":89,"./sparql/group-graph-pattern":90,"./sparql/prefix":91,"./sparql/query":93,"./sparql/triple":96}],88:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -12725,26 +12750,30 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SparqlFilter = (function () {
-    function SparqlFilter(content) {
-        (0, _classCallCheck3.default)(this, SparqlFilter);
+var Filter = (function () {
+    function Filter(content) {
+        (0, _classCallCheck3.default)(this, Filter);
 
         this.content = content;
     }
 
-    (0, _createClass3.default)(SparqlFilter, [{
+    (0, _createClass3.default)(Filter, [{
         key: 'toString',
         value: function toString() {
             return 'FILTER (' + this.content + ')';
         }
     }]);
-    return SparqlFilter;
+    return Filter;
 })();
 
-module.exports = SparqlFilter;
+exports.default = Filter;
 
 },{"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],89:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -12758,17 +12787,22 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _filter = require('./filter');
+
+var _filter2 = _interopRequireDefault(_filter);
+
+var _triple = require('./triple');
+
+var _triple2 = _interopRequireDefault(_triple);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SparqlTriple = require('./triple'),
-    SparqlFilter = require('./filter');
-
-var SparqlGraphPattern = (function () {
-    function SparqlGraphPattern(elements) {
+var GraphPattern = (function () {
+    function GraphPattern(elements) {
         var optional = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
         var alternative = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-        var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? [SparqlTriple, SparqlFilter] : arguments[3];
-        (0, _classCallCheck3.default)(this, SparqlGraphPattern);
+        var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? [_triple2.default, _filter2.default] : arguments[3];
+        (0, _classCallCheck3.default)(this, GraphPattern);
 
         this.clear();
         this._allowedTypes = allowedTypes;
@@ -12783,13 +12817,13 @@ var SparqlGraphPattern = (function () {
         }
     }
 
-    (0, _createClass3.default)(SparqlGraphPattern, [{
+    (0, _createClass3.default)(GraphPattern, [{
         key: 'addElement',
         value: function addElement(element) {
             var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
 
             if (typeof element === 'string') {
-                element = new SparqlTriple(element);
+                element = new _triple2.default(element);
             }
             if (this._allowedTypes.indexOf(element.constructor) > -1) {
                 this._elements.splice(atIndex < 0 ? this.countElements() : atIndex, 0, element);
@@ -12829,19 +12863,23 @@ var SparqlGraphPattern = (function () {
         value: function toString() {
             var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._alternative ? 'UNION ' : '') + '{ ';
             for (var i = 0; i < this._elements.length; i += 1) {
-                result += this._elements[i].toString() + ' ' + (this._elements[i] instanceof SparqlTriple ? '. ' : '');
+                result += this._elements[i].toString() + ' ' + (this._elements[i] instanceof _triple2.default ? '. ' : '');
             }
             result += ' } ';
             return result;
         }
     }]);
-    return SparqlGraphPattern;
+    return GraphPattern;
 })();
 
-module.exports = SparqlGraphPattern;
+exports.default = GraphPattern;
 
 },{"./filter":88,"./triple":96,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],90:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -12859,25 +12897,31 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _graphPattern = require('./graph-pattern');
+
+var _graphPattern2 = _interopRequireDefault(_graphPattern);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SparqlGraphPattern = require('./graph-pattern');
+var GroupGraphPattern = (function (_GraphPattern) {
+    (0, _inherits3.default)(GroupGraphPattern, _GraphPattern);
 
-var SparqlGroupGraphPattern = (function (_SparqlGraphPattern) {
-    (0, _inherits3.default)(SparqlGroupGraphPattern, _SparqlGraphPattern);
-
-    function SparqlGroupGraphPattern(elements) {
-        (0, _classCallCheck3.default)(this, SparqlGroupGraphPattern);
-        return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(SparqlGroupGraphPattern).call(this, elements, false, false, [SparqlGraphPattern]));
+    function GroupGraphPattern(elements) {
+        (0, _classCallCheck3.default)(this, GroupGraphPattern);
+        return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(GroupGraphPattern).call(this, elements, false, false, [_graphPattern2.default]));
     }
 
-    return SparqlGroupGraphPattern;
-})(SparqlGraphPattern);
+    return GroupGraphPattern;
+})(_graphPattern2.default);
 
-module.exports = SparqlGroupGraphPattern;
+exports.default = GroupGraphPattern;
 
 },{"./graph-pattern":89,"babel-runtime/core-js/object/get-prototype-of":3,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/inherits":8,"babel-runtime/helpers/possibleConstructorReturn":9}],91:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -12889,26 +12933,31 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SparqlPrefix = (function () {
-    function SparqlPrefix(value) {
-        (0, _classCallCheck3.default)(this, SparqlPrefix);
+var Prefix = (function () {
+    function Prefix(value) {
+        (0, _classCallCheck3.default)(this, Prefix);
 
         this.value = value.replace(/^PREFIX /, '');
     }
 
-    (0, _createClass3.default)(SparqlPrefix, [{
+    (0, _createClass3.default)(Prefix, [{
         key: 'toString',
         value: function toString() {
             return 'PREFIX ' + this.value;
         }
     }]);
-    return SparqlPrefix;
+    return Prefix;
 })();
 
-module.exports = SparqlPrefix;
+exports.default = Prefix;
 
 },{"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],92:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Construct = exports.Ask = exports.Describe = exports.Select = undefined;
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -12918,66 +12967,71 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _graphPattern = require('./graph-pattern');
+
+var _graphPattern2 = _interopRequireDefault(_graphPattern);
+
+var _triple = require('./triple');
+
+var _triple2 = _interopRequireDefault(_triple);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SparqlBlock = require('./graph-pattern'),
-    SparqlTriple = require('./triple');
-
-var SparqlQuerySelect = (function () {
-    function SparqlQuerySelect(content, modifier) {
-        (0, _classCallCheck3.default)(this, SparqlQuerySelect);
+var Select = exports.Select = (function () {
+    function Select(content, modifier) {
+        (0, _classCallCheck3.default)(this, Select);
 
         this._content = content;
         this._modifier = modifier;
     }
 
-    (0, _createClass3.default)(SparqlQuerySelect, [{
+    (0, _createClass3.default)(Select, [{
         key: 'toString',
         value: function toString() {
             return 'SELECT' + (this._modifier ? ' ' + this._modifier : '') + ' ' + this._content;
         }
     }]);
-    return SparqlQuerySelect;
+    return Select;
 })();
 
-var SparqlQueryDescribe = (function () {
-    function SparqlQueryDescribe(content) {
-        (0, _classCallCheck3.default)(this, SparqlQueryDescribe);
+var Describe = exports.Describe = (function () {
+    function Describe(content) {
+        (0, _classCallCheck3.default)(this, Describe);
 
         this._content = content;
     }
 
-    (0, _createClass3.default)(SparqlQueryDescribe, [{
+    (0, _createClass3.default)(Describe, [{
         key: 'toString',
         value: function toString() {
             return 'DESCRIBE ' + this._content;
         }
     }]);
-    return SparqlQueryDescribe;
+    return Describe;
 })();
 
-var SparqlQueryAsk = (function () {
-    function SparqlQueryAsk() {
-        (0, _classCallCheck3.default)(this, SparqlQueryAsk);
+var Ask = exports.Ask = (function () {
+    function Ask() {
+        (0, _classCallCheck3.default)(this, Ask);
     }
 
-    (0, _createClass3.default)(SparqlQueryAsk, [{
+    (0, _createClass3.default)(Ask, [{
         key: 'toString',
         value: function toString() {
             return 'ASK';
         }
     }]);
-    return SparqlQueryAsk;
+    return Ask;
 })();
 
-var SparqlQueryConstruct = (function () {
-    function SparqlQueryConstruct(triples) {
-        (0, _classCallCheck3.default)(this, SparqlQueryConstruct);
+var Construct = exports.Construct = (function () {
+    function Construct(triples) {
+        (0, _classCallCheck3.default)(this, Construct);
 
-        this._constructTemplate = new SparqlBlock(triples, [SparqlTriple]);
+        this._constructTemplate = new _graphPattern2.default(triples, [_triple2.default]);
     }
 
-    (0, _createClass3.default)(SparqlQueryConstruct, [{
+    (0, _createClass3.default)(Construct, [{
         key: 'addTriple',
         value: function addTriple(triple) {
             this._constructTemplate.addElement(triple);
@@ -12988,18 +13042,15 @@ var SparqlQueryConstruct = (function () {
             return 'DESCRIBE ' + this._constructTemplate.toString();
         }
     }]);
-    return SparqlQueryConstruct;
+    return Construct;
 })();
-
-module.exports = {
-    SparqlQuerySelect: SparqlQuerySelect,
-    SparqlQueryDescribe: SparqlQueryDescribe,
-    SparqlQueryAsk: SparqlQueryAsk,
-    SparqlQueryConstruct: SparqlQueryConstruct
-};
 
 },{"./graph-pattern":89,"./triple":96,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],93:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -13013,32 +13064,48 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _transport = require('./transport');
+
+var _transport2 = _interopRequireDefault(_transport);
+
+var _prefix = require('./prefix');
+
+var _prefix2 = _interopRequireDefault(_prefix);
+
+var _graphPattern = require('./graph-pattern');
+
+var _graphPattern2 = _interopRequireDefault(_graphPattern);
+
+var _groupGraphPattern = require('./group-graph-pattern');
+
+var _groupGraphPattern2 = _interopRequireDefault(_groupGraphPattern);
+
+var _queryTypes = require('./query-types');
+
+var QueryTypes = _interopRequireWildcard(_queryTypes);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SparqlTransport = require('./transport'),
-    SparqlPrefix = require('./prefix'),
-    SparqlGraphPattern = require('./graph-pattern'),
-    SparqlGroupGraphPattern = require('./group-graph-pattern'),
-    SparqlQueryTypes = require('./query-types');
-
-var SparqlQuery = (function () {
+var Query = (function () {
 
     //
     //
     // setup query basics
 
-    function SparqlQuery(endpoint) {
-        (0, _classCallCheck3.default)(this, SparqlQuery);
+    function Query(endpoint) {
+        (0, _classCallCheck3.default)(this, Query);
 
         this.reset();
-        this._transport = new SparqlTransport(endpoint);
+        this._transport = new _transport2.default(endpoint);
     }
 
     //
     //
     // base iri
 
-    (0, _createClass3.default)(SparqlQuery, [{
+    (0, _createClass3.default)(Query, [{
         key: 'base',
         value: function base(content) {
             this._config.base = content;
@@ -13063,10 +13130,10 @@ var SparqlQuery = (function () {
     }, {
         key: 'addPrefix',
         value: function addPrefix(content) {
-            if (content instanceof SparqlPrefix) {
+            if (content instanceof _prefix2.default) {
                 this._config.prefixes.push(content);
             } else if (typeof content === 'string') {
-                this._config.prefixes.push(new SparqlPrefix(content));
+                this._config.prefixes.push(new _prefix2.default(content));
             }
         }
     }, {
@@ -13087,25 +13154,25 @@ var SparqlQuery = (function () {
     }, {
         key: 'select',
         value: function select(content, modifier) {
-            this._config.query = new SparqlQueryTypes.SparqlQuerySelect(content, modifier);
+            this._config.query = new QueryTypes.Select(content, modifier);
             return this;
         }
     }, {
         key: 'describe',
         value: function describe(content) {
-            this._config.query = new SparqlQueryTypes.SparqlQueryDescribe(content);
+            this._config.query = new QueryTypes.Describe(content);
             return this;
         }
     }, {
         key: 'ask',
         value: function ask() {
-            this._config.query = new SparqlQueryTypes.SparqlQueryAsk();
+            this._config.query = new QueryTypes.Ask();
             return this;
         }
     }, {
         key: 'construct',
         value: function construct(triples) {
-            this._config.query = new SparqlQueryTypes.SparqlQueryConstruct(triples);
+            this._config.query = new QueryTypes.Construct(triples);
             return this;
         }
 
@@ -13149,7 +13216,7 @@ var SparqlQuery = (function () {
                 for (var i = 0; i < content.length; i += 1) {
                     this.addToWhereClause(content[i]);
                 }
-            } else if (content instanceof SparqlGraphPattern || content instanceof SparqlGroupGraphPattern) {
+            } else if (content instanceof _graphPattern2.default || content instanceof _groupGraphPattern2.default) {
                 this.setWhereClause(content);
             } else {
                 this.addToWhereClause(content);
@@ -13159,7 +13226,7 @@ var SparqlQuery = (function () {
     }, {
         key: 'setWhereClause',
         value: function setWhereClause(graphPattern) {
-            if (graphPattern instanceof SparqlGraphPattern || graphPattern instanceof SparqlGroupGraphPattern) {
+            if (graphPattern instanceof _graphPattern2.default || graphPattern instanceof _groupGraphPattern2.default) {
                 this._config.whereClause = graphPattern;
             } else {
                 throw new Error('TypeError: Where clause must be a graph pattern.');
@@ -13171,7 +13238,7 @@ var SparqlQuery = (function () {
             var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
 
             if (this._config.whereClause === null) {
-                this._config.whereClause = new SparqlGraphPattern(content);
+                this._config.whereClause = new _graphPattern2.default(content);
             } else {
                 this._config.whereClause.addElement(content, atIndex);
             }
@@ -13270,7 +13337,7 @@ var SparqlQuery = (function () {
                 throw new Error('TypeError: Query type must be defined.');
             }
 
-            if (this._config.datasetClause instanceof Array) {
+            if (Array.isArray(this._config.datasetClause)) {
                 queryString += this._config.datasetClause.join(' ') + ' ';
             } else {
                 throw new Error('TypeError: Dataset clause should be array but is ' + (0, _typeof3.default)(this._config.datasetClause));
@@ -13282,7 +13349,7 @@ var SparqlQuery = (function () {
                 throw new Error('TypeError: Where clause is not defined!');
             }
 
-            if (this._config.solutionModifiers instanceof Array) {
+            if (Array.isArray(this._config.solutionModifiers)) {
                 for (var i = 0; i < this._config.solutionModifiers.length; i += 1) {
                     queryString += this._config.solutionModifiers[i].toString() + ' ';
                 }
@@ -13303,13 +13370,17 @@ var SparqlQuery = (function () {
             };
         }
     }]);
-    return SparqlQuery;
+    return Query;
 })();
 
-module.exports = SparqlQuery;
+exports.default = Query;
 
 },{"./graph-pattern":89,"./group-graph-pattern":90,"./prefix":91,"./query-types":92,"./transport":95,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],94:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -13317,8 +13388,8 @@ var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SparqlResult = function SparqlResult(data) {
-    (0, _classCallCheck3.default)(this, SparqlResult);
+var Result = function Result(data) {
+    (0, _classCallCheck3.default)(this, Result);
 
     if (data.results) {
         this.bindings = data.results.bindings;
@@ -13330,10 +13401,14 @@ var SparqlResult = function SparqlResult(data) {
     }
 };
 
-module.exports = SparqlResult;
+exports.default = Result;
 
 },{"babel-runtime/helpers/classCallCheck":6}],95:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -13343,21 +13418,24 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _result = require('./result');
+
+var _result2 = _interopRequireDefault(_result);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var http = require('http'),
     url = require('url'),
-    Promise = require('bluebird'),
-    SparqlResult = require('./result');
+    Promise = require('bluebird');
 
-var SparqlTransport = (function () {
-    function SparqlTransport(endpoint) {
-        (0, _classCallCheck3.default)(this, SparqlTransport);
+var Transport = (function () {
+    function Transport(endpoint) {
+        (0, _classCallCheck3.default)(this, Transport);
 
         this._endpoint = endpoint;
     }
 
-    (0, _createClass3.default)(SparqlTransport, [{
+    (0, _createClass3.default)(Transport, [{
         key: 'submit',
         value: function submit(queryString) {
             var instance = this;
@@ -13394,20 +13472,26 @@ var SparqlTransport = (function () {
                 request.write(encodedQuery);
                 request.end();
             }).then(function (data) {
-                var result = new SparqlResult(JSON.parse(data));
+                var result = new _result2.default(JSON.parse(data));
                 return result;
             }).catch(function (err) {
                 throw new Error('QBuilder query failed: ' + err.message);
             });
         }
     }]);
-    return SparqlTransport;
+    return Transport;
 })();
 
-module.exports = SparqlTransport;
+exports.default = Transport;
+
+module.exports = Transport;
 
 },{"./result":94,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"bluebird":50,"http":78,"url":84}],96:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -13419,9 +13503,9 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SparqlTriple = (function () {
-    function SparqlTriple() {
-        (0, _classCallCheck3.default)(this, SparqlTriple);
+var Triple = (function () {
+    function Triple() {
+        (0, _classCallCheck3.default)(this, Triple);
 
         var splitTriple = [null, null, null];
 
@@ -13439,16 +13523,16 @@ var SparqlTriple = (function () {
         this.object = splitTriple[2];
     }
 
-    (0, _createClass3.default)(SparqlTriple, [{
+    (0, _createClass3.default)(Triple, [{
         key: 'toString',
         value: function toString() {
             return this.subject + ' ' + this.predicate + ' ' + this.object;
         }
     }]);
-    return SparqlTriple;
+    return Triple;
 })();
 
-module.exports = SparqlTriple;
+exports.default = Triple;
 
 },{"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}]},{},[87])(87)
 });

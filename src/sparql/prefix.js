@@ -1,6 +1,6 @@
 'use strict';
 
-class SparqlPrefix {
+export default class Prefix {
     constructor(value) {
         this.value = value.replace(/^PREFIX /, '');
     }
@@ -9,5 +9,3 @@ class SparqlPrefix {
         return `PREFIX ${this.value}`;
     }
 }
-
-module.exports = SparqlPrefix;

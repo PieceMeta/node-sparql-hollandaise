@@ -1,12 +1,12 @@
 'use strict';
 
-var SparqlTransport = require('./transport'),
-    SparqlPrefix = require('./prefix'),
-    SparqlGraphPattern = require('./graph-pattern'),
-    SparqlGroupGraphPattern = require('./group-graph-pattern'),
-    SparqlQueryTypes = require('./query-types');
+import Transport from './transport';
+import Prefix from './prefix';
+import GraphPattern from './graph-pattern';
+import GroupGraphPattern from './group-graph-pattern';
+import * as QueryTypes from './query-types';
 
-class SparqlQuery {
+export default class Query {
 
     //
     //
@@ -14,7 +14,7 @@ class SparqlQuery {
 
     constructor(endpoint) {
         this.reset();
-        this._transport = new SparqlTransport(endpoint);
+        this._transport = new Transport(endpoint);
     }
 
     //
@@ -41,10 +41,10 @@ class SparqlQuery {
     }
 
     addPrefix(content) {
-        if (content instanceof SparqlPrefix) {
+        if (content instanceof Prefix) {
             this._config.prefixes.push(content);
         } else if (typeof content === 'string') {
-            this._config.prefixes.push(new SparqlPrefix(content));
+            this._config.prefixes.push(new Prefix(content));
         }
     }
 
@@ -61,22 +61,22 @@ class SparqlQuery {
     // query types
 
     select(content, modifier) {
-        this._config.query = new SparqlQueryTypes.SparqlQuerySelect(content, modifier);
+        this._config.query = new QueryTypes.Select(content, modifier);
         return this;
     }
 
     describe(content) {
-        this._config.query = new SparqlQueryTypes.SparqlQueryDescribe(content);
+        this._config.query = new QueryTypes.Describe(content);
         return this;
     }
 
     ask() {
-        this._config.query = new SparqlQueryTypes.SparqlQueryAsk();
+        this._config.query = new QueryTypes.Ask();
         return this;
     }
 
     construct(triples) {
-        this._config.query = new SparqlQueryTypes.SparqlQueryConstruct(triples);
+        this._config.query = new QueryTypes.Construct(triples);
         return this;
     }
 
@@ -112,8 +112,8 @@ class SparqlQuery {
             for (var i = 0; i < content.length; i += 1) {
                 this.addToWhereClause(content[i]);
             }
-        } else if (content instanceof SparqlGraphPattern ||
-            content instanceof SparqlGroupGraphPattern) {
+        } else if (content instanceof GraphPattern ||
+            content instanceof GroupGraphPattern) {
             this.setWhereClause(content);
         } else {
             this.addToWhereClause(content);
@@ -122,8 +122,8 @@ class SparqlQuery {
     }
 
     setWhereClause(graphPattern) {
-        if (graphPattern instanceof SparqlGraphPattern ||
-            graphPattern instanceof SparqlGroupGraphPattern) {
+        if (graphPattern instanceof GraphPattern ||
+            graphPattern instanceof GroupGraphPattern) {
             this._config.whereClause = graphPattern;
         } else {
             throw new Error('TypeError: Where clause must be a graph pattern.');
@@ -132,7 +132,7 @@ class SparqlQuery {
 
     addToWhereClause(content, atIndex = -1) {
         if (this._config.whereClause === null) {
-            this._config.whereClause = new SparqlGraphPattern(content);
+            this._config.whereClause = new GraphPattern(content);
         } else {
             this._config.whereClause.addElement(content, atIndex);
         }
@@ -216,7 +216,7 @@ class SparqlQuery {
             throw new Error(`TypeError: Query type must be defined.`);
         }
 
-        if (this._config.datasetClause instanceof Array) {
+        if (Array.isArray(this._config.datasetClause)) {
             queryString += `${this._config.datasetClause.join(' ')} `;
         } else {
             throw new Error(`TypeError: Dataset clause should be array but is ${typeof this._config.datasetClause}`);
@@ -228,7 +228,7 @@ class SparqlQuery {
             throw new Error(`TypeError: Where clause is not defined!`);
         }
 
-        if (this._config.solutionModifiers instanceof Array) {
+        if (Array.isArray(this._config.solutionModifiers)) {
             for (let i = 0; i < this._config.solutionModifiers.length; i += 1) {
                 queryString += `${this._config.solutionModifiers[i].toString()} `;
             }
@@ -248,5 +248,3 @@ class SparqlQuery {
         };
     }
 }
-
-module.exports = SparqlQuery;

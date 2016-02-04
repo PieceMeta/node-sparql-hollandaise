@@ -1,6 +1,6 @@
 'use strict';
 
-class SparqlFilter {
+export default class Filter {
     constructor(content) {
         this.content = content;
     }
@@ -9,5 +9,3 @@ class SparqlFilter {
         return `FILTER (${this.content})`;
     }
 }
-
-module.exports = SparqlFilter;

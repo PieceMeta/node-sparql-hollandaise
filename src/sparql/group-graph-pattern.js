@@ -1,11 +1,9 @@
 'use strict';
 
-var SparqlGraphPattern = require('./graph-pattern');
+import GraphPattern from './graph-pattern';
 
-class SparqlGroupGraphPattern extends SparqlGraphPattern {
+export default class GroupGraphPattern extends GraphPattern {
     constructor(elements) {
-        super(elements, false, false, [SparqlGraphPattern]);
+        super(elements, false, false, [GraphPattern]);
     }
 }
-
-module.exports = SparqlGroupGraphPattern;

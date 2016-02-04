@@ -23,7 +23,7 @@ If you think this is a fully fledged SPARQL client for JS: nope. This is rather 
 Node:
 ```javascript
 var SPH = require('sparql-hollandaise'),
-    query = new SPH.SparqlQuery('https://here.goes.the/endpoint');
+    query = new SPH.Query('https://here.goes.the/endpoint');
 ```
 
 Browser:
@@ -38,20 +38,20 @@ Make sure to check out the basic [Angular example](https://github.com/PieceMeta/
 
 ### Creating Graph Patterns
 
-The ``.where()`` function takes either a single ``SparqlGraphPattern`` object, or a ``SparqlGroupGraphPattern`` that in turn contains multiple ``SparqlGraphPattern`` objects.
+The ``.where()`` function takes either a single ``GraphPattern`` object, or a ``GroupGraphPattern`` that in turn contains multiple ``GraphPattern`` objects.
 
 ```javascript
-var graphPattern = new SPH.SparqlGraphPattern(
+var graphPattern = new SPH.GraphPattern(
     ['array of triple strings'] ||
     'single triple string' ||
-    new SPH.SparqlFilter('filter string')
+    new SPH.Filter('filter string')
 );
 
-// additional args for the SparqlGraphPattern
-var graphPatternOptional = new SPH.SparqlGraphPattern('my super triple', true, false); // this pattern is OPTIONAL
-var graphPatternAlternative = new SPH.SparqlGraphPattern('my super triple', false, true); // this pattern is an alternative (UNION)
+// additional args for the GraphPattern
+var graphPatternOptional = new SPH.GraphPattern('my super triple', true, false); // this pattern is OPTIONAL
+var graphPatternAlternative = new SPH.GraphPattern('my super triple', false, true); // this pattern is an alternative (UNION)
 
-var groupGraphPattern = new SPH.SparqlGraphPattern([graphPattern, graphPatternAlternative] || graphPattern);
+var groupGraphPattern = new SPH.GraphPattern([graphPattern, graphPatternAlternative] || graphPattern);
 groupGraphPattern.addElement(graphPatternOptional);
 ```
 
@@ -59,7 +59,7 @@ Once you have created your pattern, you can pass it to any of the queries.
 
 ### SELECT
 ```javascript
-var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
+var query = new SPH.Query('https://here.goes.the/endpoint')
     .prefix(['foo: <http://bar>', 'pre: <http://fix>'] || 'pre: <http://fix>')
     .select('*') // you can add 'DISTINCT' or 'REDUCED' as a modifier in the second parameter
     .from('dataset clause', true) // second param indicates a named dataset (only pass this if named set)
@@ -76,7 +76,7 @@ var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
 
 ### DESCRIBE
 ```javascript
-var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
+var query = new SPH.Query('https://here.goes.the/endpoint')
     .prefix('foo: <http://bar>')
     .describe('?x')
     .where(graphPattern)
@@ -87,7 +87,7 @@ var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
     
 ### ASK
 ```javascript
-var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
+var query = new SPH.Query('https://here.goes.the/endpoint')
     .prefix('foo: <http://bar>')
     .ask()
     .where(graphPattern)
@@ -98,7 +98,7 @@ var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
     
 ### CONSTRUCT
 ```javascript
-var query = new SPH.SparqlQuery('https://here.goes.the/endpoint')
+var query = new SPH.Query('https://here.goes.the/endpoint')
     .prefix('foo: <http://bar>')
     .construct(['array of triple strings'] || 'single triple string')
     .where(graphPattern)

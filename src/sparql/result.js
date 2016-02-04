@@ -1,6 +1,6 @@
 'use strict';
 
-class SparqlResult {
+export default class Result {
     constructor(data) {
         if (data.results) {
             this.bindings = data.results.bindings;
@@ -12,5 +12,3 @@ class SparqlResult {
         }
     }
 }
-
-module.exports = SparqlResult;

@@ -2,21 +2,30 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _result = require('./result');
+
+var _result2 = _interopRequireDefault(_result);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var http = require('http'),
     url = require('url'),
-    Promise = require('bluebird'),
-    SparqlResult = require('./result');
+    Promise = require('bluebird');
 
-var SparqlTransport = function () {
-    function SparqlTransport(endpoint) {
-        _classCallCheck(this, SparqlTransport);
+var Transport = function () {
+    function Transport(endpoint) {
+        _classCallCheck(this, Transport);
 
         this._endpoint = endpoint;
     }
 
-    _createClass(SparqlTransport, [{
+    _createClass(Transport, [{
         key: 'submit',
         value: function submit(queryString) {
             var instance = this;
@@ -53,7 +62,7 @@ var SparqlTransport = function () {
                 request.write(encodedQuery);
                 request.end();
             }).then(function (data) {
-                var result = new SparqlResult(JSON.parse(data));
+                var result = new _result2.default(JSON.parse(data));
                 return result;
             }).catch(function (err) {
                 throw new Error('QBuilder query failed: ' + err.message);
@@ -61,7 +70,9 @@ var SparqlTransport = function () {
         }
     }]);
 
-    return SparqlTransport;
+    return Transport;
 }();
 
-module.exports = SparqlTransport;
+exports.default = Transport;
+
+module.exports = Transport;

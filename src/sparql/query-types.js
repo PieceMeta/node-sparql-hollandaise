@@ -1,9 +1,9 @@
 'use strict';
 
-var SparqlBlock = require('./graph-pattern'),
-    SparqlTriple = require('./triple');
+import GraphPattern from './graph-pattern';
+import Triple from './triple';
 
-class SparqlQuerySelect {
+export class Select {
     constructor(content, modifier) {
         this._content = content;
         this._modifier = modifier;
@@ -14,7 +14,7 @@ class SparqlQuerySelect {
     }
 }
 
-class SparqlQueryDescribe {
+export class Describe {
     constructor(content) {
         this._content = content;
     }
@@ -24,7 +24,7 @@ class SparqlQueryDescribe {
     }
 }
 
-class SparqlQueryAsk {
+export class Ask {
     constructor() {
 
     }
@@ -34,9 +34,9 @@ class SparqlQueryAsk {
     }
 }
 
-class SparqlQueryConstruct {
+export class Construct {
     constructor(triples) {
-        this._constructTemplate = new SparqlBlock(triples, [SparqlTriple]);
+        this._constructTemplate = new GraphPattern(triples, [Triple]);
     }
 
     addTriple(triple) {
@@ -47,10 +47,3 @@ class SparqlQueryConstruct {
         return `DESCRIBE ${this._constructTemplate.toString()}`;
     }
 }
-
-module.exports = {
-    SparqlQuerySelect: SparqlQuerySelect,
-    SparqlQueryDescribe: SparqlQueryDescribe,
-    SparqlQueryAsk: SparqlQueryAsk,
-    SparqlQueryConstruct: SparqlQueryConstruct
-};

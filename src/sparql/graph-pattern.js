@@ -1,10 +1,10 @@
 'use strict';
 
-var SparqlTriple = require('./triple'),
-    SparqlFilter = require('./filter');
+import Filter from './filter';
+import Triple from './triple';
 
-class SparqlGraphPattern {
-    constructor(elements, optional = false, alternative = false, allowedTypes = [SparqlTriple, SparqlFilter]) {
+export default class GraphPattern {
+    constructor(elements, optional = false, alternative = false, allowedTypes = [Triple, Filter]) {
         this.clear();
         this._allowedTypes = allowedTypes;
         this._optional = optional;
@@ -20,7 +20,7 @@ class SparqlGraphPattern {
 
     addElement(element, atIndex = -1) {
         if (typeof element === 'string') {
-            element = new SparqlTriple(element);
+            element = new Triple(element);
         }
         if (this._allowedTypes.indexOf(element.constructor) > -1) {
             this._elements.splice(atIndex < 0 ? this.countElements() : atIndex, 0, element);
@@ -52,11 +52,9 @@ class SparqlGraphPattern {
     toString() {
         var result = `${this._optional ? 'OPTIONAL ' : ''}${this._alternative ? 'UNION ' : ''}{ `;
         for (let i = 0; i < this._elements.length; i += 1) {
-            result += `${this._elements[i].toString()} ${this._elements[i] instanceof SparqlTriple ? '. ' : ''}`;
+            result += `${this._elements[i].toString()} ${this._elements[i] instanceof Triple ? '. ' : ''}`;
         }
         result += ' } ';
         return result;
     }
 }
-
-module.exports = SparqlGraphPattern;
