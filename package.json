@@ -9,7 +9,7 @@
   },
   "author": "Anton Koch <piecemeta@gmail.com>",
   "homepage": "https://github.com/PieceMeta/node-sparql-hollandaise",
-  "license": "LGPL-3.0",
+  "license": "MIT",
   "tags": [
     "sparql",
     "client",

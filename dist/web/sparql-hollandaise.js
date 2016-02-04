@@ -2,7 +2,7 @@
  * sparql-hollandaise - A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.
  * @version v0.1.0
  * @link https://github.com/PieceMeta/node-sparql-hollandaise
- * @license LGPL-3.0
+ * @license MIT
  */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SPH = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/object/create"), __esModule: true };
@@ -12774,8 +12774,8 @@ var SparqlGraphPattern = (function () {
         this._allowedTypes = allowedTypes;
         this._optional = optional;
         this._alternative = alternative;
-        if (elements instanceof Array) {
-            for (var i = 0; i < elements; i += 1) {
+        if (Array.isArray(elements)) {
+            for (var i = 0; i < elements.length; i += 1) {
                 this.addElement(elements[i]);
             }
         } else if (elements) {
@@ -13051,7 +13051,7 @@ var SparqlQuery = (function () {
     }, {
         key: 'prefix',
         value: function prefix(content) {
-            if (content instanceof Array) {
+            if (Array.isArray(content)) {
                 for (var i = 0; i < content.length; i += 1) {
                     this.addPrefix(content[i]);
                 }
@@ -13118,7 +13118,7 @@ var SparqlQuery = (function () {
         value: function from(content) {
             var named = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
-            if (content instanceof Array) {
+            if (Array.isArray(content)) {
                 for (var i = 0; i < content.length; i += 1) {
                     this._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + content[i]);
                 }
@@ -13145,7 +13145,7 @@ var SparqlQuery = (function () {
     }, {
         key: 'where',
         value: function where(content) {
-            if (content instanceof Array) {
+            if (Array.isArray(content)) {
                 for (var i = 0; i < content.length; i += 1) {
                     this.addToWhereClause(content[i]);
                 }

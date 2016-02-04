@@ -42,7 +42,7 @@ var SparqlQuery = function () {
     }, {
         key: 'prefix',
         value: function prefix(content) {
-            if (content instanceof Array) {
+            if (Array.isArray(content)) {
                 for (var i = 0; i < content.length; i += 1) {
                     this.addPrefix(content[i]);
                 }
@@ -109,7 +109,7 @@ var SparqlQuery = function () {
         value: function from(content) {
             var named = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
-            if (content instanceof Array) {
+            if (Array.isArray(content)) {
                 for (var i = 0; i < content.length; i += 1) {
                     this._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + content[i]);
                 }
@@ -136,7 +136,7 @@ var SparqlQuery = function () {
     }, {
         key: 'where',
         value: function where(content) {
-            if (content instanceof Array) {
+            if (Array.isArray(content)) {
                 for (var i = 0; i < content.length; i += 1) {
                     this.addToWhereClause(content[i]);
                 }

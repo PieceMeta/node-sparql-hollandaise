@@ -21,8 +21,8 @@ var SparqlGraphPattern = function () {
         this._allowedTypes = allowedTypes;
         this._optional = optional;
         this._alternative = alternative;
-        if (elements instanceof Array) {
-            for (var i = 0; i < elements; i += 1) {
+        if (Array.isArray(elements)) {
+            for (var i = 0; i < elements.length; i += 1) {
                 this.addElement(elements[i]);
             }
         } else if (elements) {

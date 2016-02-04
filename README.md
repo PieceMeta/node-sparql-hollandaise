@@ -30,7 +30,7 @@ Browser:
 ```html
 <head>
     <script type="text/javascript" src="/bower_components/babel-polyfill/browser-polyfill.js"></script>
-    <script type="text/javascript" src="/bower_components/sparql-hollandaise/dist/sparql-hollandaise.js"></script>
+    <script type="text/javascript" src="/bower_components/sparql-hollandaise/dist/web/sparql-hollandaise.js"></script>
 </head>
 ```
 
@@ -125,11 +125,15 @@ query.reset();
 
 ## Development
 
-Uses [gulp](http://gulpjs.com/), [Babel](https://babeljs.io/) and [Browserify](http://browserify.org/) to build the browser lib.
+The files in ``src/`` use ECMA6 script, so transpiling is necessary. The project uses [gulp](http://gulpjs.com/), [Babel](https://babeljs.io/) and [Browserify](http://browserify.org/).
 
 ```shell
 npm install
+# build browser lib and transpile for NodeJS
 gulp
+# you can also do:
+gulp build-web
+gulp build-node
 ```
 
 ## Credits

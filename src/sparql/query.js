@@ -30,7 +30,7 @@ class SparqlQuery {
     // prefix
 
     prefix(content) {
-        if (content instanceof Array) {
+        if (Array.isArray(content)) {
             for (var i = 0; i < content.length; i += 1) {
                 this.addPrefix(content[i]);
             }
@@ -85,7 +85,7 @@ class SparqlQuery {
     // dataset clause
 
     from(content, named = false) {
-        if (content instanceof Array) {
+        if (Array.isArray(content)) {
             for (var i = 0; i < content.length; i += 1) {
                 this._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${content[i]}`);
             }
@@ -108,7 +108,7 @@ class SparqlQuery {
     // where clause
 
     where(content) {
-        if (content instanceof Array) {
+        if (Array.isArray(content)) {
             for (var i = 0; i < content.length; i += 1) {
                 this.addToWhereClause(content[i]);
             }
