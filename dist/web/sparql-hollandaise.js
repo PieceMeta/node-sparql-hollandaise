@@ -12733,7 +12733,7 @@ module.exports.Triple = _triple2.default;
 module.exports.GraphPattern = _graphPattern2.default;
 module.exports.GroupGraphPattern = _groupGraphPattern2.default;
 
-},{"./sparql/filter":88,"./sparql/graph-pattern":89,"./sparql/group-graph-pattern":90,"./sparql/prefix":91,"./sparql/query":93,"./sparql/triple":96}],88:[function(require,module,exports){
+},{"./sparql/filter":88,"./sparql/graph-pattern":89,"./sparql/group-graph-pattern":90,"./sparql/prefix":92,"./sparql/query":94,"./sparql/triple":97}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12837,7 +12837,7 @@ var GraphPattern = (function () {
             var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
             var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
 
-            if (atIndex >= 0 && atIndex + count < this.countElements()) {
+            if (atIndex >= 0 && atIndex + count <= this.countElements()) {
                 this._elements.splice(atIndex, count);
             } else {
                 throw new Error('OutOfBounds: Cannot remove elements from block, index and/or count out of bounds.');
@@ -12863,9 +12863,9 @@ var GraphPattern = (function () {
         value: function toString() {
             var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._alternative ? 'UNION ' : '') + '{ ';
             for (var i = 0; i < this._elements.length; i += 1) {
-                result += this._elements[i].toString() + ' ' + (this._elements[i] instanceof _triple2.default ? '. ' : '');
+                result += '' + this._elements[i].toString() + (this._elements.length > 1 && this._elements[i] instanceof _triple2.default ? ' . ' : ' ');
             }
-            result += ' } ';
+            result += '}';
             return result;
         }
     }]);
@@ -12874,7 +12874,7 @@ var GraphPattern = (function () {
 
 exports.default = GraphPattern;
 
-},{"./filter":88,"./triple":96,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],90:[function(require,module,exports){
+},{"./filter":88,"./triple":97,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12922,6 +12922,23 @@ exports.default = GroupGraphPattern;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+var PrefixIndex = {
+    'dct': 'http://purl.org/dc/terms/',
+    'foaf': 'http://xmlns.com/foaf/0.1/',
+    'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+    'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
+    'rel': 'http://www.perceive.net/schemas/relationship/',
+    'xsd': 'http://www.w3.org/2001/XMLSchema#'
+};
+
+exports.default = PrefixIndex;
+
+},{}],92:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -12931,13 +12948,29 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _prefixIndex = require('./prefix-index');
+
+var _prefixIndex2 = _interopRequireDefault(_prefixIndex);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Prefix = (function () {
     function Prefix(value) {
+        var prefixIndex = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
         (0, _classCallCheck3.default)(this, Prefix);
 
-        this.value = value.replace(/^PREFIX /, '');
+        if (prefixIndex === null) {
+            prefixIndex = _prefixIndex2.default;
+        }
+        if (value.indexOf(':') === -1) {
+            if (prefixIndex.hasOwnProperty(value)) {
+                this.value = value + ': <' + prefixIndex[value] + '>';
+            } else {
+                throw Error('No prefix found in PrefixIndex matching: ' + value);
+            }
+        } else {
+            this.value = value.replace(/^PREFIX /, '');
+        }
     }
 
     (0, _createClass3.default)(Prefix, [{
@@ -12951,7 +12984,7 @@ var Prefix = (function () {
 
 exports.default = Prefix;
 
-},{"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],92:[function(require,module,exports){
+},{"./prefix-index":91,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],93:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13028,7 +13061,7 @@ var Construct = exports.Construct = (function () {
     function Construct(triples) {
         (0, _classCallCheck3.default)(this, Construct);
 
-        this._constructTemplate = new _graphPattern2.default(triples, [_triple2.default]);
+        this._constructTemplate = new _graphPattern2.default(triples, false, false, [_triple2.default]);
     }
 
     (0, _createClass3.default)(Construct, [{
@@ -13045,7 +13078,7 @@ var Construct = exports.Construct = (function () {
     return Construct;
 })();
 
-},{"./graph-pattern":89,"./triple":96,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],93:[function(require,module,exports){
+},{"./graph-pattern":89,"./triple":97,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7}],94:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13304,6 +13337,33 @@ var Query = (function () {
 
         //
         //
+        // subqueries
+
+    }, {
+        key: 'addToSubQueries',
+        value: function addToSubQueries(query) {
+            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
+
+            if (query instanceof Query) {
+                this._config.subQueries.splice(atIndex < 0 ? this._config.subQueries.length : atIndex, 0, query);
+            }
+        }
+    }, {
+        key: 'removeFromSubQueries',
+        value: function removeFromSubQueries() {
+            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+
+            this._config.subQueries.splice(atIndex, count);
+        }
+    }, {
+        key: 'clearSubQueries',
+        value: function clearSubQueries() {
+            this._config.subQueries = [];
+        }
+
+        //
+        //
         // execute query
 
     }, {
@@ -13319,15 +13379,19 @@ var Query = (function () {
     }, {
         key: 'toString',
         value: function toString() {
+            var isSubQuery = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
             var queryString = '';
 
-            if (this._config.base) {
-                queryString += 'BASE ' + this._config.base;
-            }
+            if (!isSubQuery) {
+                if (this._config.base) {
+                    queryString += 'BASE ' + this._config.base;
+                }
 
-            if (this._config.prefixes.length > 0) {
-                for (var i = 0; i < this._config.prefixes.length; i += 1) {
-                    queryString += this._config.prefixes[i].toString() + ' ';
+                if (this._config.prefixes.length > 0) {
+                    for (var i = 0; i < this._config.prefixes.length; i += 1) {
+                        queryString += this._config.prefixes[i].toString() + ' ';
+                    }
                 }
             }
 
@@ -13351,7 +13415,7 @@ var Query = (function () {
 
             if (Array.isArray(this._config.solutionModifiers)) {
                 for (var i = 0; i < this._config.solutionModifiers.length; i += 1) {
-                    queryString += this._config.solutionModifiers[i].toString() + ' ';
+                    queryString += ' ' + this._config.solutionModifiers[i].toString();
                 }
             }
 
@@ -13364,6 +13428,7 @@ var Query = (function () {
                 base: null,
                 prefixes: [],
                 query: null,
+                subQueries: [],
                 datasetClause: [],
                 whereClause: null,
                 solutionModifiers: []
@@ -13375,7 +13440,7 @@ var Query = (function () {
 
 exports.default = Query;
 
-},{"./graph-pattern":89,"./group-graph-pattern":90,"./prefix":91,"./query-types":92,"./transport":95,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],94:[function(require,module,exports){
+},{"./graph-pattern":89,"./group-graph-pattern":90,"./prefix":92,"./query-types":93,"./transport":96,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13403,7 +13468,7 @@ var Result = function Result(data) {
 
 exports.default = Result;
 
-},{"babel-runtime/helpers/classCallCheck":6}],95:[function(require,module,exports){
+},{"babel-runtime/helpers/classCallCheck":6}],96:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13486,7 +13551,7 @@ exports.default = Transport;
 
 module.exports = Transport;
 
-},{"./result":94,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"bluebird":50,"http":78,"url":84}],96:[function(require,module,exports){
+},{"./result":95,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"bluebird":50,"http":78,"url":84}],97:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

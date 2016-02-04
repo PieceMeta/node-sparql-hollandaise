@@ -73,7 +73,7 @@ var Construct = exports.Construct = function () {
     function Construct(triples) {
         _classCallCheck(this, Construct);
 
-        this._constructTemplate = new _graphPattern2.default(triples, [_triple2.default]);
+        this._constructTemplate = new _graphPattern2.default(triples, false, false, [_triple2.default]);
     }
 
     _createClass(Construct, [{

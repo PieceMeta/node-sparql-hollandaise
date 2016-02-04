@@ -250,7 +250,7 @@ export default class Query {
 
         if (Array.isArray(this._config.solutionModifiers)) {
             for (let i = 0; i < this._config.solutionModifiers.length; i += 1) {
-                queryString += `${this._config.solutionModifiers[i].toString()} `;
+                queryString += ` ${this._config.solutionModifiers[i].toString()}`;
             }
         }
 

@@ -61,7 +61,7 @@ var GraphPattern = function () {
             var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
             var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
 
-            if (atIndex >= 0 && atIndex + count < this.countElements()) {
+            if (atIndex >= 0 && atIndex + count <= this.countElements()) {
                 this._elements.splice(atIndex, count);
             } else {
                 throw new Error('OutOfBounds: Cannot remove elements from block, index and/or count out of bounds.');
@@ -87,9 +87,9 @@ var GraphPattern = function () {
         value: function toString() {
             var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._alternative ? 'UNION ' : '') + '{ ';
             for (var i = 0; i < this._elements.length; i += 1) {
-                result += this._elements[i].toString() + ' ' + (this._elements[i] instanceof _triple2.default ? '. ' : '');
+                result += '' + this._elements[i].toString() + (this._elements.length > 1 && this._elements[i] instanceof _triple2.default ? ' . ' : ' ');
             }
-            result += ' } ';
+            result += '}';
             return result;
         }
     }]);

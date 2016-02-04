@@ -250,6 +250,33 @@ var Query = function () {
 
         //
         //
+        // subqueries
+
+    }, {
+        key: 'addToSubQueries',
+        value: function addToSubQueries(query) {
+            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
+
+            if (query instanceof Query) {
+                this._config.subQueries.splice(atIndex < 0 ? this._config.subQueries.length : atIndex, 0, query);
+            }
+        }
+    }, {
+        key: 'removeFromSubQueries',
+        value: function removeFromSubQueries() {
+            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+
+            this._config.subQueries.splice(atIndex, count);
+        }
+    }, {
+        key: 'clearSubQueries',
+        value: function clearSubQueries() {
+            this._config.subQueries = [];
+        }
+
+        //
+        //
         // execute query
 
     }, {
@@ -265,15 +292,19 @@ var Query = function () {
     }, {
         key: 'toString',
         value: function toString() {
+            var isSubQuery = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
             var queryString = '';
 
-            if (this._config.base) {
-                queryString += 'BASE ' + this._config.base;
-            }
+            if (!isSubQuery) {
+                if (this._config.base) {
+                    queryString += 'BASE ' + this._config.base;
+                }
 
-            if (this._config.prefixes.length > 0) {
-                for (var i = 0; i < this._config.prefixes.length; i += 1) {
-                    queryString += this._config.prefixes[i].toString() + ' ';
+                if (this._config.prefixes.length > 0) {
+                    for (var i = 0; i < this._config.prefixes.length; i += 1) {
+                        queryString += this._config.prefixes[i].toString() + ' ';
+                    }
                 }
             }
 
@@ -297,7 +328,7 @@ var Query = function () {
 
             if (Array.isArray(this._config.solutionModifiers)) {
                 for (var i = 0; i < this._config.solutionModifiers.length; i += 1) {
-                    queryString += this._config.solutionModifiers[i].toString() + ' ';
+                    queryString += ' ' + this._config.solutionModifiers[i].toString();
                 }
             }
 
@@ -310,6 +341,7 @@ var Query = function () {
                 base: null,
                 prefixes: [],
                 query: null,
+                subQueries: [],
                 datasetClause: [],
                 whereClause: null,
                 solutionModifiers: []
