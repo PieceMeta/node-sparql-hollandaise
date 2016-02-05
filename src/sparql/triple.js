@@ -6,10 +6,8 @@ export default class Triple {
         switch (args.length) {
             case 3:
                 let valid = true;
-                for (let i = 0; i < args.length; i += 1) {
-                    if (typeof args[i] !== 'string') {
-                        valid = false;
-                    }
+                for (let arg of args) {
+                    valid = typeof arg === 'string';
                 }
                 if (valid) splitTriple = args;
                 break;

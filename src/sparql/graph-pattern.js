@@ -9,8 +9,8 @@ export default class GraphPattern {
         this._optional = optional;
         this._union = union;
         if (Array.isArray(elements)) {
-            for (let i = 0; i < elements.length; i += 1) {
-                this.addElement(elements[i]);
+            for (let element of elements) {
+                this.addElement(element);
             }
         } else if (elements) {
             this.addElement(elements);
@@ -50,11 +50,11 @@ export default class GraphPattern {
 
     toString() {
         var result = `${this._optional ? 'OPTIONAL ' : ''}${this._union ? 'UNION ' : ''}{ `;
-        for (let i = 0; i < this._elements.length; i += 1) {
-            if (this._elements[i].constructor.name === 'Query') {
-                result += `{ ${this._elements[i].toString(true)} } `;
+        for (let element of this._elements) {
+            if (element.constructor.name === 'Query') {
+                result += `{ ${element.toString(true)} } `;
             } else {
-                result += `${this._elements[i].toString()}${this._elements.length > 1 && this._elements[i] instanceof Triple ? ' . ' : ' '}`;
+                result += `${element.toString()}${this._elements.length > 1 && element instanceof Triple ? ' . ' : ' '}`;
             }
         }
         result += '}';

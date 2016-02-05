@@ -31,8 +31,8 @@ export default class Query {
 
     prefix(content) {
         if (Array.isArray(content)) {
-            for (var i = 0; i < content.length; i += 1) {
-                this.addPrefix(content[i]);
+            for (var element of content) {
+                this.addPrefix(element);
             }
         } else {
             this.addPrefix(content);
@@ -86,11 +86,11 @@ export default class Query {
 
     from(content, named = false) {
         if (Array.isArray(content)) {
-            for (var i = 0; i < content.length; i += 1) {
-                this._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${content[i]}`);
+            for (var element of content) {
+                this._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${element}`);
             }
         } else {
-            this._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${content[i]}`);
+            this._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${content}`);
         }
         return this;
     }
@@ -109,8 +109,8 @@ export default class Query {
 
     where(content) {
         if (Array.isArray(content)) {
-            for (var i = 0; i < content.length; i += 1) {
-                this.addToWhereClause(content[i]);
+            for (let element of content) {
+                this.addToWhereClause(element);
             }
         } else if (content instanceof GraphPattern ||
             content instanceof GroupGraphPattern) {
@@ -206,8 +206,8 @@ export default class Query {
             }
 
             if (this._config.prefixes.length > 0) {
-                for (let i = 0; i < this._config.prefixes.length; i += 1) {
-                    queryString += `${this._config.prefixes[i].toString()} `;
+                for (let prefix of this._config.prefixes) {
+                    queryString += `${prefix.toString()} `;
                 }
             }
         }
@@ -231,8 +231,8 @@ export default class Query {
         }
 
         if (Array.isArray(this._config.solutionModifiers)) {
-            for (let i = 0; i < this._config.solutionModifiers.length; i += 1) {
-                queryString += ` ${this._config.solutionModifiers[i].toString()}`;
+            for (let mod of this._config.solutionModifiers) {
+                queryString += ` ${mod.toString()}`;
             }
         }
 
