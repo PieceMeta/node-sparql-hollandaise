@@ -1,0 +1,997 @@
+{
+    "project": {},
+    "files": {
+        "src/sparql/filter.js": {
+            "name": "src/sparql/filter.js",
+            "modules": {},
+            "classes": {
+                "Filter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/graph-pattern.js": {
+            "name": "src/sparql/graph-pattern.js",
+            "modules": {},
+            "classes": {
+                "GraphPattern": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/group-graph-pattern.js": {
+            "name": "src/sparql/group-graph-pattern.js",
+            "modules": {},
+            "classes": {
+                "GroupGraphPattern": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/prefix-index.js": {
+            "name": "src/sparql/prefix-index.js",
+            "modules": {},
+            "classes": {
+                "PrefixIndex": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/prefix.js": {
+            "name": "src/sparql/prefix.js",
+            "modules": {},
+            "classes": {
+                "Prefix": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/query-types.js": {
+            "name": "src/sparql/query-types.js",
+            "modules": {},
+            "classes": {
+                "Select": 1,
+                "Describe": 1,
+                "Ask": 1,
+                "Construct": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/query.js": {
+            "name": "src/sparql/query.js",
+            "modules": {},
+            "classes": {
+                "Query": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/result.js": {
+            "name": "src/sparql/result.js",
+            "modules": {},
+            "classes": {
+                "Result": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/transport.js": {
+            "name": "src/sparql/transport.js",
+            "modules": {},
+            "classes": {
+                "Transport": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/sparql/triple.js": {
+            "name": "src/sparql/triple.js",
+            "modules": {},
+            "classes": {
+                "Triple": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Filter": {
+            "name": "Filter",
+            "shortname": "Filter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/filter.js",
+            "line": 4,
+            "description": "The Filter class represents a single FILTER clause to be used within GraphPatterns",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- SPARQL Filter string (without the FILTER keyword)",
+                    "type": "String"
+                }
+            ]
+        },
+        "GraphPattern": {
+            "name": "GraphPattern",
+            "shortname": "GraphPattern",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/graph-pattern.js",
+            "line": 6,
+            "description": "The GraphPattern represents a list of Triples, Filters and Queries",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "elements",
+                    "description": "- Initial item(s) for the GraphPattern",
+                    "type": "Object|Array"
+                },
+                {
+                    "name": "optional",
+                    "description": "- Set the OPTIONAL flag (for use within GroupGraphPatterns)",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "union",
+                    "description": "- Set the UNION flag (for use within GroupGraphPatterns)",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "allowedTypes",
+                    "description": "- Override the default allowed types (Triple, Filter and Query)",
+                    "type": "Boolean"
+                }
+            ]
+        },
+        "GroupGraphPattern": {
+            "name": "GroupGraphPattern",
+            "shortname": "GroupGraphPattern",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/group-graph-pattern.js",
+            "line": 6,
+            "description": "The GroupGraphPattern combines multiple GraphPatterns",
+            "extends": "GraphPattern",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "elements",
+                    "description": "- Initial GraphPattern items for the GroupGraphPattern",
+                    "type": "GraphPattern|Array"
+                }
+            ]
+        },
+        "PrefixIndex": {
+            "name": "PrefixIndex",
+            "shortname": "PrefixIndex",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/prefix-index.js",
+            "line": 12,
+            "description": "Holds predefined prefix definitions for easy access"
+        },
+        "Prefix": {
+            "name": "Prefix",
+            "shortname": "Prefix",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/prefix.js",
+            "line": 6,
+            "description": "Represents a single PREFIX component within a query",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "value",
+                    "description": "- Either a full PREFIX string for a single prefix or a shortcode to be looked up in PrefixIndex",
+                    "type": "String"
+                },
+                {
+                    "name": "prefixIndex",
+                    "description": "- Optional override for the default PrefixIndex",
+                    "type": "Object"
+                }
+            ]
+        },
+        "Select": {
+            "name": "Select",
+            "shortname": "Select",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/query-types.js",
+            "line": 7,
+            "description": "Creates a SELECT query",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- String arguments for SELECT keyword",
+                    "type": "String"
+                },
+                {
+                    "name": "modifier",
+                    "description": "- Optional modifier (e.g. DISTINCT)",
+                    "type": "String"
+                }
+            ]
+        },
+        "Describe": {
+            "name": "Describe",
+            "shortname": "Describe",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/query-types.js",
+            "line": 32,
+            "description": "Creates a DESCRIBE query",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- String arguments for DESCRIBE keyword",
+                    "type": "String"
+                }
+            ]
+        },
+        "Ask": {
+            "name": "Ask",
+            "shortname": "Ask",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/query-types.js",
+            "line": 55,
+            "description": "Creates a ASK query",
+            "is_constructor": 1
+        },
+        "Construct": {
+            "name": "Construct",
+            "shortname": "Construct",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/query-types.js",
+            "line": 77,
+            "description": "Creates a DESCRIBE query",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "triples",
+                    "description": "- One or more Triple objects",
+                    "type": "Triple|Array"
+                }
+            ]
+        },
+        "Query": {
+            "name": "Query",
+            "shortname": "Query",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/query.js",
+            "line": 10,
+            "description": "The Query is the root object for all SPARQL requests",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "endpoint",
+                    "description": "- URL of the SPARQL endpoint",
+                    "type": "String"
+                }
+            ]
+        },
+        "Result": {
+            "name": "Result",
+            "shortname": "Result",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/result.js",
+            "line": 4,
+            "description": "The Result class wraps the possible responses from the SPARQL endpoint's response",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "- Result object",
+                    "type": "String"
+                }
+            ]
+        },
+        "Transport": {
+            "name": "Transport",
+            "shortname": "Transport",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/transport.js",
+            "line": 10,
+            "description": "Implements HTTP transport",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "endpoint",
+                    "description": "- SPARQL endpoint URL",
+                    "type": "String"
+                }
+            ]
+        },
+        "Triple": {
+            "name": "Triple",
+            "shortname": "Triple",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/sparql/triple.js",
+            "line": 4,
+            "description": "Represents a SPARQL triple (including object- and predicate-object-lists)",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "args",
+                    "description": "- Either one (complete triple string) or three (separate subject, predicate, object) strings. Additionally, a string and an array can be supplied to create object- or predicate-object-lists.",
+                    "type": "String|Array"
+                }
+            ]
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "src/sparql/filter.js",
+            "line": 15,
+            "description": "Retrieves the SPARQL string representation of the current instance, adding the FILTER keyword.",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Filter"
+        },
+        {
+            "file": "src/sparql/graph-pattern.js",
+            "line": 30,
+            "description": "Adds an element to the pattern",
+            "itemtype": "method",
+            "name": "addElement",
+            "params": [
+                {
+                    "name": "element",
+                    "description": "- Single item to add",
+                    "type": "Object"
+                },
+                {
+                    "name": "atIndex",
+                    "description": "- Optional index for the added element (default is end of list)",
+                    "type": "Number"
+                }
+            ],
+            "class": "GraphPattern"
+        },
+        {
+            "file": "src/sparql/graph-pattern.js",
+            "line": 48,
+            "description": "Removes one or more elements from the pattern",
+            "itemtype": "method",
+            "name": "removeElements",
+            "params": [
+                {
+                    "name": "atIndex",
+                    "description": "- Index of item to remove (default is first)",
+                    "type": "Number"
+                },
+                {
+                    "name": "count",
+                    "description": "- Number of elements to remove (default is 1)",
+                    "type": "Number"
+                }
+            ],
+            "class": "GraphPattern"
+        },
+        {
+            "file": "src/sparql/graph-pattern.js",
+            "line": 63,
+            "description": "Retrieves the elements from the pattern",
+            "itemtype": "method",
+            "name": "getElements",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "GraphPattern"
+        },
+        {
+            "file": "src/sparql/graph-pattern.js",
+            "line": 73,
+            "description": "Get the element count",
+            "itemtype": "method",
+            "name": "countElements",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "GraphPattern"
+        },
+        {
+            "file": "src/sparql/graph-pattern.js",
+            "line": 83,
+            "description": "Clear the pattern",
+            "itemtype": "method",
+            "name": "clear",
+            "class": "GraphPattern"
+        },
+        {
+            "file": "src/sparql/graph-pattern.js",
+            "line": 92,
+            "description": "Retrieves the SPARQL string representation of the current instance",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "GraphPattern"
+        },
+        {
+            "file": "src/sparql/prefix.js",
+            "line": 29,
+            "description": "Retrieves the SPARQL string representation of the current instance.",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Prefix"
+        },
+        {
+            "file": "src/sparql/query-types.js",
+            "line": 20,
+            "description": "Retrieves the SPARQL string representation of the current instance",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Select"
+        },
+        {
+            "file": "src/sparql/query-types.js",
+            "line": 43,
+            "description": "Retrieves the SPARQL string representation of the current instance",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Describe"
+        },
+        {
+            "file": "src/sparql/query-types.js",
+            "line": 65,
+            "description": "Retrieves the SPARQL string representation of the current instance",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Ask"
+        },
+        {
+            "file": "src/sparql/query-types.js",
+            "line": 88,
+            "description": "Add a Triple to the DESCRIBE query",
+            "itemtype": "method",
+            "name": "addTriple",
+            "params": [
+                {
+                    "name": "triple",
+                    "description": "- A Triple object",
+                    "type": "Triple"
+                }
+            ],
+            "class": "Construct"
+        },
+        {
+            "file": "src/sparql/query-types.js",
+            "line": 98,
+            "description": "Retrieves the SPARQL string representation of the current instance",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Construct"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 22,
+            "description": "Sets the base IRI",
+            "itemtype": "method",
+            "name": "base",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- BASE string",
+                    "type": "String"
+                }
+            ],
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 32,
+            "description": "Sets the prefix(es) for the query",
+            "itemtype": "method",
+            "name": "prefix",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- A single Prefix string or object or an array of Prefix objects or strings",
+                    "type": "Prefix|String|Array"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 44,
+            "description": "Add a prefix to the query",
+            "itemtype": "method",
+            "name": "addPrefix",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- A single Prefix string or object",
+                    "type": "Prefix|String|Array"
+                }
+            ],
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 58,
+            "description": "Get the Prefix objects of the Query",
+            "itemtype": "method",
+            "name": "getPrefixes",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 68,
+            "description": "Remove all Prefixes from the Query",
+            "itemtype": "method",
+            "name": "clearPrefixes",
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 77,
+            "description": "Set the current query to SELECT",
+            "itemtype": "method",
+            "name": "select",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- Arguments given to the SELECT statement",
+                    "type": "String"
+                },
+                {
+                    "name": "modifier",
+                    "description": "- Optional modifier to be added (e.g. DISTINCT)",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 90,
+            "description": "Set the current query to DESCRIBE",
+            "itemtype": "method",
+            "name": "describe",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- Arguments given to the DESCRIBE statement",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 102,
+            "description": "Set the current query to ASK",
+            "itemtype": "method",
+            "name": "ask",
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 113,
+            "description": "Set the current query to CONSTRUCT",
+            "itemtype": "method",
+            "name": "construct",
+            "params": [
+                {
+                    "name": "triples",
+                    "description": "- One or more Triples to be used for a DESCRIBE GraphPattern",
+                    "type": "Triple|Array"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 125,
+            "description": "Set dataset clause",
+            "itemtype": "method",
+            "name": "from",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- One or more strings with dataset clauses (without FROM or NAMED)",
+                    "type": "String|Array"
+                },
+                {
+                    "name": "named",
+                    "description": "- Optional flag to set clause to NAMED",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 140,
+            "description": "Get current dataset clauses",
+            "itemtype": "method",
+            "name": "getDatasetClauses",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 150,
+            "description": "Clear current dataset clauses",
+            "itemtype": "method",
+            "name": "clearDatasetClauses",
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 159,
+            "description": "Set where clause",
+            "itemtype": "method",
+            "name": "where",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- A GraphPattern or a GroupGraphPattern object",
+                    "type": "String|Array"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 176,
+            "description": "Get current where clause",
+            "itemtype": "method",
+            "name": "getWhereClause",
+            "return": {
+                "description": "",
+                "type": "GraphPattern|GroupGraphPattern"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 186,
+            "description": "Set order for query",
+            "itemtype": "method",
+            "name": "order",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "- Order string without ORDER BY",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 202,
+            "description": "Set limit for query",
+            "itemtype": "method",
+            "name": "limit",
+            "params": [
+                {
+                    "name": "count",
+                    "description": "- Limit count",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 218,
+            "description": "Set limit for offset",
+            "itemtype": "method",
+            "name": "offset",
+            "params": [
+                {
+                    "name": "count",
+                    "description": "- Offset count",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "- Returns current instance (chainable)",
+                "type": "Query"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 234,
+            "description": "Execute query",
+            "itemtype": "method",
+            "name": "exec",
+            "return": {
+                "description": "- Returns a Promise with will yield a Result object",
+                "type": "Promise"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 244,
+            "description": "Retrieves the SPARQL string representation of the current instance, adding the FILTER keyword.",
+            "itemtype": "method",
+            "name": "toString",
+            "params": [
+                {
+                    "name": "isSubquery",
+                    "description": "- If set, skips the BASE and PREFIX parts for inclusion as a subquery",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/query.js",
+            "line": 293,
+            "description": "Reset query (endpoint setting stays)",
+            "itemtype": "method",
+            "name": "reset",
+            "class": "Query"
+        },
+        {
+            "file": "src/sparql/transport.js",
+            "line": 21,
+            "description": "Implements HTTP transport",
+            "itemtype": "method",
+            "name": "submit",
+            "params": [
+                {
+                    "name": "queryString",
+                    "description": "- SPARQL query string",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "- Returns a Promise that will yield the Result object",
+                "type": "Promise"
+            },
+            "class": "Transport"
+        },
+        {
+            "file": "src/sparql/triple.js",
+            "line": 50,
+            "description": "Retrieves the SPARQL string representation of the current instance",
+            "itemtype": "method",
+            "name": "toString",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "Triple"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/filter.js:15"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/graph-pattern.js:63"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/graph-pattern.js:73"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/graph-pattern.js:92"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/prefix.js:29"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query-types.js:20"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query-types.js:43"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query-types.js:65"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query-types.js:98"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:32"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:58"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:77"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:90"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:102"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:113"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:125"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:140"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:159"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:176"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:186"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:202"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:218"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:234"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/query.js:244"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/transport.js:21"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/sparql/triple.js:50"
+        }
+    ]
+}

@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Query</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+	    <img alt="" src="../assets/css/logo.png" style="max-height: 65%;" title="">
+            
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b></b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Ask", "classes/Construct", "classes/Describe", "classes/Filter", "classes/GraphPattern", "classes/GroupGraphPattern", "classes/Prefix", "classes/PrefixIndex", "classes/Query", "classes/Result", "classes/Select", "classes/Transport", "classes/Triple"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+	    <div>
+	        <h3>APIs</h3>
+	        <div id="sidebar">
+	            <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+	                <li class="active"><a href="#classes" data-toggle="tab">Classes</a></li>
+	                <li><a href="#modules" data-toggle="tab">Modules</a></li>
+	            </ul>
+	    
+	            <div id="api-tabview-filter">
+	                <input type="search" placeholder="Type to filter APIs">
+	            </div>
+	    
+	            <div class="tab-content" style="border: 1px solid #DDD; border-top:0;">
+	                <div class="tab-pane active" id="classes">
+	                    <ul id="api-classes" class="nav nav-list">
+	                            <li><a href="../classes/Ask.html">Ask</a></li>
+	                            <li><a href="../classes/Construct.html">Construct</a></li>
+	                            <li><a href="../classes/Describe.html">Describe</a></li>
+	                            <li><a href="../classes/Filter.html">Filter</a></li>
+	                            <li><a href="../classes/GraphPattern.html">GraphPattern</a></li>
+	                            <li><a href="../classes/GroupGraphPattern.html">GroupGraphPattern</a></li>
+	                            <li><a href="../classes/Prefix.html">Prefix</a></li>
+	                            <li><a href="../classes/PrefixIndex.html">PrefixIndex</a></li>
+	                            <li><a href="../classes/Query.html">Query</a></li>
+	                            <li><a href="../classes/Result.html">Result</a></li>
+	                            <li><a href="../classes/Select.html">Select</a></li>
+	                            <li><a href="../classes/Transport.html">Transport</a></li>
+	                            <li><a href="../classes/Triple.html">Triple</a></li>
+	                    </ul>
+	                </div>
+	    
+	                <div class="tab-pane" id="modules">
+	                    <ul id="api-modules" class="nav nav-list">
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        </div>
+        <div class="span9">
+                <form id="options-form" class="form-inline pull-right">
+                    Show:
+                    <label for="api-show-inherited" class="checkbox">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected" class="checkbox">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private" class="checkbox">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated" class="checkbox">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </form>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>Query <small>Class</small></h1>
+</div>
+
+<div class="well well-small">
+
+
+        <div class="foundat">
+            Defined in: <a href="../files/src_sparql_query.js.html#l10"><code>src&#x2F;sparql&#x2F;query.js:10</code></a>
+        </div>
+
+
+</div>
+
+
+<div class="well well-small">
+    <p>The Query is the root object for all SPARQL requests</p>
+
+</div>
+
+    <div class="constructor">
+        <h2>Constructor</h2>
+        <div id="method_Query" class="method item">
+            <h3 class="name"><code>Query</code></h3>
+        
+                <div class="args">
+                    <span class="paren">(</span><ul class="args-list inline commas">
+                        <li class="arg">
+                                <code>endpoint</code>
+                        </li>
+                    </ul><span class="paren">)</span>
+                </div>
+        
+        
+        
+        
+        
+        
+        
+        
+            <div class="meta">
+                        <p>
+                        Defined in
+                <a href="../files/src_sparql_query.js.html#l10"><code>src&#x2F;sparql&#x2F;query.js:10</code></a>
+                </p>
+        
+        
+        
+            </div>
+        
+            <div class="description">
+                
+            </div>
+        
+                <div class="params">
+                    <h4>Parameters:</h4>
+        
+                    <ul class="params-list">
+                        <li class="param">
+                                <code class="param-name">endpoint</code>
+                                <span class="type">String</span>
+        
+        
+                            <div class="param-description">
+                                <ul>
+        <li>URL of the SPARQL endpoint</li>
+        </ul>
+        
+                            </div>
+        
+                        </li>
+                    </ul>
+                </div>
+        
+        
+        </div>
+    </div>
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#index">Index</a></li>
+
+            <li><a data-toggle="tab" href="#methods">Methods</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="index" class="tab-pane active">
+            <h2 class="off-left">Item Index</h2>
+
+                <div class="index-section methods">
+                    <h3>Methods</h3>
+
+                    <ul class="index-list methods">
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_addPrefix" data-tablink="addPrefix">addPrefix</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_ask" data-tablink="ask">ask</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_base" data-tablink="base">base</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_clearDatasetClauses" data-tablink="clearDatasetClauses">clearDatasetClauses</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_clearPrefixes" data-tablink="clearPrefixes">clearPrefixes</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_construct" data-tablink="construct">construct</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_describe" data-tablink="describe">describe</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_exec" data-tablink="exec">exec</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_from" data-tablink="from">from</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_getDatasetClauses" data-tablink="getDatasetClauses">getDatasetClauses</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_getPrefixes" data-tablink="getPrefixes">getPrefixes</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_getWhereClause" data-tablink="getWhereClause">getWhereClause</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_limit" data-tablink="limit">limit</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_offset" data-tablink="offset">offset</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_order" data-tablink="order">order</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_prefix" data-tablink="prefix">prefix</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_reset" data-tablink="reset">reset</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_select" data-tablink="select">select</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_toString" data-tablink="toString">toString</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#" data-tabid="#methods" data-anchor="#method_where" data-tablink="where">where</a>
+
+                            </li>
+                    </ul>
+                </div>
+
+
+
+        </div>
+
+            <div id="methods" class="tab-pane">
+                <h2 class="off-left">Methods</h2>
+
+                    <div id="method_addPrefix" class="method item">
+                        <h3 class="name"><code>addPrefix</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>content</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l44"><code>src&#x2F;sparql&#x2F;query.js:44</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Add a prefix to the query</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">content</code>
+                                            <span class="type"><a href="../classes/Prefix.html" class="crosslink">Prefix</a> | String | Array</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>A single Prefix string or object</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                    </div>
+                    <div id="method_ask" class="method item">
+                        <h3 class="name"><code>ask</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l102"><code>src&#x2F;sparql&#x2F;query.js:102</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set the current query to ASK</p>
+                    
+                        </div>
+                    
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_base" class="method item">
+                        <h3 class="name"><code>base</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>content</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l22"><code>src&#x2F;sparql&#x2F;query.js:22</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Sets the base IRI</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">content</code>
+                                            <span class="type">String</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>BASE string</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                    
+                    </div>
+                    <div id="method_clearDatasetClauses" class="method item">
+                        <h3 class="name"><code>clearDatasetClauses</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l150"><code>src&#x2F;sparql&#x2F;query.js:150</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Clear current dataset clauses</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="method_clearPrefixes" class="method item">
+                        <h3 class="name"><code>clearPrefixes</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l68"><code>src&#x2F;sparql&#x2F;query.js:68</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Remove all Prefixes from the Query</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="method_construct" class="method item">
+                        <h3 class="name"><code>construct</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>triples</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l113"><code>src&#x2F;sparql&#x2F;query.js:113</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set the current query to CONSTRUCT</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">triples</code>
+                                            <span class="type"><a href="../classes/Triple.html" class="crosslink">Triple</a> | Array</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>One or more Triples to be used for a DESCRIBE GraphPattern</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_describe" class="method item">
+                        <h3 class="name"><code>describe</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>content</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l90"><code>src&#x2F;sparql&#x2F;query.js:90</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set the current query to DESCRIBE</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">content</code>
+                                            <span class="type">String</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>Arguments given to the DESCRIBE statement</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_exec" class="method item">
+                        <h3 class="name"><code>exec</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                            <span class="returns-inline">
+                                <span class="type">Promise</span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l234"><code>src&#x2F;sparql&#x2F;query.js:234</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Execute query</p>
+                    
+                        </div>
+                    
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type">Promise</span>:
+                                        <ul>
+                    <li>Returns a Promise with will yield a Result object</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_from" class="method item">
+                        <h3 class="name"><code>from</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>content</code>
+                                    </li>
+                                    <li class="arg">
+                                            <code>named</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l125"><code>src&#x2F;sparql&#x2F;query.js:125</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set dataset clause</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">content</code>
+                                            <span class="type">String | Array</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>One or more strings with dataset clauses (without FROM or NAMED)</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                    <li class="param">
+                                            <code class="param-name">named</code>
+                                            <span class="type">Boolean</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>Optional flag to set clause to NAMED</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_getDatasetClauses" class="method item">
+                        <h3 class="name"><code>getDatasetClauses</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                            <span class="returns-inline">
+                                <span class="type">Array</span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l140"><code>src&#x2F;sparql&#x2F;query.js:140</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Get current dataset clauses</p>
+                    
+                        </div>
+                    
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type">Array</span>:
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_getPrefixes" class="method item">
+                        <h3 class="name"><code>getPrefixes</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                            <span class="returns-inline">
+                                <span class="type">Array</span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l58"><code>src&#x2F;sparql&#x2F;query.js:58</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Get the Prefix objects of the Query</p>
+                    
+                        </div>
+                    
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type">Array</span>:
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_getWhereClause" class="method item">
+                        <h3 class="name"><code>getWhereClause</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/GraphPattern.html" class="crosslink">GraphPattern</a> | <a href="../classes/GroupGraphPattern.html" class="crosslink">GroupGraphPattern</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l176"><code>src&#x2F;sparql&#x2F;query.js:176</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Get current where clause</p>
+                    
+                        </div>
+                    
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/GraphPattern.html" class="crosslink">GraphPattern</a> | <a href="../classes/GroupGraphPattern.html" class="crosslink">GroupGraphPattern</a></span>:
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_limit" class="method item">
+                        <h3 class="name"><code>limit</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>count</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l202"><code>src&#x2F;sparql&#x2F;query.js:202</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set limit for query</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">count</code>
+                                            <span class="type">Number</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>Limit count</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_offset" class="method item">
+                        <h3 class="name"><code>offset</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>count</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l218"><code>src&#x2F;sparql&#x2F;query.js:218</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set limit for offset</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">count</code>
+                                            <span class="type">Number</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>Offset count</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_order" class="method item">
+                        <h3 class="name"><code>order</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>content</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l186"><code>src&#x2F;sparql&#x2F;query.js:186</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set order for query</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">content</code>
+                                            <span class="type">String</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>Order string without ORDER BY</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_prefix" class="method item">
+                        <h3 class="name"><code>prefix</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>content</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l32"><code>src&#x2F;sparql&#x2F;query.js:32</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Sets the prefix(es) for the query</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">content</code>
+                                            <span class="type"><a href="../classes/Prefix.html" class="crosslink">Prefix</a> | String | Array</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>A single Prefix string or object or an array of Prefix objects or strings</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_reset" class="method item">
+                        <h3 class="name"><code>reset</code></h3>
+                    
+                            <span class="paren">()</span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l293"><code>src&#x2F;sparql&#x2F;query.js:293</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Reset query (endpoint setting stays)</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    </div>
+                    <div id="method_select" class="method item">
+                        <h3 class="name"><code>select</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>content</code>
+                                    </li>
+                                    <li class="arg">
+                                            <code>modifier</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l77"><code>src&#x2F;sparql&#x2F;query.js:77</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set the current query to SELECT</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">content</code>
+                                            <span class="type">String</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>Arguments given to the SELECT statement</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                    <li class="param">
+                                            <code class="param-name">modifier</code>
+                                            <span class="type">String</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>Optional modifier to be added (e.g. DISTINCT)</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_toString" class="method item">
+                        <h3 class="name"><code>toString</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>isSubquery</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type">String</span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l244"><code>src&#x2F;sparql&#x2F;query.js:244</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Retrieves the SPARQL string representation of the current instance, adding the FILTER keyword.</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">isSubquery</code>
+                                            <span class="type">Boolean</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>If set, skips the BASE and PREFIX parts for inclusion as a subquery</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type">String</span>:
+                                </div>
+                            </div>
+                    
+                    </div>
+                    <div id="method_where" class="method item">
+                        <h3 class="name"><code>where</code></h3>
+                    
+                            <div class="args">
+                                <span class="paren">(</span><ul class="args-list inline commas">
+                                    <li class="arg">
+                                            <code>content</code>
+                                    </li>
+                                </ul><span class="paren">)</span>
+                            </div>
+                    
+                            <span class="returns-inline">
+                                <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>
+                            </span>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                        <div class="meta">
+                                    <p>
+                                    Defined in
+                            <a href="../files/src_sparql_query.js.html#l159"><code>src&#x2F;sparql&#x2F;query.js:159</code></a>
+                            </p>
+                    
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                            <p>Set where clause</p>
+                    
+                        </div>
+                    
+                            <div class="params">
+                                <h4>Parameters:</h4>
+                    
+                                <ul class="params-list">
+                                    <li class="param">
+                                            <code class="param-name">content</code>
+                                            <span class="type">String | Array</span>
+                    
+                    
+                                        <div class="param-description">
+                                            <ul>
+                    <li>A GraphPattern or a GroupGraphPattern object</li>
+                    </ul>
+                    
+                                        </div>
+                    
+                                    </li>
+                                </ul>
+                            </div>
+                    
+                            <div class="returns">
+                                <h4>Returns:</h4>
+                    
+                                <div class="returns-description">
+                                            <span class="type"><a href="../classes/Query.html" class="crosslink">Query</a></span>:
+                                        <ul>
+                    <li>Returns current instance (chainable)</li>
+                    </ul>
+                    
+                                </div>
+                            </div>
+                    
+                    </div>
+            </div>
+
+
+
+    </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>

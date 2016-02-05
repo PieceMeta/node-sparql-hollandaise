@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/sparql/transport.js</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+</head>
+<body class="yui3-skin-sam">
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <h1 class="brand" style="padding: 10px 16px 10px; height: 20px; line-height: 20px; margin-left: 0;">
+	    <img alt="" src="../assets/css/logo.png" style="max-height: 65%;" title="">
+            
+        </h1>
+	<div class="nav">
+            <li class="divider-vertical"></li>
+            <li>
+                <p class="navbar-text">
+                    API Docs for Version: <b></b>
+                </p>
+            </li>
+        </div>
+        <form class="navbar-form pull-right" style="line-height: 40px; height: 40px;">
+            <input style="margin-top: 0;" type="text" class="search-query" placeholder="Search for classes/modules..." data-obj='["classes/Ask", "classes/Construct", "classes/Describe", "classes/Filter", "classes/GraphPattern", "classes/GroupGraphPattern", "classes/Prefix", "classes/PrefixIndex", "classes/Query", "classes/Result", "classes/Select", "classes/Transport", "classes/Triple"]'>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span3">
+	    <div>
+	        <h3>APIs</h3>
+	        <div id="sidebar">
+	            <ul id="main-nav" class="nav nav-tabs" style="margin-bottom:0;">
+	                <li class="active"><a href="#classes" data-toggle="tab">Classes</a></li>
+	                <li><a href="#modules" data-toggle="tab">Modules</a></li>
+	            </ul>
+	    
+	            <div id="api-tabview-filter">
+	                <input type="search" placeholder="Type to filter APIs">
+	            </div>
+	    
+	            <div class="tab-content" style="border: 1px solid #DDD; border-top:0;">
+	                <div class="tab-pane active" id="classes">
+	                    <ul id="api-classes" class="nav nav-list">
+	                            <li><a href="../classes/Ask.html">Ask</a></li>
+	                            <li><a href="../classes/Construct.html">Construct</a></li>
+	                            <li><a href="../classes/Describe.html">Describe</a></li>
+	                            <li><a href="../classes/Filter.html">Filter</a></li>
+	                            <li><a href="../classes/GraphPattern.html">GraphPattern</a></li>
+	                            <li><a href="../classes/GroupGraphPattern.html">GroupGraphPattern</a></li>
+	                            <li><a href="../classes/Prefix.html">Prefix</a></li>
+	                            <li><a href="../classes/PrefixIndex.html">PrefixIndex</a></li>
+	                            <li><a href="../classes/Query.html">Query</a></li>
+	                            <li><a href="../classes/Result.html">Result</a></li>
+	                            <li><a href="../classes/Select.html">Select</a></li>
+	                            <li><a href="../classes/Transport.html">Transport</a></li>
+	                            <li><a href="../classes/Triple.html">Triple</a></li>
+	                    </ul>
+	                </div>
+	    
+	                <div class="tab-pane" id="modules">
+	                    <ul id="api-modules" class="nav nav-list">
+	                    </ul>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        </div>
+        <div class="span9">
+                <form id="options-form" class="form-inline pull-right">
+                    Show:
+                    <label for="api-show-inherited" class="checkbox">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected" class="checkbox">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private" class="checkbox">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated" class="checkbox">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </form>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<div class="page-header">
+    <h1>src/sparql/transport.js <small>File</small></h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+&#x27;use strict&#x27;;
+
+var http = require(&#x27;http&#x27;),
+    url = require(&#x27;url&#x27;),
+    Promise = require(&#x27;bluebird&#x27;);
+
+import Result from &#x27;./result&#x27;;
+
+export default class Transport {
+    /**
+     * Implements HTTP transport
+     *
+     * @class Transport
+     * @constructor
+     * @param {String} endpoint - SPARQL endpoint URL
+     */
+    constructor(endpoint) {
+        this._endpoint = endpoint;
+    }
+
+    /**
+     * Implements HTTP transport
+     *
+     * @method submit
+     * @param {String} queryString - SPARQL query string
+     * @returns {Promise} - Returns a Promise that will yield the Result object
+     */
+    submit(queryString) {
+        var instance = this;
+        return new Promise(function (resolve, reject) {
+                var data = &#x27;&#x27;, parsedUri = url.parse(instance._endpoint),
+                    encodedQuery = &#x60;query=${encodeURIComponent(queryString)}&#x60;,
+                    request = http.request({
+                        method: &#x27;POST&#x27;,
+                        hostname: parsedUri.hostname,
+                        port: parsedUri.port,
+                        path: parsedUri.path,
+                        headers: {
+                            &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
+                            &#x27;Accept&#x27;: &#x27;application/sparql-results+json&#x27;,
+                            &#x27;Content-Length&#x27;: encodedQuery.length
+                        }
+                    }, function (response) {
+                        response.setEncoding(&#x27;utf8&#x27;);
+                        response.on(&#x27;data&#x27;, function (chunk) {
+                            data += chunk;
+                        });
+                        response.on(&#x27;end&#x27;, function () {
+                            if (response.statusCode === 200) {
+                                resolve(data);
+                            } else {
+                                reject(new Error(data));
+                            }
+                        });
+                    });
+
+                request.on(&#x27;error&#x27;, reject);
+
+                request.write(encodedQuery);
+                request.end();
+            })
+            .then(function (data) {
+                var result = new Result(JSON.parse(data));
+                return result;
+            })
+            .catch(function (err) {
+                throw new Error(&#x60;QBuilder query failed: ${err.message}&#x60;);
+            });
+    }
+}
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/jquery/jquery-1.8.2.min.js"></script>
+<script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script src="../assets/js/yuidoc-bootstrap.js"></script>
+<script>prettyPrint();</script>
+</body>
+</html>
