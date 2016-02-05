@@ -138,7 +138,7 @@ gulp build-web
 gulp build-node
 ```
 
-Run the tests with ``npm test`` and generate code coverage with ``npm run-script cover``.
+Run the tests with ``npm test`` and generate code coverage with ``npm run-script cover`` ([view coverage](http://piecemeta.github.io/node-sparql-hollandaise/coverage/lcov-report/)).
 
 YUIDocs can be generated with ``npm run-script docs``.
 
