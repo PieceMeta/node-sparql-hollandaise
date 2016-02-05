@@ -187,24 +187,6 @@ export default class Query {
 
     //
     //
-    // subqueries
-
-    addToSubQueries(query, atIndex = -1) {
-        if (query instanceof Query) {
-            this._config.subQueries.splice(atIndex < 0 ? this._config.subQueries.length : atIndex, 0, query);
-        }
-    }
-
-    removeFromSubQueries(atIndex = 0, count = 1) {
-        this._config.subQueries.splice(atIndex, count);
-    }
-
-    clearSubQueries() {
-        this._config.subQueries = [];
-    }
-
-    //
-    //
     // execute query
 
     exec() {

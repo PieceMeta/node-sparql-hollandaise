@@ -250,33 +250,6 @@ var Query = function () {
 
         //
         //
-        // subqueries
-
-    }, {
-        key: 'addToSubQueries',
-        value: function addToSubQueries(query) {
-            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
-
-            if (query instanceof Query) {
-                this._config.subQueries.splice(atIndex < 0 ? this._config.subQueries.length : atIndex, 0, query);
-            }
-        }
-    }, {
-        key: 'removeFromSubQueries',
-        value: function removeFromSubQueries() {
-            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
-
-            this._config.subQueries.splice(atIndex, count);
-        }
-    }, {
-        key: 'clearSubQueries',
-        value: function clearSubQueries() {
-            this._config.subQueries = [];
-        }
-
-        //
-        //
         // execute query
 
     }, {

@@ -22,7 +22,7 @@ var GroupGraphPattern = function (_GraphPattern) {
     function GroupGraphPattern(elements) {
         _classCallCheck(this, GroupGraphPattern);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupGraphPattern).call(this, elements, false, false, [_graphPattern2.default]));
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupGraphPattern).call(this, elements, false, false, ['GraphPattern']));
     }
 
     return GroupGraphPattern;

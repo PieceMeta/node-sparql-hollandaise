@@ -12787,10 +12787,6 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _filter = require('./filter');
-
-var _filter2 = _interopRequireDefault(_filter);
-
 var _triple = require('./triple');
 
 var _triple2 = _interopRequireDefault(_triple);
@@ -12801,7 +12797,7 @@ var GraphPattern = (function () {
     function GraphPattern(elements) {
         var optional = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
         var union = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-        var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? [_triple2.default, _filter2.default] : arguments[3];
+        var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? ['Triple', 'Filter', 'Query'] : arguments[3];
         (0, _classCallCheck3.default)(this, GraphPattern);
 
         this.clear();
@@ -12825,10 +12821,10 @@ var GraphPattern = (function () {
             if (typeof element === 'string') {
                 element = new _triple2.default(element);
             }
-            if (this._allowedTypes.indexOf(element.constructor) > -1) {
+            if (this._allowedTypes.indexOf(element.constructor.name) > -1) {
                 this._elements.splice(atIndex < 0 ? this.countElements() : atIndex, 0, element);
             } else {
-                throw new Error('TypeError: Element of type ' + (element.constructor || (typeof element === 'undefined' ? 'undefined' : (0, _typeof3.default)(element))) + ' is not allowed for this block.');
+                throw new Error('TypeError: Element of type ' + (element.constructor.name || (typeof element === 'undefined' ? 'undefined' : (0, _typeof3.default)(element))) + ' is not allowed for this block.');
             }
         }
     }, {
@@ -12863,7 +12859,11 @@ var GraphPattern = (function () {
         value: function toString() {
             var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._union ? 'UNION ' : '') + '{ ';
             for (var i = 0; i < this._elements.length; i += 1) {
-                result += '' + this._elements[i].toString() + (this._elements.length > 1 && this._elements[i] instanceof _triple2.default ? ' . ' : ' ');
+                if (this._elements[i].constructor.name === 'Query') {
+                    result += '{ ' + this._elements[i].toString(true) + ' } ';
+                } else {
+                    result += '' + this._elements[i].toString() + (this._elements.length > 1 && this._elements[i] instanceof _triple2.default ? ' . ' : ' ');
+                }
             }
             result += '}';
             return result;
@@ -12874,7 +12874,7 @@ var GraphPattern = (function () {
 
 exports.default = GraphPattern;
 
-},{"./filter":88,"./triple":97,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],90:[function(require,module,exports){
+},{"./triple":97,"babel-runtime/helpers/classCallCheck":6,"babel-runtime/helpers/createClass":7,"babel-runtime/helpers/typeof":10}],90:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12908,7 +12908,7 @@ var GroupGraphPattern = (function (_GraphPattern) {
 
     function GroupGraphPattern(elements) {
         (0, _classCallCheck3.default)(this, GroupGraphPattern);
-        return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(GroupGraphPattern).call(this, elements, false, false, [_graphPattern2.default]));
+        return (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(GroupGraphPattern).call(this, elements, false, false, ['GraphPattern']));
     }
 
     return GroupGraphPattern;
@@ -13061,7 +13061,7 @@ var Construct = exports.Construct = (function () {
     function Construct(triples) {
         (0, _classCallCheck3.default)(this, Construct);
 
-        this._constructTemplate = new _graphPattern2.default(triples, false, false, [_triple2.default]);
+        this._constructTemplate = new _graphPattern2.default(triples, false, false, ['Triple']);
     }
 
     (0, _createClass3.default)(Construct, [{
@@ -13333,33 +13333,6 @@ var Query = (function () {
                 throw new Error('Input for OFFSET must be number but is ' + (typeof count === 'undefined' ? 'undefined' : (0, _typeof3.default)(count)) + '.');
             }
             return this;
-        }
-
-        //
-        //
-        // subqueries
-
-    }, {
-        key: 'addToSubQueries',
-        value: function addToSubQueries(query) {
-            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
-
-            if (query instanceof Query) {
-                this._config.subQueries.splice(atIndex < 0 ? this._config.subQueries.length : atIndex, 0, query);
-            }
-        }
-    }, {
-        key: 'removeFromSubQueries',
-        value: function removeFromSubQueries() {
-            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
-
-            this._config.subQueries.splice(atIndex, count);
-        }
-    }, {
-        key: 'clearSubQueries',
-        value: function clearSubQueries() {
-            this._config.subQueries = [];
         }
 
         //

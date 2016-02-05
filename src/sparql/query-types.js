@@ -36,7 +36,7 @@ export class Ask {
 
 export class Construct {
     constructor(triples) {
-        this._constructTemplate = new GraphPattern(triples, false, false, [Triple]);
+        this._constructTemplate = new GraphPattern(triples, false, false, ['Triple']);
     }
 
     addTriple(triple) {

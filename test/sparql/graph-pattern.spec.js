@@ -6,6 +6,7 @@ chai.should();
 import GraphPattern from '../../src/sparql/graph-pattern';
 import Triple from '../../src/sparql/triple';
 import Filter from '../../src/sparql/filter';
+import Query from '../../src/sparql/query';
 
 describe('GraphPattern', () => {
     let triple = new Triple('?x foaf:mbox ?mbox'),
@@ -41,5 +42,14 @@ describe('GraphPattern', () => {
     it('removes 1 element at beginning', () => {
         pattern.removeElements();
         pattern.countElements().should.equal(0);
+    });
+    it('adds graph pattern with subquery', () => {
+        let query = new Query(null)
+            .select('*')
+            .where(new GraphPattern(triple));
+        pattern.addElement(triple);
+        pattern.addElement(query);
+        pattern.addElement(filter);
+        pattern.toString().should.equal('{ ?x foaf:mbox ?mbox . { SELECT * WHERE { ?x foaf:mbox ?mbox } } FILTER (langMatches( lang(?label), "de" )) }');
     });
 });

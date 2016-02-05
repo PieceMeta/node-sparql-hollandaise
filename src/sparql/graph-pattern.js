@@ -1,10 +1,9 @@
 'use strict';
 
-import Filter from './filter';
 import Triple from './triple';
 
 export default class GraphPattern {
-    constructor(elements, optional = false, union = false, allowedTypes = [Triple, Filter]) {
+    constructor(elements, optional = false, union = false, allowedTypes = ['Triple', 'Filter', 'Query']) {
         this.clear();
         this._allowedTypes = allowedTypes;
         this._optional = optional;
@@ -22,10 +21,10 @@ export default class GraphPattern {
         if (typeof element === 'string') {
             element = new Triple(element);
         }
-        if (this._allowedTypes.indexOf(element.constructor) > -1) {
+        if (this._allowedTypes.indexOf(element.constructor.name) > -1) {
             this._elements.splice(atIndex < 0 ? this.countElements() : atIndex, 0, element);
         } else {
-            throw new Error(`TypeError: Element of type ${element.constructor || typeof element} is not allowed for this block.`);
+            throw new Error(`TypeError: Element of type ${element.constructor.name || typeof element} is not allowed for this block.`);
         }
     }
 
@@ -52,7 +51,11 @@ export default class GraphPattern {
     toString() {
         var result = `${this._optional ? 'OPTIONAL ' : ''}${this._union ? 'UNION ' : ''}{ `;
         for (let i = 0; i < this._elements.length; i += 1) {
-            result += `${this._elements[i].toString()}${this._elements.length > 1 && this._elements[i] instanceof Triple ? ' . ' : ' '}`;
+            if (this._elements[i].constructor.name === 'Query') {
+                result += `{ ${this._elements[i].toString(true)} } `;
+            } else {
+                result += `${this._elements[i].toString()}${this._elements.length > 1 && this._elements[i] instanceof Triple ? ' . ' : ' '}`;
+            }
         }
         result += '}';
         return result;
