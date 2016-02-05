@@ -15,6 +15,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Prefix = function () {
+    /**
+     * Represents a single PREFIX component within a query
+     *
+     * @class Prefix
+     * @constructor
+     * @param {String} value - Either a full PREFIX string for a single prefix or a shortcode to be looked up in PrefixIndex
+     * @param {Object} prefixIndex - Optional override for the default PrefixIndex
+     */
+
     function Prefix(value) {
         var prefixIndex = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
@@ -33,6 +42,13 @@ var Prefix = function () {
             this.value = value.replace(/^PREFIX /, '');
         }
     }
+
+    /**
+     * Retrieves the SPARQL string representation of the current instance.
+     *
+     * @method toString
+     * @returns {String}
+     */
 
     _createClass(Prefix, [{
         key: 'toString',

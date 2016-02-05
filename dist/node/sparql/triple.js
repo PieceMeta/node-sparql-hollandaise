@@ -9,6 +9,14 @@ Object.defineProperty(exports, "__esModule", {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Triple = function () {
+    /**
+     * Represents a SPARQL triple (including object- and predicate-object-lists)
+     *
+     * @class Triple
+     * @constructor
+     * @param {String|Array} args - Either one (complete triple string) or three (separate subject, predicate, object) strings. Additionally, a string and an array can be supplied to create object- or predicate-object-lists.
+     */
+
     function Triple() {
         _classCallCheck(this, Triple);
 
@@ -21,11 +29,31 @@ var Triple = function () {
         switch (args.length) {
             case 3:
                 var valid = true;
-                for (var i = 0; i < args.length; i += 1) {
-                    if (typeof args[i] !== 'string') {
-                        valid = false;
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = args[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var arg = _step.value;
+
+                        valid = typeof arg === 'string';
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
                     }
                 }
+
                 if (valid) splitTriple = args;
                 break;
             case 2:
@@ -56,6 +84,13 @@ var Triple = function () {
             throw new Error('Triple: Wrong argument count or malformed input');
         }
     }
+
+    /**
+     * Retrieves the SPARQL string representation of the current instance
+     *
+     * @method toString
+     * @returns {String}
+     */
 
     _createClass(Triple, [{
         key: 'toString',

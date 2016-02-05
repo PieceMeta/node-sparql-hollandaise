@@ -19,6 +19,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var GroupGraphPattern = function (_GraphPattern) {
     _inherits(GroupGraphPattern, _GraphPattern);
 
+    /**
+     * The GroupGraphPattern combines multiple GraphPatterns
+     *
+     * @class GroupGraphPattern
+     * @extends GraphPattern
+     * @constructor
+     * @param {GraphPattern|Array} elements - Initial GraphPattern items for the GroupGraphPattern
+     */
+
     function GroupGraphPattern(elements) {
         _classCallCheck(this, GroupGraphPattern);
 

@@ -35,10 +35,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Query = function () {
-
-    //
-    //
-    // setup query basics
+    /**
+     * The Query is the root object for all SPARQL requests
+     *
+     * @class Query
+     * @constructor
+     * @param {String} endpoint - URL of the SPARQL endpoint
+     */
 
     function Query(endpoint) {
         _classCallCheck(this, Query);
@@ -47,9 +50,12 @@ var Query = function () {
         this._transport = new _transport2.default(endpoint);
     }
 
-    //
-    //
-    // base iri
+    /**
+     * Sets the base IRI
+     *
+     * @method base
+     * @param {String} content - BASE string
+     */
 
     _createClass(Query, [{
         key: 'base',
@@ -57,22 +63,28 @@ var Query = function () {
             this._config.base = content;
         }
 
-        //
-        //
-        // prefix
+        /**
+         * Sets the prefix(es) for the query
+         *
+         * @method prefix
+         * @param {Prefix|String|Array} content - A single Prefix string or object or an array of Prefix objects or strings
+         * @returns {Query} - Returns current instance (chainable)
+         */
 
     }, {
         key: 'prefix',
         value: function prefix(content) {
-            if (Array.isArray(content)) {
-                for (var i = 0; i < content.length; i += 1) {
-                    this.addPrefix(content[i]);
-                }
-            } else {
-                this.addPrefix(content);
-            }
+            this.addArrayOrSingle(content, this.addPrefix);
             return this;
         }
+
+        /**
+         * Add a prefix to the query
+         *
+         * @method addPrefix
+         * @param {Prefix|String|Array} content - A single Prefix string or object
+         */
+
     }, {
         key: 'addPrefix',
         value: function addPrefix(content) {
@@ -82,20 +94,40 @@ var Query = function () {
                 this._config.prefixes.push(new _prefix2.default(content));
             }
         }
+
+        /**
+         * Get the Prefix objects of the Query
+         *
+         * @method getPrefixes
+         * @returns {Array}
+         */
+
     }, {
         key: 'getPrefixes',
         value: function getPrefixes() {
             return this._config.prefixes;
         }
+
+        /**
+         * Remove all Prefixes from the Query
+         *
+         * @method clearPrefixes
+         */
+
     }, {
         key: 'clearPrefixes',
         value: function clearPrefixes() {
             this._config.prefixes = [];
         }
 
-        //
-        //
-        // query types
+        /**
+         * Set the current query to SELECT
+         *
+         * @method select
+         * @param {String} content - Arguments given to the SELECT statement
+         * @param {String} modifier - Optional modifier to be added (e.g. DISTINCT)
+         * @returns {Query} - Returns current instance (chainable)
+         */
 
     }, {
         key: 'select',
@@ -103,18 +135,44 @@ var Query = function () {
             this._config.query = new QueryTypes.Select(content, modifier);
             return this;
         }
+
+        /**
+         * Set the current query to DESCRIBE
+         *
+         * @method describe
+         * @param {String} content - Arguments given to the DESCRIBE statement
+         * @returns {Query} - Returns current instance (chainable)
+         */
+
     }, {
         key: 'describe',
         value: function describe(content) {
             this._config.query = new QueryTypes.Describe(content);
             return this;
         }
+
+        /**
+         * Set the current query to ASK
+         *
+         * @method ask
+         * @returns {Query} - Returns current instance (chainable)
+         */
+
     }, {
         key: 'ask',
         value: function ask() {
             this._config.query = new QueryTypes.Ask();
             return this;
         }
+
+        /**
+         * Set the current query to CONSTRUCT
+         *
+         * @method construct
+         * @param {Triple|Array} triples - One or more Triples to be used for a DESCRIBE GraphPattern
+         * @returns {Query} - Returns current instance (chainable)
+         */
+
     }, {
         key: 'construct',
         value: function construct(triples) {
@@ -122,100 +180,92 @@ var Query = function () {
             return this;
         }
 
-        //
-        //
-        // dataset clause
+        /**
+         * Set dataset clause
+         *
+         * @method from
+         * @param {String|Array} content - One or more strings with dataset clauses (without FROM or NAMED)
+         * @param {Boolean} named - Optional flag to set clause to NAMED
+         * @returns {Query} - Returns current instance (chainable)
+         */
 
     }, {
         key: 'from',
         value: function from(content) {
+            var _this = this;
+
             var named = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
-            if (Array.isArray(content)) {
-                for (var i = 0; i < content.length; i += 1) {
-                    this._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + content[i]);
-                }
-            } else {
-                this._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + content[i]);
-            }
+            this.addArrayOrSingle(content, function (element) {
+                _this._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + element);
+            });
             return this;
         }
+
+        /**
+         * Get current dataset clauses
+         *
+         * @method getDatasetClauses
+         * @returns {Array}
+         */
+
     }, {
         key: 'getDatasetClauses',
         value: function getDatasetClauses() {
             return this._config.datasetClause;
         }
+
+        /**
+         * Clear current dataset clauses
+         *
+         * @method clearDatasetClauses
+         */
+
     }, {
         key: 'clearDatasetClauses',
         value: function clearDatasetClauses() {
             this._config.datasetClause = [];
         }
 
-        //
-        //
-        // where clause
+        /**
+         * Set where clause
+         *
+         * @method where
+         * @param {String|Array} content - A GraphPattern or a GroupGraphPattern object
+         * @returns {Query} - Returns current instance (chainable)
+         */
 
     }, {
         key: 'where',
         value: function where(content) {
-            if (Array.isArray(content)) {
-                for (var i = 0; i < content.length; i += 1) {
-                    this.addToWhereClause(content[i]);
-                }
-            } else if (content instanceof _graphPattern2.default || content instanceof _groupGraphPattern2.default) {
-                this.setWhereClause(content);
-            } else {
-                this.addToWhereClause(content);
-            }
-            return this;
-        }
-    }, {
-        key: 'setWhereClause',
-        value: function setWhereClause(graphPattern) {
-            if (graphPattern instanceof _graphPattern2.default || graphPattern instanceof _groupGraphPattern2.default) {
-                this._config.whereClause = graphPattern;
+            if (content instanceof _graphPattern2.default || content instanceof _groupGraphPattern2.default) {
+                this._config.whereClause = content;
             } else {
                 throw new Error('TypeError: Where clause must be a graph pattern.');
             }
+            return this;
         }
-    }, {
-        key: 'addToWhereClause',
-        value: function addToWhereClause(content) {
-            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
 
-            if (this._config.whereClause === null) {
-                this._config.whereClause = new _graphPattern2.default(content);
-            } else {
-                this._config.whereClause.addElement(content, atIndex);
-            }
-        }
-    }, {
-        key: 'removeFromWhereClause',
-        value: function removeFromWhereClause() {
-            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+        /**
+         * Get current where clause
+         *
+         * @method getWhereClause
+         * @returns {GraphPattern|GroupGraphPattern}
+         */
 
-            this._config.whereClause.removeElements(atIndex, count);
-        }
-    }, {
-        key: 'clearWhereClause',
-        value: function clearWhereClause() {
-            this._config.whereClause.clear();
-        }
     }, {
         key: 'getWhereClause',
         value: function getWhereClause() {
-            return this._config.whereClause.getElements();
-        }
-    }, {
-        key: 'getWhereClauseCount',
-        value: function getWhereClauseCount() {
-            return this._config.whereClause.countElements();
+            return this._config.whereClause;
         }
 
-        //
-        //
-        // solution modifiers
+        /**
+         * Set order for query
+         *
+         * @method order
+         * @param {String} content - Order string without ORDER BY
+         * @returns {Query} - Returns current instance (chainable)
+         */
 
     }, {
         key: 'order',
@@ -227,6 +277,15 @@ var Query = function () {
             }
             return this;
         }
+
+        /**
+         * Set limit for query
+         *
+         * @method limit
+         * @param {Number} count - Limit count
+         * @returns {Query} - Returns current instance (chainable)
+         */
+
     }, {
         key: 'limit',
         value: function limit(count) {
@@ -237,6 +296,15 @@ var Query = function () {
             }
             return this;
         }
+
+        /**
+         * Set limit for offset
+         *
+         * @method offset
+         * @param {Number} count - Offset count
+         * @returns {Query} - Returns current instance (chainable)
+         */
+
     }, {
         key: 'offset',
         value: function offset(count) {
@@ -248,9 +316,12 @@ var Query = function () {
             return this;
         }
 
-        //
-        //
-        // execute query
+        /**
+         * Execute query
+         *
+         * @method exec
+         * @returns {Promise} - Returns a Promise with will yield a Result object
+         */
 
     }, {
         key: 'exec',
@@ -258,9 +329,13 @@ var Query = function () {
             return this._transport.submit(this.toString());
         }
 
-        //
-        //
-        // util
+        /**
+         * Retrieves the SPARQL string representation of the current instance, adding the FILTER keyword.
+         *
+         * @method toString
+         * @param {Boolean} isSubquery - If set, skips the BASE and PREFIX parts for inclusion as a subquery
+         * @returns {String}
+         */
 
     }, {
         key: 'toString',
@@ -275,8 +350,29 @@ var Query = function () {
                 }
 
                 if (this._config.prefixes.length > 0) {
-                    for (var i = 0; i < this._config.prefixes.length; i += 1) {
-                        queryString += this._config.prefixes[i].toString() + ' ';
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
+
+                    try {
+                        for (var _iterator = this._config.prefixes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var prefix = _step.value;
+
+                            queryString += prefix.toString() + ' ';
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
                     }
                 }
             }
@@ -300,13 +396,41 @@ var Query = function () {
             }
 
             if (Array.isArray(this._config.solutionModifiers)) {
-                for (var i = 0; i < this._config.solutionModifiers.length; i += 1) {
-                    queryString += ' ' + this._config.solutionModifiers[i].toString();
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = this._config.solutionModifiers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var mod = _step2.value;
+
+                        queryString += ' ' + mod.toString();
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
                 }
             }
 
             return queryString;
         }
+
+        /**
+         * Reset query (endpoint setting stays)
+         *
+         * @method reset
+         */
+
     }, {
         key: 'reset',
         value: function reset() {
@@ -319,6 +443,38 @@ var Query = function () {
                 whereClause: null,
                 solutionModifiers: []
             };
+        }
+    }, {
+        key: 'addArrayOrSingle',
+        value: function addArrayOrSingle(content, addFunction) {
+            if (Array.isArray(content)) {
+                var _iteratorNormalCompletion3 = true;
+                var _didIteratorError3 = false;
+                var _iteratorError3 = undefined;
+
+                try {
+                    for (var _iterator3 = content[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                        var element = _step3.value;
+
+                        addFunction(element);
+                    }
+                } catch (err) {
+                    _didIteratorError3 = true;
+                    _iteratorError3 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                            _iterator3.return();
+                        }
+                    } finally {
+                        if (_didIteratorError3) {
+                            throw _iteratorError3;
+                        }
+                    }
+                }
+            } else {
+                addFunction(content);
+            }
         }
     }]);
 

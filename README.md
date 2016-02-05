@@ -125,7 +125,9 @@ query.reset();
 
 ## Development
 
-The files in ``src/`` use ECMA6 script, so transpiling is necessary. The project uses [gulp](http://gulpjs.com/), [Babel](https://babeljs.io/) and [Browserify](http://browserify.org/).
+API docs for the classes in ``src/sparql/`` can be [found here](http://piecemeta.github.io/node-sparql-hollandaise/doc/)
+
+The classes in ``src/`` use most of the ES6 keywords, so transpiling is necessary. The project uses [gulp](http://gulpjs.com/), [Babel](https://babeljs.io/) and [Browserify](http://browserify.org/).
 
 ```shell
 npm install
@@ -135,6 +137,11 @@ gulp
 gulp build-web
 gulp build-node
 ```
+
+Run the tests with ``npm test`` and generate code coverage with ``npm run-script cover``.
+
+YUIDocs can be generated with ``npm run-script docs``.
+
 
 ## Credits
 

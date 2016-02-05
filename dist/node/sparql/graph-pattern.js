@@ -17,6 +17,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var GraphPattern = function () {
+    /**
+     * The GraphPattern represents a list of Triples, Filters and Queries
+     *
+     * @class GraphPattern
+     * @constructor
+     * @param {Object|Array} elements - Initial item(s) for the GraphPattern
+     * @param {Boolean} optional - Set the OPTIONAL flag (for use within GroupGraphPatterns)
+     * @param {Boolean} union - Set the UNION flag (for use within GroupGraphPatterns)
+     * @param {Boolean} allowedTypes - Override the default allowed types (Triple, Filter and Query)
+     */
+
     function GraphPattern(elements) {
         var optional = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
         var union = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
@@ -29,13 +40,42 @@ var GraphPattern = function () {
         this._optional = optional;
         this._union = union;
         if (Array.isArray(elements)) {
-            for (var i = 0; i < elements.length; i += 1) {
-                this.addElement(elements[i]);
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = elements[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var element = _step.value;
+
+                    this.addElement(element);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
             }
         } else if (elements) {
             this.addElement(elements);
         }
     }
+
+    /**
+     * Adds an element to the pattern
+     *
+     * @method addElement
+     * @param {Object} element - Single item to add
+     * @param {number} atIndex - Optional index for the added element (default is end of list)
+     */
 
     _createClass(GraphPattern, [{
         key: 'addElement',
@@ -51,6 +91,15 @@ var GraphPattern = function () {
                 throw new Error('TypeError: Element of type ' + (element.constructor.name || (typeof element === 'undefined' ? 'undefined' : _typeof(element))) + ' is not allowed for this block.');
             }
         }
+
+        /**
+         * Removes one or more elements from the pattern
+         *
+         * @method removeElements
+         * @param {number} atIndex - Index of item to remove (default is first)
+         * @param {number} count - Number of elements to remove (default is 1)
+         */
+
     }, {
         key: 'removeElements',
         value: function removeElements() {
@@ -63,32 +112,85 @@ var GraphPattern = function () {
                 throw new Error('OutOfBounds: Cannot remove elements from block, index and/or count out of bounds.');
             }
         }
+
+        /**
+         * Retrieves the elements from the pattern
+         *
+         * @method getElements
+         * @returns {Array}
+         */
+
     }, {
         key: 'getElements',
         value: function getElements() {
             return this._elements;
         }
+
+        /**
+         * Get the element count
+         *
+         * @method countElements
+         * @returns {Number}
+         */
+
     }, {
         key: 'countElements',
         value: function countElements() {
             return this._elements.length;
         }
+
+        /**
+         * Clear the pattern
+         *
+         * @method clear
+         */
+
     }, {
         key: 'clear',
         value: function clear() {
             this._elements = [];
         }
+
+        /**
+         * Retrieves the SPARQL string representation of the current instance
+         *
+         * @method toString
+         * @returns {String}
+         */
+
     }, {
         key: 'toString',
         value: function toString() {
             var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._union ? 'UNION ' : '') + '{ ';
-            for (var i = 0; i < this._elements.length; i += 1) {
-                if (this._elements[i].constructor.name === 'Query') {
-                    result += '{ ' + this._elements[i].toString(true) + ' } ';
-                } else {
-                    result += '' + this._elements[i].toString() + (this._elements.length > 1 && this._elements[i] instanceof _triple2.default ? ' . ' : ' ');
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+                for (var _iterator2 = this._elements[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var element = _step2.value;
+
+                    if (element.constructor.name === 'Query') {
+                        result += '{ ' + element.toString(true) + ' } ';
+                    } else {
+                        result += '' + element.toString() + (this._elements.length > 1 && element instanceof _triple2.default ? ' . ' : ' ');
+                    }
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
                 }
             }
+
             result += '}';
             return result;
         }

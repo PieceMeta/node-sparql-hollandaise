@@ -19,11 +19,27 @@ var http = require('http'),
     Promise = require('bluebird');
 
 var Transport = function () {
+    /**
+     * Implements HTTP transport
+     *
+     * @class Transport
+     * @constructor
+     * @param {String} endpoint - SPARQL endpoint URL
+     */
+
     function Transport(endpoint) {
         _classCallCheck(this, Transport);
 
         this._endpoint = endpoint;
     }
+
+    /**
+     * Implements HTTP transport
+     *
+     * @method submit
+     * @param {String} queryString - SPARQL query string
+     * @returns {Promise} - Returns a Promise that will yield the Result object
+     */
 
     _createClass(Transport, [{
         key: 'submit',
@@ -74,5 +90,3 @@ var Transport = function () {
 }();
 
 exports.default = Transport;
-
-module.exports = Transport;

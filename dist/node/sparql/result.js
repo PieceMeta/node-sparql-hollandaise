@@ -6,7 +6,15 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Result = function Result(data) {
+var Result =
+/**
+ * The Result class wraps the possible responses from the SPARQL endpoint's response
+ *
+ * @class Result
+ * @constructor
+ * @param {String} data - Result object
+ */
+function Result(data) {
     _classCallCheck(this, Result);
 
     if (data.results) {
