@@ -1,6 +1,6 @@
 # SPARQL Hollandaise
 
-[![Code Climate](https://codeclimate.com/github/PieceMeta/node-sparql-hollandaise/badges/gpa.svg)](https://codeclimate.com/github/PieceMeta/node-sparql-hollandaise) [![Dependency Status](https://david-dm.org/PieceMeta/node-sparql-hollandaise.svg)](https://david-dm.org/PieceMeta/node-sparql-hollandaise) [![devDependency Status](https://david-dm.org/PieceMeta/node-sparql-hollandaise/dev-status.svg)](https://david-dm.org/PieceMeta/node-sparql-hollandaise#info=devDependencies)
+[![peerDependency Status](https://david-dm.org/PieceMeta/node-sparql-hollandaise/peer-status.svg)](https://david-dm.org/PieceMeta/node-sparql-hollandaise#info=peerDependencies) [![devDependency Status](https://david-dm.org/PieceMeta/node-sparql-hollandaise/dev-status.svg)](https://david-dm.org/PieceMeta/node-sparql-hollandaise#info=devDependencies)
 
 A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.
 
