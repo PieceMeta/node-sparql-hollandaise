@@ -12800,14 +12800,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var GraphPattern = (function () {
     function GraphPattern(elements) {
         var optional = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-        var alternative = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+        var union = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
         var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? [_triple2.default, _filter2.default] : arguments[3];
         (0, _classCallCheck3.default)(this, GraphPattern);
 
         this.clear();
         this._allowedTypes = allowedTypes;
         this._optional = optional;
-        this._alternative = alternative;
+        this._union = union;
         if (Array.isArray(elements)) {
             for (var i = 0; i < elements.length; i += 1) {
                 this.addElement(elements[i]);
@@ -12861,7 +12861,7 @@ var GraphPattern = (function () {
     }, {
         key: 'toString',
         value: function toString() {
-            var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._alternative ? 'UNION ' : '') + '{ ';
+            var result = '' + (this._optional ? 'OPTIONAL ' : '') + (this._union ? 'UNION ' : '') + '{ ';
             for (var i = 0; i < this._elements.length; i += 1) {
                 result += '' + this._elements[i].toString() + (this._elements.length > 1 && this._elements[i] instanceof _triple2.default ? ' . ' : ' ');
             }

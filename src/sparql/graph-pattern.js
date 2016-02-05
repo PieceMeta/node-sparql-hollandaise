@@ -4,11 +4,11 @@ import Filter from './filter';
 import Triple from './triple';
 
 export default class GraphPattern {
-    constructor(elements, optional = false, alternative = false, allowedTypes = [Triple, Filter]) {
+    constructor(elements, optional = false, union = false, allowedTypes = [Triple, Filter]) {
         this.clear();
         this._allowedTypes = allowedTypes;
         this._optional = optional;
-        this._alternative = alternative;
+        this._union = union;
         if (Array.isArray(elements)) {
             for (let i = 0; i < elements.length; i += 1) {
                 this.addElement(elements[i]);
@@ -50,7 +50,7 @@ export default class GraphPattern {
     }
 
     toString() {
-        var result = `${this._optional ? 'OPTIONAL ' : ''}${this._alternative ? 'UNION ' : ''}{ `;
+        var result = `${this._optional ? 'OPTIONAL ' : ''}${this._union ? 'UNION ' : ''}{ `;
         for (let i = 0; i < this._elements.length; i += 1) {
             result += `${this._elements[i].toString()}${this._elements.length > 1 && this._elements[i] instanceof Triple ? ' . ' : ' '}`;
         }
