@@ -22,22 +22,9 @@ describe('Query', () => {
         query.where(pattern);
         query.toString().should.equal('SELECT * WHERE { ?x foaf:mbox ?mbox . ?x foaf:mbox ?mbox . }');
     });
-    it('adds element to where clause', () => {
-        let triple = new Triple('?y foo:bar ?name');
-        query.addToWhereClause(triple);
-        query.toString().should.equal('SELECT * WHERE { ?x foaf:mbox ?mbox . ?x foaf:mbox ?mbox . ?y foo:bar ?name . }');
-    });
-    it('removes 2 elements from where clause at index 1', () => {
-        query.removeFromWhereClause(1, 2);
-        query.toString().should.equal('SELECT * WHERE { ?x foaf:mbox ?mbox }');
-    });
-    it('removes one element from where clause at beginning', () => {
-        query.removeFromWhereClause();
-        query.toString().should.equal('SELECT * WHERE { }');
-    });
     it('sets where clause from graph pattern', () => {
         let pattern = new GraphPattern('?x foaf:mbox ?mbox');
-        query.setWhereClause(pattern);
+        query.where(pattern);
         query.toString().should.equal('SELECT * WHERE { ?x foaf:mbox ?mbox }');
     });
     it('sets order', () => {

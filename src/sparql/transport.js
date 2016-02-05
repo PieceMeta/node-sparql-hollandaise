@@ -7,10 +7,24 @@ var http = require('http'),
 import Result from './result';
 
 export default class Transport {
+    /**
+     * Implements HTTP transport
+     *
+     * @class Transport
+     * @constructor
+     * @param {String} endpoint - SPARQL endpoint URL
+     */
     constructor(endpoint) {
         this._endpoint = endpoint;
     }
 
+    /**
+     * Implements HTTP transport
+     *
+     * @method submit
+     * @param {String} queryString - SPARQL query string
+     * @returns {Promise} - Returns a Promise that will yield the Result object
+     */
     submit(queryString) {
         var instance = this;
         return new Promise(function (resolve, reject) {
@@ -54,5 +68,3 @@ export default class Transport {
             });
     }
 }
-
-module.exports = Transport;

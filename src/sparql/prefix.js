@@ -3,6 +3,14 @@
 import PrefixIndex from './prefix-index';
 
 export default class Prefix {
+    /**
+     * Represents a single PREFIX component within a query
+     *
+     * @class Prefix
+     * @constructor
+     * @param {String} value - Either a full PREFIX string for a single prefix or a shortcode to be looked up in PrefixIndex
+     * @param {Object} prefixIndex - Optional override for the default PrefixIndex
+     */
     constructor(value, prefixIndex = null) {
         if (prefixIndex === null) {
             prefixIndex = PrefixIndex;
@@ -18,6 +26,12 @@ export default class Prefix {
         }
     }
 
+    /**
+     * Retrieves the SPARQL string representation of the current instance.
+     *
+     * @method toString
+     * @returns {String}
+     */
     toString() {
         return `PREFIX ${this.value}`;
     }

@@ -1,6 +1,13 @@
 'use strict';
 
 export default class Triple {
+    /**
+     * Represents a SPARQL triple (including object- and predicate-object-lists)
+     *
+     * @class Triple
+     * @constructor
+     * @param {String|Array} args - Either one (complete triple string) or three (separate subject, predicate, object) strings. Additionally, a string and an array can be supplied to create object- or predicate-object-lists.
+     */
     constructor(...args) {
         var splitTriple = null;
         switch (args.length) {
@@ -40,6 +47,12 @@ export default class Triple {
         }
     }
 
+    /**
+     * Retrieves the SPARQL string representation of the current instance
+     *
+     * @method toString
+     * @returns {String}
+     */
     toString() {
         if (Array.isArray(this.predicate)) {
             return `${this.subject} ${this.predicate.join(' ; ')}`;
