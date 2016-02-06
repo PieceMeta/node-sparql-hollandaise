@@ -2,8 +2,15 @@ languages:
   JavaScript: true
 exclude_paths:
 - "dist/*"
+- "test/*"
 engines:
   eslint:
     enabled: true
-  fixme:
-    enabled: true
+    config:
+        extensions:
+        - .es6
+        - .js
+ratings:
+   paths:
+   - "**.es6"
+   - "**.js"
