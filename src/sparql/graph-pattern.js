@@ -1,5 +1,3 @@
-'use strict';
-
 import Triple from './triple';
 
 export default class GraphPattern {

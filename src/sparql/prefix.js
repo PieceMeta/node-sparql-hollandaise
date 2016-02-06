@@ -1,5 +1,3 @@
-'use strict';
-
 import PrefixIndex from './prefix-index';
 
 export default class Prefix {

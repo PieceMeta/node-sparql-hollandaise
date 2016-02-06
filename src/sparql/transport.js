@@ -1,5 +1,3 @@
-'use strict';
-
 var http = require('http'),
     url = require('url'),
     Promise = require('bluebird');

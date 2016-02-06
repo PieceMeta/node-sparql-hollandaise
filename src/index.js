@@ -1,5 +1,3 @@
-'use strict';
-
 import Filter from './sparql/filter';
 import Prefix from './sparql/prefix';
 import Query from './sparql/query';

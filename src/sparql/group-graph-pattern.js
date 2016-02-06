@@ -1,5 +1,3 @@
-'use strict';
-
 import GraphPattern from './graph-pattern';
 
 export default class GroupGraphPattern extends GraphPattern {

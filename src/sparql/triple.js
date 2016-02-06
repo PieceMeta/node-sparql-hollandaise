@@ -1,5 +1,3 @@
-'use strict';
-
 export default class Triple {
     /**
      * Represents a SPARQL triple (including object- and predicate-object-lists)

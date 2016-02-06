@@ -1,5 +1,3 @@
-'use strict';
-
 import Transport from './transport';
 import Prefix from './prefix';
 import GraphPattern from './graph-pattern';

@@ -1,5 +1,3 @@
-'use strict';
-
 export default class Filter {
     /**
      * The Filter class represents a single FILTER clause to be used within GraphPatterns

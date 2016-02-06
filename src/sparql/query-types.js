@@ -1,5 +1,3 @@
-'use strict';
-
 import GraphPattern from './graph-pattern';
 import Triple from './triple';
 

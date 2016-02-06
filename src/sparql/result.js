@@ -1,5 +1,3 @@
-'use strict';
-
 export default class Result {
     /**
      * The Result class wraps the possible responses from the SPARQL endpoint's response

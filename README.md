@@ -12,6 +12,10 @@ Experimental: Expect the unexpected. Please provide feedback on api and your use
 
 If you think this is a fully fledged SPARQL client for JS: nope. This is rather a starting point than a complete implementation. Also, I am not exactly an expert in using SPARQL (that's an understatement) so there might be all sorts of bullshit going on in the lib. Feel free to bash me in the issues...
 
+## Features
+
+The library is supposed to be modeled after the [1.1 version of the SPARQL spec](https://www.w3.org/TR/2013/REC-sparql11-query-20130321) but is not yet complete.
+
 ## Install
 
 **Node:** ``npm install git://github.com/PieceMeta/node-sparql-hollandaise.git``
