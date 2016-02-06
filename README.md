@@ -1,6 +1,6 @@
 # SPARQL Hollandaise
 
-[![peerDependency Status](https://david-dm.org/PieceMeta/node-sparql-hollandaise/peer-status.svg)](https://david-dm.org/PieceMeta/node-sparql-hollandaise#info=peerDependencies) [![devDependency Status](https://david-dm.org/PieceMeta/node-sparql-hollandaise/dev-status.svg)](https://david-dm.org/PieceMeta/node-sparql-hollandaise#info=devDependencies) [![Code Climate](https://codeclimate.com/github/PieceMeta/node-sparql-hollandaise/badges/gpa.svg)](https://codeclimate.com/github/PieceMeta/node-sparql-hollandaise)
+[![Build Status](https://travis-ci.org/PieceMeta/node-sparql-hollandaise.svg?branch=master)](https://travis-ci.org/PieceMeta/node-sparql-hollandaise) [![peerDependency Status](https://david-dm.org/PieceMeta/node-sparql-hollandaise/peer-status.svg)](https://david-dm.org/PieceMeta/node-sparql-hollandaise#info=peerDependencies) [![devDependency Status](https://david-dm.org/PieceMeta/node-sparql-hollandaise/dev-status.svg)](https://david-dm.org/PieceMeta/node-sparql-hollandaise#info=devDependencies) [![Code Climate](https://codeclimate.com/github/PieceMeta/node-sparql-hollandaise/badges/gpa.svg)](https://codeclimate.com/github/PieceMeta/node-sparql-hollandaise)
 
 A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.
 
