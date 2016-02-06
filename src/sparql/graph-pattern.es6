@@ -9,7 +9,7 @@ export default class GraphPattern {
      * @param {Object|Array} elements - Initial item(s) for the GraphPattern
      * @param {Boolean} optional - Set the OPTIONAL flag (for use within GroupGraphPatterns)
      * @param {Boolean} union - Set the UNION flag (for use within GroupGraphPatterns)
-     * @param {Boolean} allowedTypes - Override the default allowed types (Triple, Filter and Query)
+     * @param {Array} allowedTypes - Override the default allowed types (Triple, Filter and Query)
      */
     constructor(elements, optional = false, union = false, allowedTypes = ['Triple', 'Filter', 'Query']) {
         this.clear();
@@ -29,7 +29,7 @@ export default class GraphPattern {
      * Adds an element to the pattern
      *
      * @method addElement
-     * @param {Object} element - Single item to add
+     * @param {Object|String} element - Single item to add
      * @param {number} atIndex - Optional index for the added element (default is end of list)
      */
     addElement(element, atIndex = -1) {

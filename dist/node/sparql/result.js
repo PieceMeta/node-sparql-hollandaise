@@ -17,12 +17,12 @@ var Result =
 function Result(data) {
     _classCallCheck(this, Result);
 
-    if (data.results) {
+    if (data.hasOwnProperty('results') && data.hasOwnProperty('head')) {
         this.bindings = data.results.bindings;
         this.vars = data.head.vars;
         this.link = data.head.link;
     }
-    if (data.boolean) {
+    if (data.hasOwnProperty('boolean')) {
         this.boolean = data.boolean;
     }
 };

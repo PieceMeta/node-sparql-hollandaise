@@ -12945,17 +12945,17 @@ module.exports.GraphPattern = _graphPattern2.default;
 module.exports.GroupGraphPattern = _groupGraphPattern2.default;
 
 },{"./sparql/filter":103,"./sparql/graph-pattern":104,"./sparql/group-graph-pattern":105,"./sparql/prefix":107,"./sparql/query":109,"./sparql/triple":112}],103:[function(require,module,exports){
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _createClass2 = require("babel-runtime/helpers/createClass");
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
@@ -12984,9 +12984,9 @@ var Filter = (function () {
      */
 
     (0, _createClass3.default)(Filter, [{
-        key: 'toString',
+        key: "toString",
         value: function toString() {
-            return 'FILTER (' + this.content + ')';
+            return "FILTER (" + this.content + ")";
         }
     }]);
     return Filter;
@@ -13032,7 +13032,7 @@ var GraphPattern = (function () {
      * @param {Object|Array} elements - Initial item(s) for the GraphPattern
      * @param {Boolean} optional - Set the OPTIONAL flag (for use within GroupGraphPatterns)
      * @param {Boolean} union - Set the UNION flag (for use within GroupGraphPatterns)
-     * @param {Boolean} allowedTypes - Override the default allowed types (Triple, Filter and Query)
+     * @param {Array} allowedTypes - Override the default allowed types (Triple, Filter and Query)
      */
 
     function GraphPattern(elements) {
@@ -13079,7 +13079,7 @@ var GraphPattern = (function () {
      * Adds an element to the pattern
      *
      * @method addElement
-     * @param {Object} element - Single item to add
+     * @param {Object|String} element - Single item to add
      * @param {number} atIndex - Optional index for the added element (default is end of list)
      */
 
@@ -14027,12 +14027,12 @@ var Result =
 function Result(data) {
     (0, _classCallCheck3.default)(this, Result);
 
-    if (data.results) {
+    if (data.hasOwnProperty('results') && data.hasOwnProperty('head')) {
         this.bindings = data.results.bindings;
         this.vars = data.head.vars;
         this.link = data.head.link;
     }
-    if (data.boolean) {
+    if (data.hasOwnProperty('boolean')) {
         this.boolean = data.boolean;
     }
 };
@@ -14124,8 +14124,7 @@ var Transport = (function () {
                 request.write(encodedQuery);
                 request.end();
             }).then(function (data) {
-                var result = new _result2.default(JSON.parse(data));
-                return result;
+                return new _result2.default(JSON.parse(data));
             }).catch(function (err) {
                 throw new Error('QBuilder query failed: ' + err.message);
             });

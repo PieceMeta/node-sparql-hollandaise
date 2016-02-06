@@ -17,11 +17,12 @@ var pkg = require('./package.json'),
         ''].join('\n');
 
 gulp.task('build-web', function () {
-    return browserify('./src/index.js', {
+    return browserify('./src/index.es6', {
             fullPaths: false,
             insertGlobals: false,
             debug: false,
-            standalone: 'SPH'
+            standalone: 'SPH',
+            extensions: ['.js', '.es6']
         })
         .transform(babelify, {
             presets: ['es2015'],
@@ -37,7 +38,7 @@ gulp.task('build-web', function () {
 });
 
 gulp.task('build-node', function () {
-    return gulp.src(['./src/**/*.js'])
+    return gulp.src(['./src/**/*.es6'])
         .pipe(babel({
             presets: ['es2015']
         }))

@@ -78,8 +78,7 @@ var Transport = function () {
                 request.write(encodedQuery);
                 request.end();
             }).then(function (data) {
-                var result = new _result2.default(JSON.parse(data));
-                return result;
+                return new _result2.default(JSON.parse(data));
             }).catch(function (err) {
                 throw new Error('QBuilder query failed: ' + err.message);
             });

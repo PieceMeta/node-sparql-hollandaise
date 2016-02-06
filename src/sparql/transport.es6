@@ -58,8 +58,7 @@ export default class Transport {
                 request.end();
             })
             .then(function (data) {
-                var result = new Result(JSON.parse(data));
-                return result;
+                return new Result(JSON.parse(data));
             })
             .catch(function (err) {
                 throw new Error(`QBuilder query failed: ${err.message}`);
