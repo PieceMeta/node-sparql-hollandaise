@@ -7,9 +7,14 @@ engines:
   eslint:
     enabled: true
     config:
-        extensions:
-        - .es6
-        - .js
+      extensions:
+      - .es6
+      - .js
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
 ratings:
    paths:
    - "**.es6"
