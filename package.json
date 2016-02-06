@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.",
   "main": "./dist/node/index.js",
+  "engines": {
+    "node": ">=0.11"
+  },
   "repository": "https://github.com/PieceMeta/node-sparql-hollandaise.git",
   "scripts": {
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register test/sparql/",
