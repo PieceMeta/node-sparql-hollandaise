@@ -18,9 +18,9 @@ The library is supposed to be modeled after the [1.1 version of the SPARQL spec]
 
 ## Install
 
-**Node (min 0.11 or iojs):** ``npm install git://github.com/PieceMeta/node-sparql-hollandaise.git``
+**Node (min 0.11 or iojs):** ``npm install sparql-hollandaise``
 
-**Browser:** ``bower install git://github.com/PieceMeta/node-sparql-hollandaise.git``
+**Browser:** ``bower install sparql-hollandaise`` or download/clone the repo and use the files in ``dist/web/``.
 
 ## Usage
 
