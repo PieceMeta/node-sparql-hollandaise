@@ -25,7 +25,7 @@
     "query"
   ],
   "peerDependencies": {
-    "bluebird": "^3.0.6"
+    "bluebird": "^3.5.0"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",

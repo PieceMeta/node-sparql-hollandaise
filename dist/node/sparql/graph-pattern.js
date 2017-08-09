@@ -1,12 +1,12 @@
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _triple = require('./triple');
 
@@ -27,11 +27,10 @@ var GraphPattern = function () {
      * @param {Boolean} union - Set the UNION flag (for use within GroupGraphPatterns)
      * @param {Array} allowedTypes - Override the default allowed types (Triple, Filter and Query)
      */
-
     function GraphPattern(elements) {
-        var optional = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-        var union = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-        var allowedTypes = arguments.length <= 3 || arguments[3] === undefined ? ['Triple', 'Filter', 'Query'] : arguments[3];
+        var optional = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        var union = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+        var allowedTypes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : ['Triple', 'Filter', 'Query'];
 
         _classCallCheck(this, GraphPattern);
 
@@ -77,10 +76,11 @@ var GraphPattern = function () {
      * @param {number} atIndex - Optional index for the added element (default is end of list)
      */
 
+
     _createClass(GraphPattern, [{
         key: 'addElement',
         value: function addElement(element) {
-            var atIndex = arguments.length <= 1 || arguments[1] === undefined ? -1 : arguments[1];
+            var atIndex = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
 
             if (typeof element === 'string') {
                 element = new _triple2.default(element);
@@ -103,8 +103,8 @@ var GraphPattern = function () {
     }, {
         key: 'removeElements',
         value: function removeElements() {
-            var atIndex = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
-            var count = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+            var atIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+            var count = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 
             if (atIndex >= 0 && atIndex + count <= this.countElements()) {
                 this._elements.splice(atIndex, count);

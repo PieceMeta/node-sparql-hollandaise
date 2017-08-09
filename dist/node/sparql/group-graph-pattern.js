@@ -27,11 +27,10 @@ var GroupGraphPattern = function (_GraphPattern) {
      * @constructor
      * @param {GraphPattern|Array} elements - Initial GraphPattern items for the GroupGraphPattern
      */
-
     function GroupGraphPattern(elements) {
         _classCallCheck(this, GroupGraphPattern);
 
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupGraphPattern).call(this, elements, false, false, ['GraphPattern']));
+        return _possibleConstructorReturn(this, (GroupGraphPattern.__proto__ || Object.getPrototypeOf(GroupGraphPattern)).call(this, elements, false, false, ['GraphPattern']));
     }
 
     return GroupGraphPattern;

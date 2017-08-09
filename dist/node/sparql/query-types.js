@@ -1,11 +1,11 @@
 'use strict';
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.Construct = exports.Ask = exports.Describe = exports.Select = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _graphPattern = require('./graph-pattern');
 
@@ -28,7 +28,6 @@ var Select = exports.Select = function () {
      * @param {String} content - String arguments for SELECT keyword
      * @param {String} modifier - Optional modifier (e.g. DISTINCT)
      */
-
     function Select(content, modifier) {
         _classCallCheck(this, Select);
 
@@ -42,6 +41,7 @@ var Select = exports.Select = function () {
      * @method toString
      * @returns {String}
      */
+
 
     _createClass(Select, [{
         key: 'toString',
@@ -61,7 +61,6 @@ var Describe = exports.Describe = function () {
      * @constructor
      * @param {String} content - String arguments for DESCRIBE keyword
      */
-
     function Describe(content) {
         _classCallCheck(this, Describe);
 
@@ -74,6 +73,7 @@ var Describe = exports.Describe = function () {
      * @method toString
      * @returns {String}
      */
+
 
     _createClass(Describe, [{
         key: 'toString',
@@ -92,7 +92,6 @@ var Ask = exports.Ask = function () {
      * @class Ask
      * @constructor
      */
-
     function Ask() {
         _classCallCheck(this, Ask);
     }
@@ -103,6 +102,7 @@ var Ask = exports.Ask = function () {
      * @method toString
      * @returns {String}
      */
+
 
     _createClass(Ask, [{
         key: 'toString',
@@ -122,7 +122,6 @@ var Construct = exports.Construct = function () {
      * @constructor
      * @param {Triple|Array} triples - One or more Triple objects
      */
-
     function Construct(triples) {
         _classCallCheck(this, Construct);
 
@@ -135,6 +134,7 @@ var Construct = exports.Construct = function () {
      * @method addTriple
      * @param {Triple} triple - A Triple object
      */
+
 
     _createClass(Construct, [{
         key: 'addTriple',
