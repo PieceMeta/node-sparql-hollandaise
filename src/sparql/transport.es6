@@ -44,7 +44,7 @@ export default class Transport {
                     method: instance._method,
                     hostname: parsedUri.hostname,
                     port: parsedUri.port,
-                    path: parsedUri.path + instance._method === 'GET' ? `?${encodedQuery}` : '',
+                    path: parsedUri.path + (instance._method === 'GET' ? `?${encodedQuery}` : ''),
                     headers: Object.assign(headers, {
                         'Content-Length': encodedQuery.length
                     })
@@ -69,10 +69,14 @@ export default class Transport {
             request.end();
         })
         .then(function (data) {
-            return new Result(JSON.parse(data));
+            try {
+                return new Result(JSON.parse(data));
+            } catch (e) {
+                return new Result(data);
+            }
         })
         .catch(function (err) {
-            throw new Error(`QBuilder query failed: ${err.message}`);
+            throw err;
         });
     }
 }

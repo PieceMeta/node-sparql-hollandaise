@@ -11,10 +11,12 @@ export default class Query {
      * @class Query
      * @constructor
      * @param {String} endpoint - URL of the SPARQL endpoint
+     * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
+     * @param {String} method - HTTP method used (default: 'GET')
      */
-    constructor(endpoint) {
+    constructor(endpoint, auth = {}, method = 'GET') {
         this.reset();
-        this._transport = new Transport(endpoint);
+        this._transport = new Transport(endpoint, auth, method);
     }
 
     /**
@@ -32,11 +34,12 @@ export default class Query {
      *
      * @method prefix
      * @param {Prefix|String|Array} content - A single Prefix string or object or an array of Prefix objects or strings
+     * @param {Object} context - The context to be executed on (default: this)
      * @returns {Query} - Returns current instance (chainable)
      */
-    prefix(content) {
-        this.addArrayOrSingle(content, this.addPrefix);
-        return this;
+    prefix(content, context = this) {
+        this.addArrayOrSingle(content, this.addPrefix, context);
+        return context;
     }
 
     /**
@@ -44,12 +47,13 @@ export default class Query {
      *
      * @method addPrefix
      * @param {Prefix|String|Array} content - A single Prefix string or object
+     * @param {Object} context - The context to be executed on (default: this)
      */
-    addPrefix(content) {
+    addPrefix(content, context = this) {
         if (content instanceof Prefix) {
-            this._config.prefixes.push(content);
+            context._config.prefixes.push(content);
         } else if (typeof content === 'string') {
-            this._config.prefixes.push(new Prefix(content));
+            context._config.prefixes.push(new Prefix(content));
         }
     }
 
@@ -305,13 +309,13 @@ export default class Query {
         };
     }
 
-    addArrayOrSingle(content, addFunction) {
+    addArrayOrSingle(content, addFunction, context = this) {
         if (Array.isArray(content)) {
             for (var element of content) {
-                addFunction(element);
+                addFunction(element, context);
             }
         } else {
-            addFunction(content);
+            addFunction(content, context);
         }
     }
 }

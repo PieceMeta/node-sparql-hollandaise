@@ -68,7 +68,7 @@ var Transport = function () {
                     method: instance._method,
                     hostname: parsedUri.hostname,
                     port: parsedUri.port,
-                    path: parsedUri.path + instance._method === 'GET' ? '?' + encodedQuery : '',
+                    path: parsedUri.path + (instance._method === 'GET' ? '?' + encodedQuery : ''),
                     headers: Object.assign(headers, {
                         'Content-Length': encodedQuery.length
                     })
@@ -92,9 +92,13 @@ var Transport = function () {
                 }
                 request.end();
             }).then(function (data) {
-                return new _result2.default(JSON.parse(data));
+                try {
+                    return new _result2.default(JSON.parse(data));
+                } catch (e) {
+                    return new _result2.default(data);
+                }
             }).catch(function (err) {
-                throw new Error('QBuilder query failed: ' + err.message);
+                throw err;
             });
         }
     }]);

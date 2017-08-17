@@ -41,12 +41,17 @@ var Query = function () {
      * @class Query
      * @constructor
      * @param {String} endpoint - URL of the SPARQL endpoint
+     * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
+     * @param {String} method - HTTP method used (default: 'GET')
      */
     function Query(endpoint) {
+        var auth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'GET';
+
         _classCallCheck(this, Query);
 
         this.reset();
-        this._transport = new _transport2.default(endpoint);
+        this._transport = new _transport2.default(endpoint, auth, method);
     }
 
     /**
@@ -68,14 +73,17 @@ var Query = function () {
          *
          * @method prefix
          * @param {Prefix|String|Array} content - A single Prefix string or object or an array of Prefix objects or strings
+         * @param {Object} context - The context to be executed on (default: this)
          * @returns {Query} - Returns current instance (chainable)
          */
 
     }, {
         key: 'prefix',
         value: function prefix(content) {
-            this.addArrayOrSingle(content, this.addPrefix);
-            return this;
+            var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+
+            this.addArrayOrSingle(content, this.addPrefix, context);
+            return context;
         }
 
         /**
@@ -83,15 +91,18 @@ var Query = function () {
          *
          * @method addPrefix
          * @param {Prefix|String|Array} content - A single Prefix string or object
+         * @param {Object} context - The context to be executed on (default: this)
          */
 
     }, {
         key: 'addPrefix',
         value: function addPrefix(content) {
+            var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+
             if (content instanceof _prefix2.default) {
-                this._config.prefixes.push(content);
+                context._config.prefixes.push(content);
             } else if (typeof content === 'string') {
-                this._config.prefixes.push(new _prefix2.default(content));
+                context._config.prefixes.push(new _prefix2.default(content));
             }
         }
 
@@ -447,6 +458,8 @@ var Query = function () {
     }, {
         key: 'addArrayOrSingle',
         value: function addArrayOrSingle(content, addFunction) {
+            var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
+
             if (Array.isArray(content)) {
                 var _iteratorNormalCompletion3 = true;
                 var _didIteratorError3 = false;
@@ -456,7 +469,7 @@ var Query = function () {
                     for (var _iterator3 = content[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
                         var element = _step3.value;
 
-                        addFunction(element);
+                        addFunction(element, context);
                     }
                 } catch (err) {
                     _didIteratorError3 = true;
@@ -473,7 +486,7 @@ var Query = function () {
                     }
                 }
             } else {
-                addFunction(content);
+                addFunction(content, context);
             }
         }
     }]);
