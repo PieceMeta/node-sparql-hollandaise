@@ -26,17 +26,17 @@ var Transport = function () {
      * @constructor
      * @param {String} endpoint - SPARQL endpoint URL
      * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
-     * @param {String} method - HTTP method used (default: 'POST')
+     * @param {String} method - HTTP method used (default: 'GET')
      */
     function Transport(endpoint) {
         var auth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'POST';
+        var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'GET';
 
         _classCallCheck(this, Transport);
 
         this._endpoint = endpoint;
         this._auth = auth;
-        this._method = method;
+        this._method = method.toUpperCase();
     }
 
     /**
@@ -68,7 +68,7 @@ var Transport = function () {
                     method: instance._method,
                     hostname: parsedUri.hostname,
                     port: parsedUri.port,
-                    path: parsedUri.path,
+                    path: parsedUri.path + instance._method === 'GET' ? '?' + encodedQuery : '',
                     headers: Object.assign(headers, {
                         'Content-Length': encodedQuery.length
                     })
@@ -87,8 +87,9 @@ var Transport = function () {
                 });
 
                 request.on('error', reject);
-
-                request.write(encodedQuery);
+                if (instance._method !== 'GET') {
+                    request.write(encodedQuery);
+                }
                 request.end();
             }).then(function (data) {
                 return new _result2.default(JSON.parse(data));

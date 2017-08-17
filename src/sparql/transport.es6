@@ -12,12 +12,12 @@ export default class Transport {
      * @constructor
      * @param {String} endpoint - SPARQL endpoint URL
      * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
-     * @param {String} method - HTTP method used (default: 'POST')
+     * @param {String} method - HTTP method used (default: 'GET')
      */
-    constructor(endpoint, auth = {}, method = 'POST') {
+    constructor(endpoint, auth = {}, method = 'GET') {
         this._endpoint = endpoint;
         this._auth = auth;
-        this._method = method;
+        this._method = method.toUpperCase();
     }
 
     /**
@@ -44,7 +44,7 @@ export default class Transport {
                     method: instance._method,
                     hostname: parsedUri.hostname,
                     port: parsedUri.port,
-                    path: parsedUri.path,
+                    path: parsedUri.path + instance._method === 'GET' ? `?${encodedQuery}` : '',
                     headers: Object.assign(headers, {
                         'Content-Length': encodedQuery.length
                     })
@@ -63,8 +63,9 @@ export default class Transport {
                 });
 
             request.on('error', reject);
-
-            request.write(encodedQuery);
+            if (instance._method !== 'GET') {
+                request.write(encodedQuery);
+            }
             request.end();
         })
         .then(function (data) {

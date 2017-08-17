@@ -1,6 +1,6 @@
 /**
  * sparql-hollandaise - A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.
- * @version v0.2.1
+ * @version v0.2.2
  * @link https://github.com/PieceMeta/node-sparql-hollandaise
  * @license MIT
  */
@@ -15731,16 +15731,16 @@ var Transport = function () {
      * @constructor
      * @param {String} endpoint - SPARQL endpoint URL
      * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
-     * @param {String} method - HTTP method used (default: 'POST')
+     * @param {String} method - HTTP method used (default: 'GET')
      */
     function Transport(endpoint) {
         var auth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-        var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'POST';
+        var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'GET';
         (0, _classCallCheck3.default)(this, Transport);
 
         this._endpoint = endpoint;
         this._auth = auth;
-        this._method = method;
+        this._method = method.toUpperCase();
     }
 
     /**
@@ -15772,7 +15772,7 @@ var Transport = function () {
                     method: instance._method,
                     hostname: parsedUri.hostname,
                     port: parsedUri.port,
-                    path: parsedUri.path,
+                    path: parsedUri.path + instance._method === 'GET' ? '?' + encodedQuery : '',
                     headers: (0, _assign2.default)(headers, {
                         'Content-Length': encodedQuery.length
                     })
@@ -15791,8 +15791,9 @@ var Transport = function () {
                 });
 
                 request.on('error', reject);
-
-                request.write(encodedQuery);
+                if (instance._method !== 'GET') {
+                    request.write(encodedQuery);
+                }
                 request.end();
             }).then(function (data) {
                 return new _result2.default(JSON.parse(data));
