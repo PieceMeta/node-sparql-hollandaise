@@ -12,10 +12,12 @@ export default class Transport {
      * @constructor
      * @param {String} endpoint - SPARQL endpoint URL
      * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
+     * @param {String} method - HTTP method used (default: 'POST')
      */
-    constructor(endpoint, auth = {}) {
+    constructor(endpoint, auth = {}, method = 'POST') {
         this._endpoint = endpoint;
-        this._auth = auth
+        this._auth = auth;
+        this._method = method;
     }
 
     /**
@@ -39,7 +41,7 @@ export default class Transport {
             var data = '', parsedUri = url.parse(instance._endpoint),
                 encodedQuery = `query=${encodeURIComponent(queryString)}`,
                 request = http.request({
-                    method: 'POST',
+                    method: instance._method,
                     hostname: parsedUri.hostname,
                     port: parsedUri.port,
                     path: parsedUri.path,

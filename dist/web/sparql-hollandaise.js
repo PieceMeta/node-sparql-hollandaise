@@ -1,6 +1,6 @@
 /**
  * sparql-hollandaise - A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.
- * @version v0.2.0
+ * @version v0.2.1
  * @link https://github.com/PieceMeta/node-sparql-hollandaise
  * @license MIT
  */
@@ -15731,13 +15731,16 @@ var Transport = function () {
      * @constructor
      * @param {String} endpoint - SPARQL endpoint URL
      * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
+     * @param {String} method - HTTP method used (default: 'POST')
      */
     function Transport(endpoint) {
         var auth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'POST';
         (0, _classCallCheck3.default)(this, Transport);
 
         this._endpoint = endpoint;
         this._auth = auth;
+        this._method = method;
     }
 
     /**
@@ -15766,7 +15769,7 @@ var Transport = function () {
                     parsedUri = url.parse(instance._endpoint),
                     encodedQuery = 'query=' + encodeURIComponent(queryString),
                     request = http.request({
-                    method: 'POST',
+                    method: instance._method,
                     hostname: parsedUri.hostname,
                     port: parsedUri.port,
                     path: parsedUri.path,
