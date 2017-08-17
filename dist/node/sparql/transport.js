@@ -25,11 +25,15 @@ var Transport = function () {
      * @class Transport
      * @constructor
      * @param {String} endpoint - SPARQL endpoint URL
+     * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
      */
     function Transport(endpoint) {
+        var auth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
         _classCallCheck(this, Transport);
 
         this._endpoint = endpoint;
+        this._auth = auth;
     }
 
     /**
@@ -46,6 +50,14 @@ var Transport = function () {
         value: function submit(queryString) {
             var instance = this;
             return new Promise(function (resolve, reject) {
+                var headers = {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'application/sparql-results+json'
+                };
+                if (instance._auth && instance._auth.basic) {
+                    var authBuffer = new Buffer(instance._auth.basic.username + ':' + instance._auth.basic.password);
+                    headers.Authorization = 'Basic ' + authBuffer.toString('base64');
+                }
                 var data = '',
                     parsedUri = url.parse(instance._endpoint),
                     encodedQuery = 'query=' + encodeURIComponent(queryString),
@@ -54,11 +66,9 @@ var Transport = function () {
                     hostname: parsedUri.hostname,
                     port: parsedUri.port,
                     path: parsedUri.path,
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'Accept': 'application/sparql-results+json',
+                    headers: Object.assign(headers, {
                         'Content-Length': encodedQuery.length
-                    }
+                    })
                 }, function (response) {
                     response.setEncoding('utf8');
                     response.on('data', function (chunk) {

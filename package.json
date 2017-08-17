@@ -1,6 +1,6 @@
 {
   "name": "sparql-hollandaise",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.",
   "main": "./dist/node/index.js",
   "engines": {
@@ -36,6 +36,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-runtime": "^6.3.13",
     "babelify": "^7.2.0",
+    "bluebird": "^3.5.0",
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
     "eslint": "^4.2.0",
