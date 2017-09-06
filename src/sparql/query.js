@@ -34,11 +34,11 @@ export default class Query {
      *
      * @method prefix
      * @param {Prefix|String|Array} content - A single Prefix string or object or an array of Prefix objects or strings
-     * @param {Object} context - The context to be executed on (default: this)
      * @returns {Query} - Returns current instance (chainable)
      */
-    prefix(content, context = this) {
-        this.addArrayOrSingle(content, this.addPrefix, context);
+    prefix(content) {
+        const ctx = this;
+        this.addArrayOrSingle(content, ctx.addPrefix, ctx);
         return context;
     }
 
@@ -47,9 +47,10 @@ export default class Query {
      *
      * @method addPrefix
      * @param {Prefix|String|Array} content - A single Prefix string or object
-     * @param {Object} context - The context to be executed on (default: this)
+     * @param {Object} context - The context to be executed on (uses 'this' if unset)
      */
-    addPrefix(content, context = this) {
+    addPrefix(content, context) {
+        context = this || context;
         if (content instanceof Prefix) {
             context._config.prefixes.push(content);
         } else if (typeof content === 'string') {
@@ -133,9 +134,10 @@ export default class Query {
      * @returns {Query} - Returns current instance (chainable)
      */
     from(content, named = false) {
+        const ctx = this;
         this.addArrayOrSingle(content, (element) => {
-            this._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${element}`);
-        });
+            ctx._config.datasetClause.push(`FROM${named ? ' NAMED' : ''} ${element}`);
+        }, ctx);
         return this;
     }
 
@@ -309,9 +311,10 @@ export default class Query {
         };
     }
 
-    addArrayOrSingle(content, addFunction, context = this) {
+    addArrayOrSingle(content, addFunction, context) {
+        context = this || context;
         if (Array.isArray(content)) {
-            for (var element of content) {
+            for (let element of content) {
                 addFunction(element, context);
             }
         } else {

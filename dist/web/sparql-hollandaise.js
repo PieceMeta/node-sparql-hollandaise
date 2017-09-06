@@ -1,6 +1,6 @@
 /**
  * sparql-hollandaise - A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.
- * @version v0.2.3
+ * @version v0.2.4
  * @link https://github.com/PieceMeta/node-sparql-hollandaise
  * @license MIT
  */
@@ -14566,6 +14566,11 @@ function extend() {
 },{}],133:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.GroupGraphPattern = exports.GraphPattern = exports.Triple = exports.Query = exports.Prefix = exports.Filter = undefined;
+
 var _filter = require('./sparql/filter');
 
 var _filter2 = _interopRequireDefault(_filter);
@@ -14592,12 +14597,12 @@ var _groupGraphPattern2 = _interopRequireDefault(_groupGraphPattern);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports.Filter = _filter2.default;
-module.exports.Prefix = _prefix2.default;
-module.exports.Query = _query2.default;
-module.exports.Triple = _triple2.default;
-module.exports.GraphPattern = _graphPattern2.default;
-module.exports.GroupGraphPattern = _groupGraphPattern2.default;
+exports.Filter = _filter2.default;
+exports.Prefix = _prefix2.default;
+exports.Query = _query2.default;
+exports.Triple = _triple2.default;
+exports.GraphPattern = _graphPattern2.default;
+exports.GroupGraphPattern = _groupGraphPattern2.default;
 
 },{"./sparql/filter":134,"./sparql/graph-pattern":135,"./sparql/group-graph-pattern":136,"./sparql/prefix":138,"./sparql/query":140,"./sparql/triple":143}],134:[function(require,module,exports){
 "use strict";
@@ -15247,16 +15252,14 @@ var Query = function () {
          *
          * @method prefix
          * @param {Prefix|String|Array} content - A single Prefix string or object or an array of Prefix objects or strings
-         * @param {Object} context - The context to be executed on (default: this)
          * @returns {Query} - Returns current instance (chainable)
          */
 
     }, {
         key: 'prefix',
         value: function prefix(content) {
-            var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-
-            this.addArrayOrSingle(content, this.addPrefix, context);
+            var ctx = this;
+            this.addArrayOrSingle(content, ctx.addPrefix, ctx);
             return context;
         }
 
@@ -15265,14 +15268,13 @@ var Query = function () {
          *
          * @method addPrefix
          * @param {Prefix|String|Array} content - A single Prefix string or object
-         * @param {Object} context - The context to be executed on (default: this)
+         * @param {Object} context - The context to be executed on (uses 'this' if unset)
          */
 
     }, {
         key: 'addPrefix',
-        value: function addPrefix(content) {
-            var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-
+        value: function addPrefix(content, context) {
+            context = this || context;
             if (content instanceof _prefix2.default) {
                 context._config.prefixes.push(content);
             } else if (typeof content === 'string') {
@@ -15377,13 +15379,12 @@ var Query = function () {
     }, {
         key: 'from',
         value: function from(content) {
-            var _this = this;
-
             var named = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
+            var ctx = this;
             this.addArrayOrSingle(content, function (element) {
-                _this._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + element);
-            });
+                ctx._config.datasetClause.push('FROM' + (named ? ' NAMED' : '') + ' ' + element);
+            }, ctx);
             return this;
         }
 
@@ -15631,9 +15632,8 @@ var Query = function () {
         }
     }, {
         key: 'addArrayOrSingle',
-        value: function addArrayOrSingle(content, addFunction) {
-            var context = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
-
+        value: function addArrayOrSingle(content, addFunction, context) {
+            context = this || context;
             if (Array.isArray(content)) {
                 var _iteratorNormalCompletion3 = true;
                 var _didIteratorError3 = false;

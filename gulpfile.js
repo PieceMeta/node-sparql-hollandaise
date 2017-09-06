@@ -17,7 +17,7 @@ var pkg = require('./package.json'),
         ''].join('\n');
 
 gulp.task('build-web', function () {
-    return browserify('./src/index.es6', {
+    return browserify('./src/index.js', {
             fullPaths: false,
             insertGlobals: false,
             debug: false,

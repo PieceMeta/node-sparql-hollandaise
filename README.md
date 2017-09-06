@@ -39,6 +39,11 @@ Browser:
 </head>
 ```
 
+Alternatively, if you are using ES6 JavaScript you can also just import the untranspiled code:
+```js
+import * as SPH from 'sparql-hollandaise/src/index'
+```
+
 Make sure to check out the basic [Angular example](https://github.com/PieceMeta/ng-sparql-hollandaise-example) as well.
 
 ### Creating Graph Patterns
