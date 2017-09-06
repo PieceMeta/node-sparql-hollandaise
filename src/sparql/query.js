@@ -39,7 +39,7 @@ export default class Query {
     prefix(content) {
         const ctx = this;
         this.addArrayOrSingle(content, ctx.addPrefix, ctx);
-        return context;
+        return this;
     }
 
     /**

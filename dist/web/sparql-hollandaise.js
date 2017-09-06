@@ -15260,7 +15260,7 @@ var Query = function () {
         value: function prefix(content) {
             var ctx = this;
             this.addArrayOrSingle(content, ctx.addPrefix, ctx);
-            return context;
+            return this;
         }
 
         /**
