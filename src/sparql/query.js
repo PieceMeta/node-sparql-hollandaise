@@ -16,7 +16,11 @@ export default class Query {
      */
     constructor(endpoint, auth = {}, method = 'GET') {
         this.reset();
-        this._transport = new Transport(endpoint, auth, method);
+        if (endpoint instanceof Transport) {
+            this._transport = endpoint;
+        } else {
+          this._transport = new Transport(endpoint, auth, method);
+        }
     }
 
     /**

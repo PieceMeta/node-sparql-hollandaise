@@ -1,6 +1,6 @@
 /**
  * sparql-hollandaise - A JS client lib to communicate with a triple store database through SPARQL queries over HTTP.
- * @version v0.2.4
+ * @version v0.3.0
  * @link https://github.com/PieceMeta/node-sparql-hollandaise
  * @license MIT
  */
@@ -14569,7 +14569,7 @@ function extend() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.GroupGraphPattern = exports.GraphPattern = exports.Triple = exports.Query = exports.Prefix = exports.Filter = undefined;
+exports.GroupGraphPattern = exports.GraphPattern = exports.Triple = exports.QueryFactory = exports.Query = exports.Prefix = exports.Filter = undefined;
 
 var _filter = require('./sparql/filter');
 
@@ -14582,6 +14582,10 @@ var _prefix2 = _interopRequireDefault(_prefix);
 var _query = require('./sparql/query');
 
 var _query2 = _interopRequireDefault(_query);
+
+var _queryFactory = require('./sparql/query-factory');
+
+var _queryFactory2 = _interopRequireDefault(_queryFactory);
 
 var _triple = require('./sparql/triple');
 
@@ -14600,11 +14604,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.Filter = _filter2.default;
 exports.Prefix = _prefix2.default;
 exports.Query = _query2.default;
+exports.QueryFactory = _queryFactory2.default;
 exports.Triple = _triple2.default;
 exports.GraphPattern = _graphPattern2.default;
 exports.GroupGraphPattern = _groupGraphPattern2.default;
 
-},{"./sparql/filter":134,"./sparql/graph-pattern":135,"./sparql/group-graph-pattern":136,"./sparql/prefix":138,"./sparql/query":140,"./sparql/triple":143}],134:[function(require,module,exports){
+},{"./sparql/filter":134,"./sparql/graph-pattern":135,"./sparql/group-graph-pattern":136,"./sparql/prefix":138,"./sparql/query":141,"./sparql/query-factory":139,"./sparql/triple":144}],134:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -14866,7 +14871,7 @@ var GraphPattern = function () {
 
 exports.default = GraphPattern;
 
-},{"./triple":143,"babel-runtime/core-js/get-iterator":1,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10,"babel-runtime/helpers/typeof":13}],136:[function(require,module,exports){
+},{"./triple":144,"babel-runtime/core-js/get-iterator":1,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10,"babel-runtime/helpers/typeof":13}],136:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15006,6 +15011,79 @@ var Prefix = function () {
 exports.default = Prefix;
 
 },{"./prefix-index":137,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10}],139:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _query = require('./query');
+
+var _query2 = _interopRequireDefault(_query);
+
+var _transport = require('./transport');
+
+var _transport2 = _interopRequireDefault(_transport);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var QueryFactory = function () {
+  /**
+   * The QueryFactory can be used to create queries sharing Transport, Base and Prefix(es)
+   *
+   * @class QueryFactory
+   * @constructor
+   * @param {String} endpoint - URL of the SPARQL endpoint
+   * @param {Object} auth - Optional authentication object (e.g.: { basic: { username: <USER>, password: <PASS> } })
+   * @param {String} method - HTTP method used (default: 'GET')
+   */
+  function QueryFactory(endpoint) {
+    var auth = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var method = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'GET';
+    var base = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
+    var prefix = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : undefined;
+    (0, _classCallCheck3.default)(this, QueryFactory);
+
+    this._transport = new _transport2.default(endpoint, auth, method);
+    this._base = base;
+    this._prefix = prefix;
+  }
+
+  /**
+   * Returns a new, not yet typed Query object based on the current settings
+   *
+   * @method make
+   * @returns {Query} - Returns new Query instance (chainable)
+   */
+
+
+  (0, _createClass3.default)(QueryFactory, [{
+    key: 'make',
+    value: function make() {
+      var query = new _query2.default(this._transport);
+      if (this._base) {
+        query.base(this._base);
+      }
+      if (this._prefix) {
+        query.prefix(this._prefix);
+      }
+      return query;
+    }
+  }]);
+  return QueryFactory;
+}();
+
+exports.default = QueryFactory;
+
+},{"./query":141,"./transport":143,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15167,7 +15245,7 @@ var Construct = exports.Construct = function () {
     return Construct;
 }();
 
-},{"./graph-pattern":135,"./triple":143,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10}],140:[function(require,module,exports){
+},{"./graph-pattern":135,"./triple":144,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15230,7 +15308,11 @@ var Query = function () {
         (0, _classCallCheck3.default)(this, Query);
 
         this.reset();
-        this._transport = new _transport2.default(endpoint, auth, method);
+        if (endpoint instanceof _transport2.default) {
+            this._transport = endpoint;
+        } else {
+            this._transport = new _transport2.default(endpoint, auth, method);
+        }
     }
 
     /**
@@ -15669,7 +15751,7 @@ var Query = function () {
 
 exports.default = Query;
 
-},{"./graph-pattern":135,"./group-graph-pattern":136,"./prefix":138,"./query-types":139,"./transport":142,"babel-runtime/core-js/get-iterator":1,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10,"babel-runtime/helpers/typeof":13}],141:[function(require,module,exports){
+},{"./graph-pattern":135,"./group-graph-pattern":136,"./prefix":138,"./query-types":140,"./transport":143,"babel-runtime/core-js/get-iterator":1,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10,"babel-runtime/helpers/typeof":13}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -15705,7 +15787,7 @@ function Result(data) {
 
 exports.default = Result;
 
-},{"babel-runtime/helpers/classCallCheck":9}],142:[function(require,module,exports){
+},{"babel-runtime/helpers/classCallCheck":9}],143:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 
@@ -15824,7 +15906,7 @@ var Transport = function () {
 exports.default = Transport;
 
 }).call(this,require("buffer").Buffer)
-},{"./result":141,"babel-runtime/core-js/object/assign":2,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10,"bluebird":15,"buffer":17,"http":123,"url":129}],143:[function(require,module,exports){
+},{"./result":142,"babel-runtime/core-js/object/assign":2,"babel-runtime/helpers/classCallCheck":9,"babel-runtime/helpers/createClass":10,"bluebird":15,"buffer":17,"http":123,"url":129}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

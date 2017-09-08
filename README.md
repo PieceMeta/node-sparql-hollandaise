@@ -40,7 +40,7 @@ Browser:
 ```
 
 Alternatively, if you are using ES6 JavaScript you can also just import the untranspiled code:
-```js
+```javascript
 import * as SPH from 'sparql-hollandaise/src/index'
 ```
 
@@ -118,6 +118,28 @@ var query = new SPH.Query('https://here.goes.the/endpoint')
     .exec().then(function (result) {
        console.log(result);
     });
+```
+
+### Convenience
+
+You can initialize a QueryFactory to create queries from the same endpoint (mandatory), base (optional) and prefix(es) (optional).
+
+```javascript
+var queryFactory = new SPH.QueryFactory(
+  'http://localhost',             // endpoint URL
+  {},                             // auth (optional)
+  'GET',                          // method (optional)
+  '<http://example.org/foo/>',    // base (optional)
+  'foo: http://bar'               // prefix(es) (optional)
+);
+
+// then get a query object based on those settings
+var query = queryFactory.make();
+
+// further configure the query as stated above
+query.ask()
+  .where(...)
+  ...
 ```
 
 ### Other methods
